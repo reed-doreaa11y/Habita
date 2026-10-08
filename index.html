@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#2f5bea"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><title>Habita</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#eef2f7;--surface:#fff;--ink:#1b2a41;--muted:#6b7a90;--line:#d9e1ec;--accent:#2f5bea;--done:#1f9d6b;--done-ink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--surface:#182237;--ink:#e8eef9;--muted:#8d9bb3;--line:#2a3750;--accent:#7b9cff;--done:#3cc590;--done-ink:#0f1624}}
+:root[data-theme="dark"]{--bg:#0f1624;--surface:#182237;--ink:#e8eef9;--muted:#8d9bb3;--line:#2a3750;--accent:#7b9cff;--done:#3cc590;--done-ink:#0f1624}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.4}
+main{max-width:560px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:2rem;font-weight:800;margin:0;letter-spacing:-.02em}
+h2{margin:0 0 12px;font-size:1.25rem;font-weight:800}
+.sub{color:var(--muted);margin:4px 0 20px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px}
+.bar i{display:block;height:100%;width:0;background:var(--done);transition:width .3s}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:16px}
+.gtitle{font-size:1.2rem;font-weight:800}
+.why{margin:2px 0 0;color:var(--muted);font-size:.9rem;font-style:italic}
+.head,.row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;align-items:center}
+.head{padding:10px 0 6px;color:var(--muted);font-size:.8rem;text-align:center}
+.head span.today{color:var(--accent);font-weight:800}
+.row{padding:12px 0;border-top:1px solid var(--line);row-gap:10px}
+.row .name{grid-column:1/-1}
+.name{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.streak{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.streak.on{color:var(--done)}
+.dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--done-ink);cursor:pointer;padding:0;justify-self:center;font:inherit;font-size:.85rem;font-weight:800}
+.dot:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.dot.on{background:var(--done);border-color:var(--done)}
+.dot.today{border-color:var(--accent)}
+.dot.on.today{border-color:var(--done)}
+.empty{padding:20px 0;text-align:center;color:var(--muted)}
+input[type=text],input[type=number],select,textarea{flex:1;min-width:0;width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=checkbox]{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent)}
+button.primary{font:inherit;font-weight:600;border:0;border-radius:12px;padding:12px 18px;background:var(--accent);color:#fff;cursor:pointer}
+button.wide{width:100%}
+.tools{display:flex;justify-content:flex-end;margin-top:12px}
+.link{background:none;border:0;color:var(--muted);font:inherit;cursor:pointer;text-decoration:underline;padding:4px 0}
+.del{background:none;border:0;color:#d64545;font:inherit;font-size:.8rem;cursor:pointer;padding:2px 0}
+.lbl{font-weight:600;display:block;margin:14px 0 8px}
+.chips,.opts{display:flex;flex-wrap:wrap;gap:8px}
+.chips button,.opts button{font:inherit;font-weight:600;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chips button.sel{border-color:var(--accent);color:var(--accent)}
+.opts button{flex:1 1 45%;text-align:left}
+.pick{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.pick small{display:block;color:var(--muted);font-weight:400}
+.pick span{font-weight:600}
+.clock{font-size:3.4rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;margin:8px 0 14px}
+.mins{display:flex;gap:8px;margin:12px 0}
+.mins button{flex:1;font:inherit;font-weight:600;padding:10px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.mins button.sel{border-color:var(--accent);color:var(--accent)}
+.note{color:var(--muted);margin:10px 0 0;font-size:.9rem;text-align:center}
+.note.left{text-align:left;margin:6px 0 0}
+.ok{color:var(--done)}
+.err{color:#d64545}
+.gbar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.gbar i{display:block;height:100%;background:var(--accent)}
+.book{border-top:1px solid var(--line);margin-top:10px;padding-top:12px}
+.logrow,.eform{display:flex;gap:8px;margin-top:10px}
+.btnrow{display:flex;gap:8px;align-items:center;margin-top:16px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+
+.plan-grid{display:grid;gap:10px;margin-top:10px}.plan-goal{display:flex;gap:8px;align-items:center}.plan-goal input{min-width:0}.mini{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit;padding:8px}.priority{display:inline-block;border-radius:999px;padding:4px 9px;font-size:.78rem;font-weight:800;margin-right:6px}.priority.primary{background:var(--accent);color:#fff}.priority.support{background:color-mix(in srgb,var(--done) 18%,transparent);color:var(--done)}.priority.maintain{background:var(--line);color:var(--ink)}.priority.later{background:var(--line);color:var(--muted)}.plan-note{padding:10px 12px;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent);border-radius:8px;color:var(--muted);font-size:.9rem}.plan-list{display:grid;gap:10px}.plan-item{border-top:1px solid var(--line);padding-top:10px}.plan-item:first-child{border-top:0;padding-top:0}.plan-item strong{display:block}.plan-meta{font-size:.85rem;color:var(--muted);margin-top:3px}.plan-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.plan-summary{font-size:.95rem}.question{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.question:first-child{border-top:0;padding-top:0;margin-top:0}.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.time-grid input{width:100%}.schedule{display:grid;gap:8px}.schedule-row{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:color-mix(in srgb,var(--accent) 5%,transparent);border-radius:10px}.schedule-row strong{font-size:.9rem}.schedule-row span{color:var(--muted);font-size:.85rem;text-align:right}.date-row{display:flex;gap:8px;align-items:center}.date-row input{flex:1}
+
+main{padding-bottom:104px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;background:none;border:0;color:var(--muted);font:inherit;font-size:.72rem;padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+nav button.on{color:var(--accent);font-weight:600}
+nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.trow{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.trow:first-child{border-top:0}
+.ttime{width:44px;flex:none;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.tmain{min-width:0;flex:1}
+.check{width:36px;height:36px;flex:none;border-radius:50%;border:2px solid var(--accent);background:transparent;color:var(--done-ink);cursor:pointer;padding:0;font:inherit;font-size:1rem;font-weight:800}
+.check.on{background:var(--done);border-color:var(--done)}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:8px;vertical-align:middle;background:var(--line);color:var(--ink)}
+.badge.primary{background:var(--accent);color:#fff}
+.badge.support{background:var(--done);color:var(--done-ink)}
+.notice{display:flex;gap:10px;align-items:flex-start;border-left:4px solid var(--accent)}
+.notice p{margin:0;flex:1}
+.dot.off{opacity:.35}
+.hlist{list-style:none;margin:8px 0 0;padding:0}
+.hlist li{padding:6px 0;border-top:1px solid var(--line);font-size:.95rem}
+.hlist li:first-child{border-top:0}
+.hlist small{display:block;color:var(--muted)}
+.pitem{border-top:1px solid var(--line);padding:12px 0}
+.pitem:first-of-type{border-top:0}
+.pitem h3{margin:0 0 4px;font-size:1.05rem}
+.pitem p{margin:2px 0;color:var(--muted);font-size:.9rem}
+.sect{font-weight:800;margin:16px 0 4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+textarea{resize:vertical;min-height:120px}
+.time-in{width:auto;max-width:130px;padding:6px 8px;margin-top:6px}
+</style>
+</head>
+<body>
+<main><div id="view"></div></main>
+<nav aria-label="Main">
+<button type="button" data-act="nav" data-v="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+<button type="button" data-act="nav" data-v="habits"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Habits</button>
+<button type="button" data-act="nav" data-v="goals"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
+<button type="button" data-act="nav" data-v="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5"/></svg>Journal</button>
+<button type="button" data-act="nav" data-v="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>More</button>
+</nav>
+<script>
+var $=function(i){return document.getElementById(i)};
+var PPM=0.5,KEY="habita-v2",OLD="habit-tracker-v1",editing=false,wiz=null,planner=null,view="home";
+
+/* ---------- starter library (k = shared habit that serves several goals) ---------- */
+var LIB={
+ confident:{name:"Be confident",obs:["Fear of judgment","Overthinking","Low energy","Don't know where to start"],habits:[
+  {n:"Stand tall for 1 minute",a:"After brushing your teeth",m:1,o:["Low energy","Don't know where to start"]},
+  {n:"Say hello first to someone",a:"When you meet someone today",m:1,o:["Fear of judgment"]},
+  {n:"Take 5 slow breaths",a:"Before something nerve-racking",m:2,o:["Overthinking","Fear of judgment"],k:"breathe"},
+  {n:"Say one thing out loud in a conversation or meeting",a:"At your next meeting or chat",m:2,o:["Fear of judgment"]},
+  {n:"Write down one thing you did well",a:"Before bed",m:2,o:["Overthinking","Fear of judgment"]},
+  {n:"Do one small thing that scares you a little",a:"Before lunch",m:5,o:["Fear of judgment","Overthinking"]},
+  {n:"Read or speak out loud for 5 minutes",a:"After coffee",m:5,o:["Don't know where to start","Low energy"]}]},
+ reading:{name:"Read more",obs:["Phone pulls me away","No time","Get bored","Forget to do it"],habits:[
+  {n:"Charge your phone across the room",a:"Before bed",m:1,o:["Phone pulls me away"],k:"phone-charge"},
+  {n:"Read 1 page",a:"In bed, before sleep",m:1,o:["Get bored","Forget to do it","Phone pulls me away"]},
+  {n:"Put your book where you will see it",a:"Every morning",m:1,o:["Forget to do it"]},
+  {n:"Write one line about what you read",a:"After you read",m:2,o:["Get bored"]},
+  {n:"Read 5 minutes instead of scrolling",a:"When you reach for your phone",m:5,o:["Phone pulls me away","No time"]},
+  {n:"Read for 10 minutes",a:"After dinner",m:10,o:["Phone pulls me away","Forget to do it"]}]},
+ fitness:{name:"Get fitter",obs:["No energy","No time","Get bored","Forget to do it"],habits:[
+  {n:"Put on your workout clothes",a:"First thing after waking up",m:1,o:["No energy","Forget to do it"]},
+  {n:"Drink a glass of water",a:"Before each meal",m:1,o:["Forget to do it"]},
+  {n:"Do 10 squats or push-ups",a:"After brushing your teeth",m:2,o:["No time","Forget to do it"]},
+  {n:"Stretch for 3 minutes",a:"Before bed",m:3,o:["No energy","Forget to do it"]},
+  {n:"Do 5 minutes of movement",a:"After coffee",m:5,o:["No time","No energy"]},
+  {n:"Walk for 10 minutes",a:"After lunch",m:10,o:["Get bored","No energy"],k:"walk"}]},
+ focus:{name:"Focus better",obs:["My phone","Overwhelmed","Tired","Don't know where to start"],habits:[
+  {n:"Close extra tabs and apps",a:"Before you start",m:1,o:["My phone","Overwhelmed"]},
+  {n:"Charge your phone across the room",a:"Before bed",m:1,o:["My phone"],k:"phone-charge"},
+  {n:"Write the one thing that matters today",a:"First thing, with coffee",m:2,o:["Overwhelmed","Don't know where to start"]},
+  {n:"Write tomorrow's top task and worries down",a:"30 minutes before bed",m:3,o:["Overwhelmed","Don't know where to start"],k:"plan-tomorrow"},
+  {n:"Take a real 5-minute break away from screens",a:"After each work block",m:5,o:["Tired"]},
+  {n:"Work in a 10-minute sprint",a:"Once the first task is open",m:10,o:["Tired","Don't know where to start"]},
+  {n:"Walk for 10 minutes",a:"After lunch",m:10,o:["Tired"],k:"walk"},
+  {n:"Phone in another room for 25 minutes",a:"When you start work",m:25,o:["My phone"]}]},
+ sleep:{name:"Sleep better",obs:["Phone in bed","Racing thoughts","Irregular schedule","Caffeine late"],habits:[
+  {n:"Charge your phone across the room",a:"Before bed",m:1,o:["Phone in bed"],k:"phone-charge"},
+  {n:"Lights low and screens off",a:"30 minutes before bed",m:1,o:["Phone in bed","Irregular schedule"]},
+  {n:"Get into bed at the same time",a:"Same time every night",m:1,o:["Irregular schedule"]},
+  {n:"No caffeine after lunch",a:"After lunch",m:1,o:["Caffeine late"]},
+  {n:"Take 5 slow breaths",a:"After getting into bed",m:2,o:["Racing thoughts"],k:"breathe"},
+  {n:"Write tomorrow's top task and worries down",a:"30 minutes before bed",m:3,o:["Racing thoughts"],k:"plan-tomorrow"}]}
+};
+var LEARN_OBS=["Don't know where to start","Lose motivation","Phone","Forget to do it"];
+var LEARN=[
+ {n:"Open your materials and start (just 5 minutes)",a:"At your study time",m:5,o:["Don't know where to start","Lose motivation"],k:"learn-open"},
+ {n:"Put your phone away while you study",a:"When you start studying",m:1,o:["Phone"],k:"learn-phone"},
+ {n:"Review yesterday's notes",a:"Before you start new material",m:5,o:["Forget to do it"],k:"learn-review"},
+ {n:"Do one practice problem or exercise",a:"After you open your materials",m:10,o:["Lose motivation","Don't know where to start"],k:"learn-practice"},
+ {n:"Write a 3-line summary of what you learned",a:"After you study",m:3,o:["Forget to do it","Lose motivation"],k:"learn-summary"}];
+var GEN_OBS=["Don't know where to start","No time","Forget to do it","Lose motivation"];
+var MONEY=[
+ {n:"Write down what you spent today",a:"Before bed",m:2,o:["Forget to do it","No time"]},
+ {n:"Check your budget for 2 minutes",a:"After breakfast",m:2,o:["Don't know where to start","Forget to do it"]},
+ {n:"Move a small amount to savings",a:"When you get paid",m:2,o:["Lose motivation"]},
+ {n:"Note one idea to earn more",a:"After lunch",m:5,o:["Don't know where to start","Lose motivation"]}];
+function genPool(n){return[
+ {n:"Spend 2 minutes on it, no more",a:"After coffee",m:2,o:["No time","Lose motivation"]},
+ {n:"Set out what you need for tomorrow",a:"Before bed",m:2,o:["Forget to do it","No time"]},
+ {n:"Write one line about how it went",a:"Before bed",m:2,o:["Lose motivation","Forget to do it"]},
+ {n:"Tell someone what you did today",a:"In the evening",m:2,o:["Lose motivation"]},
+ {n:"Take one small step toward: "+n,a:"After breakfast",m:5,o:["Don't know where to start","Lose motivation"]},
+ {n:"Work on it for 10 minutes",a:"After lunch",m:10,o:["Don't know where to start"]}]}
+var OBSMAP=[[/forget|remember/,["Forget to do it"]],[/phone|scroll|distract/,["Phone pulls me away","My phone","Phone in bed","Phone"]],[/tired|energy|exhaust/,["Low energy","No energy","Tired"]],[/time|busy/,["No time"]],[/bored/,["Get bored"]],[/overplan|overwhelm|too much/,["Overwhelmed","Overthinking"]],[/motivat|give up|quit|lazy|consisten/,["Lose motivation"]],[/start/,["Don't know where to start"]]];
+function matchObs(t,list){t=(t||"").toLowerCase();for(var i=0;i<OBSMAP.length;i++)if(OBSMAP[i][0].test(t))for(var j=0;j<OBSMAP[i][1].length;j++)if(list.indexOf(OBSMAP[i][1][j])>=0)return OBSMAP[i][1][j];return""}
+function planKeyword(name){var x=name.toLowerCase();
+ if(/\b(sleep|bed|rest)/.test(x))return{kind:"sleep",lib:"sleep"};
+ if(/\b(money|save|saving|business|freelanc|income|earn)/.test(x))return{kind:"money"};
+ if(/\b(exercise|fitness|fit|workout|gym|run|weight)/.test(x))return{kind:"fitness",lib:"fitness"};
+ if(/\b(read|book)/.test(x))return{kind:"reading",lib:"reading"};
+ if(/confiden|\b(shy|speak|social)/.test(x))return{kind:"confident",lib:"confident"};
+ if(/\b(focus|concentrat|procrastinat|distract)/.test(x))return{kind:"focus",lib:"focus"};
+ if(/\b(stat|exam|test|course|study|school|learn|python|revit|autocad|skill|certif)/.test(x))return{kind:"learning"};
+ return{kind:"other"}}
+function poolFor(info,name){return info.lib?LIB[info.lib].habits:info.kind=="learning"?LEARN:info.kind=="money"?MONEY:genPool(name)}
+function obsList(info){return info.lib?LIB[info.lib].obs:info.kind=="learning"?LEARN_OBS:GEN_OBS}
+function rank(pool,mins,obs){var p=pool.map(function(h){return Object.assign({},h)}),fit=p.filter(function(h){return h.m<=mins});
+ if(fit.length<3)fit=p.slice().sort(function(a,b){return a.m-b.m}).slice(0,3);
+ fit.forEach(function(h,i){h._s=((h.o||[]).indexOf(obs)>=0?10:0)-i*0.01});
+ return fit.sort(function(a,b){return b._s-a._s})}
+
+/* ---------- state ---------- */
+function load(){
+ var s=null;
+ try{var r=localStorage.getItem(KEY);if(r){s=JSON.parse(r);if(!(s&&s.goals))s=null}}catch(e){}
+ if(!s){s={goals:[],mins:{}};
+  try{var o=JSON.parse(localStorage.getItem(OLD)||"null");if(o){s.mins=o.mins||{};
+   if((o.habits||[]).length)s.goals.push({id:"g0",name:"My habits",why:"",mins:10,book:null,habits:o.habits.map(function(h){return{id:h.id,name:h.name,anchor:"",done:h.done||{}}})});
+   (o.goals||[]).forEach(function(g){s.goals.push({id:g.id,name:g.name,why:"",mins:g.mins||20,book:{title:g.name,total:g.total,read:g.read},habits:[]})})}}catch(e){}}
+ if(!s.mins)s.mins={};if(!s.notices)s.notices=[];if(!s.journal)s.journal={};if(!s.theme)s.theme="auto";
+ s.goals.forEach(function(g){if(!g.habits)g.habits=[];if(!g.queue)g.queue=[];g.habits.forEach(function(h){if(!h.also)h.also=[];if(!h.done)h.done={}})});
+ return s}
+var state=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function key(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function daysBack(n){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d}
+function addDays(d,n){var x=new Date(d);x.setHours(12,0,0,0);x.setDate(x.getDate()+n);return x}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function nice(d){return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+function addMinutes(t,m){var a=t.split(":").map(Number),d=new Date(2000,0,1,a[0],a[1]+m);return d.toTimeString().slice(0,5)}
+function inRange(t,a,b){if(!a||!b)return false;var x=+t.replace(":",""),s=+a.replace(":",""),e=+b.replace(":","");return s<=e?x>=s&&x<e:x>=s||x<e}
+function prof(){return Object.assign({dayStart:"07:00",sleepTime:"22:30",busyStart:"08:00",busyEnd:"16:00",studyTime:"18:00",exerciseTime:"17:00",mealMins:60},state.profile||{})}
+function slotOf(a,n){var x=((a||"")+" "+(n||"")).toLowerCase();
+ if(/bed|sleep|night|wind/.test(x))return"night";if(/lunch|midday|noon/.test(x))return"midday";
+ if(/wak|morning|breakfast|coffee|brush/.test(x))return"morning";if(/dinner|evening|after work|after you study/.test(x))return"evening";return""}
+function timeFor(slot,pp){pp=pp||prof();return slot=="morning"?addMinutes(pp.dayStart,30):slot=="midday"?"12:30":slot=="evening"?"19:30":slot=="night"?addMinutes(pp.sleepTime,-30):""}
+function mkHabit(src,over){return Object.assign({id:uid(),name:src.n,anchor:src.a||"",done:{},time:src.time||timeFor(slotOf(src.a,src.n)),days:null,k:src.k||"",also:[]},over||{})}
+function sched(h,d){return !h.days||h.days.indexOf(d.getDay())>=0}
+function streak(h){var n=0,i=h.done[key(daysBack(0))]?0:1;while(i<400){var d=daysBack(i);if(!sched(h,d)){i++;continue}if(h.done[key(d)]){n++;i++}else break}return n}
+function allHabits(){var a=[];state.goals.forEach(function(g){g.habits.forEach(function(h){a.push({g:g,h:h})})});return a}
+function findH(id){return allHabits().find(function(x){return x.h.id==id})}
+function goalById(id){return state.goals.find(function(g){return g.id==id})}
+function goalHabits(g){var o=g.habits.slice();state.goals.forEach(function(x){if(x!==g)x.habits.forEach(function(h){if(h.also&&h.also.indexOf(g.id)>=0)o.push(h)})});return o}
+function ratioOf(hs){var dn=0,tot=0;hs.forEach(function(h){for(var i=0;i<7;i++){var d=daysBack(i);if(sched(h,d)){tot++;if(h.done[key(d)])dn++}}});return tot?dn/tot:0}
+function helpNames(x){return [x.g.name].concat((x.h.also||[]).map(function(id){var g=goalById(id);return g?g.name:""}).filter(Boolean))}
+function needDays(g){var b=g.book;return Math.ceil(Math.max(0,b.total-b.read)/(Math.max(1,g.mins)*PPM)*1.2)}
+function dayLabel(days){if(!days)return"Daily";var n=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];return days.map(function(d){return n[d]}).join(", ")}
+function note(t){state.notices.push({id:uid(),t:t});if(state.notices.length>5)state.notices.shift()}
+
+/* ---------- weekly unlock ---------- */
+function checkUnlock(){
+ var u=state.unlock;if(!u||!u.next)return false;if(u.next>key(daysBack(0)))return false;
+ var waiting=state.goals.filter(function(g){return g.queue&&g.queue.length});
+ if(!waiting.length){u.next="";save();return false}
+ var next=key(addDays(new Date(),7));
+ if(ratioOf(allHabits().map(function(x){return x.h}))<0.4){note("Holding steady this week. A new habit unlocks once your current ones feel easier (about 40% of check-ins done).");u.next=next;save();return true}
+ waiting.sort(function(a,b){return (a.habits.length?1:0)-(b.habits.length?1:0)});
+ for(var i=0;i<waiting.length;i++){var g=waiting[i];
+  while(g.queue.length){var q=g.queue.shift(),ex=q.k&&allHabits().find(function(x){return x.h.k==q.k});
+   if(ex){if(ex.g.id!=g.id&&ex.h.also.indexOf(g.id)<0)ex.h.also.push(g.id);continue}
+   g.habits.push(mkHabit(q,{also:q.also||[]}));note("New habit unlocked for "+g.name+": "+q.n);u.next=next;save();return true}}
+ u.next=next;save();return false}
+
+/* ---------- views ---------- */
+function homeHTML(){
+ var td=daysBack(0),tk=key(td),list=allHabits().filter(function(x){return sched(x.h,td)});
+ list.sort(function(a,b){return (a.h.time||"99:99")<(b.h.time||"99:99")?-1:1});
+ var done=list.filter(function(x){return x.h.done[tk]}).length;
+ var h='<p class="sub">'+(list.length?done+' of '+list.length+' done today':td.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}))+'</p><div class="bar"><i style="width:'+(list.length?done/list.length*100:0)+'%"></i></div>';
+ state.notices.forEach(function(n){h+='<div class="card notice"><p>'+esc(n.t)+'</p><button class="link" data-act="dismiss" data-id="'+n.id+'" type="button">Got it</button></div>'});
+ if(!state.goals.length)h+='<div class="card empty">No goals yet.<div style="margin-top:12px"><button class="primary" data-act="gotoplan" type="button">Plan my goals</button></div></div>';
+ else if(!list.length)h+='<div class="card empty">Nothing scheduled today.</div>';
+ else h+='<div class="card">'+list.map(function(x){var on=x.h.done[tk],s=streak(x.h);
+  return'<div class="trow"><span class="ttime">'+esc(x.h.time||"Any")+'</span><button type="button" class="check'+(on?" on":"")+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" aria-pressed="'+(!!on)+'" aria-label="'+esc(x.h.name)+'">'+(on?"&#10003;":"")+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak'+(s?" on":"")+'">'+esc(helpNames(x).join(" + "))+(s?" · "+s+(s==1?" day":" days")+" in a row":"")+'</div></div></div>'}).join("")+'</div>';
+ var wait=state.goals.reduce(function(n,g){return n+(g.queue?g.queue.length:0)},0);
+ if(wait&&state.unlock&&state.unlock.next)h+='<p class="note">'+wait+(wait==1?" habit is":" habits are")+' waiting. Next unlock check: '+nice(new Date(state.unlock.next+"T12:00:00"))+'.</p>';
+ return h}
+
+function habitsHTML(){
+ var days=[];for(var i=6;i>=0;i--)days.push(daysBack(i));
+ var head='<div class="head">'+days.map(function(d,i){return'<span class="'+(i==6?"today":"")+'">'+d.toLocaleDateString(undefined,{weekday:"narrow"})+'</span>'}).join("")+'</div>';
+ var gs=state.goals.filter(function(g){return g.habits.length}),h="";
+ if(!gs.length)h+='<div class="card empty">No habits yet. Add a goal on the Goals tab.</div>';
+ gs.forEach(function(g){h+='<div class="card"><div class="gtitle">'+esc(g.name)+(g.role?'<span class="badge '+(g.role=="Primary"?"primary":g.role=="Supporting"?"support":"")+'">'+esc(g.role)+'</span>':'')+'</div>'+head+
+  g.habits.map(function(hb){var s=streak(hb),others=helpNames({g:g,h:hb}).slice(1);
+   return'<div class="row"><div class="name">'+esc(hb.name)+'<span class="streak'+(s?" on":"")+'">'+(hb.time?esc(hb.time)+" · ":"")+(hb.days?esc(dayLabel(hb.days))+" · ":"")+(s?s+(s==1?" day":" days")+" in a row":(hb.anchor?esc(hb.anchor):"No streak yet"))+'</span>'+(others.length?'<span class="streak">Also helps: '+esc(others.join(", "))+'</span>':'')+
+   (editing?'<input type="time" class="time-in" data-ht="'+hb.id+'" value="'+esc(hb.time||"")+'" aria-label="Time for '+esc(hb.name)+'"> <button class="del" data-act="delh" data-h="'+hb.id+'" type="button">Delete</button>':'')+'</div>'+
+   days.map(function(d,i){var k=key(d),on=hb.done[k];return'<button type="button" class="dot'+(on?" on":"")+(i==6?" today":"")+(sched(hb,d)?"":" off")+'" data-act="tog" data-h="'+hb.id+'" data-k="'+k+'" aria-pressed="'+(!!on)+'" aria-label="'+esc(hb.name)+', '+d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})+'">'+(on?"&#10003;":"")+'</button>'}).join("")+'</div>'}).join("")+'</div>'});
+ return h+'<div id="timer"></div><div class="tools"><button class="link" data-act="edit" type="button">'+(editing?"Done editing":"Edit")+'</button></div>'}
+
+function goalsHTML(){
+ var h="";
+ if(!wiz&&!planner)h+='<div class="btnrow" style="margin-top:0;margin-bottom:16px"><button class="primary" style="flex:1" data-act="plan" type="button">Plan my goals</button><button class="link" data-act="newg" type="button">Add one goal</button></div>';
+ if(planner)h+=plannerHTML();else if(wiz)h+=wizHTML();
+ if(!state.goals.length&&!wiz&&!planner)h+='<div class="card empty">No goals yet. Start with something you want to become or achieve.</div>';
+ state.goals.forEach(function(g){
+  var hs=goalHabits(g),pct=Math.round(ratioOf(hs)*100),q=g.queue||[];
+  h+='<div class="card"><div class="gtitle">'+esc(g.name)+(g.role?'<span class="badge '+(g.role=="Primary"?"primary":g.role=="Supporting"?"support":"")+'">'+esc(g.role)+'</span>':'')+'</div>'+(g.why?'<p class="why">'+esc(g.why)+'</p>':'')+
+   '<p class="note left">'+(hs.length?'This week: '+pct+'% of check-ins done':(q.length?'Not started yet. Its habits unlock one at a time.':'No habits yet.'))+'</p>'+
+   (hs.length?'<ul class="hlist">'+hs.map(function(hb){var own=g.habits.indexOf(hb)>=0;return'<li>'+esc(hb.name)+'<small>'+(hb.time?esc(hb.time)+" · ":"")+(hb.days?esc(dayLabel(hb.days)):"Daily")+(own?"":" · shared")+'</small></li>'}).join("")+'</ul>':'')+
+   (q.length?'<p class="note left">Waiting: '+q.map(function(x){return esc(x.n)}).join("; ")+'</p>':'');
+  if(g.book){var b=g.book,rem=b.total-b.read,bp=Math.min(100,Math.round(b.read/b.total*100));
+   h+='<div class="book"><div class="name">'+esc(b.title||"Book")+'<span class="streak">'+b.read+' of '+b.total+' pages</span></div><div class="gbar"><i style="width:'+bp+'%"></i></div><p class="note left">'+(rem<=0?'<span class="ok">Finished. Nice work.</span>':'At '+g.mins+' min a day, you would finish around '+nice(daysBack(-needDays(g)))+'.')+'</p>'+
+   (rem>0?'<div class="logrow"><input type="number" min="1" id="lp-'+g.id+'" placeholder="Pages read" aria-label="Pages read for '+esc(b.title||g.name)+'"><button class="primary" data-act="logp" data-g="'+g.id+'" type="button">Log pages</button></div>':'')+'</div>'}
+  if(editing)h+='<div class="eform"><input type="text" id="ah-'+g.id+'" placeholder="Add your own habit to this goal" maxlength="80" aria-label="New habit for '+esc(g.name)+'"><button class="primary" data-act="addh" data-g="'+g.id+'" type="button">Add</button></div><button class="del" style="margin-top:10px" data-act="delg" data-g="'+g.id+'" type="button">Delete this goal</button>';
+  h+='</div>'});
+ return h+'<div class="tools"><button class="link" data-act="edit" type="button">'+(editing?"Done editing":"Edit")+'</button></div>'}
+
+function journalHTML(){
+ var tk=key(daysBack(0)),j=state.journal;
+ var h='<div class="card"><label class="lbl" style="margin-top:0" for="jText">Today</label><p class="note left" style="margin:0 0 10px">One win, and one thing to try tomorrow.</p><textarea id="jText" rows="6" maxlength="3000">'+esc(j[tk]||"")+'</textarea></div>';
+ var ks=Object.keys(j).filter(function(k){return k!=tk&&j[k]}).sort().reverse().slice(0,14);
+ if(ks.length)h+='<h2 class="sect">Earlier</h2>'+ks.map(function(k){return'<div class="card"><div class="streak" style="margin-bottom:6px">'+esc(new Date(k+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}))+'</div><div style="white-space:pre-wrap">'+esc(j[k])+'</div></div>'}).join("");
+ return h}
+
+function moreHTML(){
+ return'<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+
+ '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+
+ '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
+
+/* ---------- timer ---------- */
+var tm={end:0,mins:20,hid:null,iv:null,msg:"",pend:null};
+function weekMins(){var t=0;for(var i=0;i<7;i++)t+=state.mins[key(daysBack(i))]||0;return t}
+function fmt(ms){var s=Math.ceil(ms/1000);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function tick(){var left=tm.end-Date.now(),c=$("clock");if(left<=0){finishT();return}if(c)c.textContent=fmt(left)}
+function finishT(){clearInterval(tm.iv);var x=findH(tm.hid),k=key(daysBack(0));
+ if(x){x.h.done[k]=1;state.mins[k]=(state.mins[k]||0)+tm.mins;
+  if(x.g.book&&x.g.book.read<x.g.book.total)tm.pend={gid:x.g.id,est:Math.max(1,Math.round(tm.mins*PPM))}}
+ tm.msg=tm.mins+" minutes logged. Today is checked off.";tm.end=0;save();
+ try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}render()}
+function stopT(){clearInterval(tm.iv);tm.end=0;tm.msg="";renderTimer()}
+function logPend(skip){var g=goalById(tm.pend.gid);
+ if(!skip&&g&&g.book){var v=parseInt($("tPages").value,10);if(!(v>0))return;g.book.read=Math.min(g.book.total,g.book.read+v);tm.msg=v+(v==1?" page":" pages")+" added to "+(g.book.title||g.name)+"."}
+ tm.pend=null;save();render()}
+function renderTimer(){
+ var el=$("timer");if(!el)return;var hs=allHabits();
+ if(!hs.length){el.className="";el.innerHTML="";return}
+ el.className="card";
+ if(tm.end){el.innerHTML='<div class="clock" id="clock"></div><button class="primary wide" id="stopBtn" type="button">Stop without logging</button>';tick();$("stopBtn").onclick=stopT;return}
+ if(tm.pend){var pg=goalById(tm.pend.gid);
+  if(!pg||!pg.book)tm.pend=null;
+  else{el.innerHTML='<label class="lbl" style="margin-top:0" for="tPages">Pages read in '+esc(pg.book.title||pg.name)+'</label><div class="logrow" style="margin-top:0"><input type="number" min="1" id="tPages" value="'+tm.pend.est+'"><button class="primary" id="tLog" type="button">Add pages</button></div><p class="note">'+esc(tm.msg)+' Adjust the pages if the estimate is off.</p><button class="link" id="tSkip" type="button" style="display:block;margin:8px auto 0">Skip</button>';
+   $("tLog").onclick=function(){logPend(false)};$("tSkip").onclick=function(){logPend(true)};return}}
+ if(!findH(tm.hid))tm.hid=hs[0].h.id;
+ var sel=state.goals.filter(function(g){return g.habits.length}).map(function(g){return'<optgroup label="'+esc(g.name)+'">'+g.habits.map(function(h){return'<option value="'+h.id+'"'+(h.id==tm.hid?" selected":"")+'>'+esc(h.name)+'</option>'}).join("")+'</optgroup>'}).join("");
+ el.innerHTML='<label class="lbl" style="margin-top:0" for="tHabit">Habit timer</label><select id="tHabit">'+sel+'</select><div class="mins">'+[10,20,30].map(function(m){return'<button type="button" data-m="'+m+'" class="'+(m==tm.mins?"sel":"")+'">'+m+' min</button>'}).join("")+'</div><button class="primary wide" id="startBtn" type="button">Start timer</button><p class="note'+(tm.msg?" ok":"")+'">'+(tm.msg?esc(tm.msg):"This week: "+weekMins()+" minutes")+'</p>';
+ $("tHabit").onchange=function(){tm.hid=this.value};
+ $("startBtn").onclick=function(){tm.msg="";tm.end=Date.now()+tm.mins*60000;tm.iv=setInterval(tick,500);renderTimer()};
+ Array.prototype.forEach.call(el.querySelectorAll("[data-m]"),function(b){b.onclick=function(){tm.mins=+b.dataset.m;renderTimer()}})}
+
+/* ---------- single-goal wizard ---------- */
+function wizInfo(w){return w.lib&&w.lib!="custom"?{lib:w.lib,kind:w.lib}:planKeyword(w.name||"")}
+function suggest(w){var info=wizInfo(w);return rank(poolFor(info,w.name),w.mins,w.obs).slice(0,4)}
+function wizHTML(){
+ var h='<div class="card">';
+ if(wiz.step==1){
+  if(wiz.lib=="custom")h+='<h2>Name your goal</h2><input type="text" id="wName" maxlength="60" placeholder="e.g. Learn guitar" value="'+esc(wiz.name)+'" aria-label="Goal name"><div class="btnrow"><button class="primary" data-act="nameok" type="button">Next</button><button class="link" data-act="back" type="button">Back</button></div>'+(wiz.err?'<p class="note left err">'+esc(wiz.err)+'</p>':'');
+  else h+='<h2>What do you want?</h2><div class="opts">'+Object.keys(LIB).map(function(k){return'<button data-act="pick" data-k="'+k+'" type="button">'+esc(LIB[k].name)+'</button>'}).join("")+'<button data-act="pick" data-k="custom" type="button">Something else</button></div><div class="btnrow"><button class="link" data-act="cancel" type="button">Cancel</button></div>'}
+ else if(wiz.step==2){
+  var obs=obsList(wizInfo(wiz));
+  h+='<h2>'+esc(wiz.name)+'</h2><span class="lbl" style="margin-top:0">How much time can you give this each day?</span><div class="chips">'+[2,5,10,20,30].map(function(m){return'<button type="button" data-act="mins" data-v="'+m+'" class="'+(m==wiz.mins?"sel":"")+'">'+m+' min</button>'}).join("")+'</div>'+
+  '<span class="lbl">What usually gets in your way?</span><div class="chips">'+obs.map(function(o){return'<button type="button" data-act="obs" data-v="'+esc(o)+'" class="'+(o==wiz.obs?"sel":"")+'">'+esc(o)+'</button>'}).join("")+'</div>'+
+  '<label class="lbl" for="wWhy">Why does it matter to you? (optional)</label><input type="text" id="wWhy" maxlength="100" value="'+esc(wiz.why)+'">';
+  if(wiz.lib=="reading")h+='<span class="lbl">Reading a specific book? (optional)</span><div class="eform" style="margin-top:0"><input type="text" id="wTitle" placeholder="Title" maxlength="60" value="'+esc(wiz.title)+'" aria-label="Book title"><input type="number" min="1" id="wTotal" placeholder="Pages" value="'+esc(wiz.total)+'" aria-label="Total pages" style="max-width:110px"></div>';
+  h+='<div class="btnrow"><button class="primary" data-act="sug" type="button">Suggest habits</button><button class="link" data-act="back" type="button">Back</button></div>'}
+ else{
+  h+='<h2>Habits for this goal</h2><p class="note left" style="margin:0 0 6px">Picked for '+wiz.mins+' minutes a day'+(wiz.obs?' and "'+esc(wiz.obs)+'"':'')+'. Untick any you do not want.</p>'+
+  wiz.sug.map(function(s,i){return'<label class="pick"><input type="checkbox" data-i="'+i+'"'+(wiz.picks[i]?" checked":"")+'><span>'+esc(s.n)+'<small>'+esc(s.a)+' &middot; about '+s.m+' min</small></span></label>'}).join("")+
+  '<div style="margin-top:12px"><input type="text" id="wOwn" maxlength="80" placeholder="Add your own habit (optional)" value="'+esc(wiz.own)+'" aria-label="Your own habit"></div>'+
+  (wiz.err?'<p class="note left err">'+esc(wiz.err)+'</p>':'')+
+  '<div class="btnrow"><button class="primary" data-act="create" type="button">Create goal</button><button class="link" data-act="back" type="button">Back</button></div>'}
+ return h+'</div>'}
+
+/* ---------- multi-goal planner ---------- */
+function buildPlan(p){
+ var dl=Math.ceil((new Date(p.deadline)-new Date())/86400000),days=Math.max(7,isFinite(dl)?dl:56),weeks=Math.max(1,Math.ceil(days/7));
+ var total=Math.max(1,+p.hours||5);
+ var goals=p.goals.filter(function(g){return g.trim()}).map(function(n){return{name:n.trim(),info:planKeyword(n.trim())}});
+ var ut=(p.urgent||"").toLowerCase(),hasU=!!ut.trim();
+ function urgentHit(g){return g.name.toLowerCase().split(/\W+/).filter(function(w){return w.length>3&&!/^(learn|better|more|study|become)$/.test(w)}).some(function(w){return ut.indexOf(w)>=0})}
+ var primary=(hasU&&goals.find(urgentHit))||goals.find(function(g){return g.info.kind==="learning"})||goals[0];
+ var sleep=goals.find(function(g){return g.info.kind==="sleep"&&g!==primary}),exercise=goals.find(function(g){return g.info.kind==="fitness"&&g!==primary});
+ var items=[];
+ function add(g,role,cls,reason){items.push({name:g.name,info:g.info,role:role,cls:cls,reason:reason,habits:[],queue:[]})}
+ add(primary,"Primary","primary",hasU&&urgentHit(primary)?"You said this is time-sensitive, so it gets protected time first.":"The clearest goal to build first.");
+ if(sleep)add(sleep,"Supporting","support","A steady sleep routine protects the energy every other goal needs.");
+ if(exercise)add(exercise,"Maintenance","maintain","Keep movement sustainable without taking time from your priority goal.");
+ goals.forEach(function(g){if(items.some(function(i){return i.name===g.name}))return;
+  if(items.length<3)add(g,"Supporting","support","Gets a small share of your day right now.");else add(g,"Later","later","Waits in the queue. Its habits unlock one at a time.")});
+ var claimed={},pp=p;
+ var studyT=p.studyTime||"18:00";
+ if(inRange(studyT,p.busyStart,p.busyEnd))studyT=addMinutes(p.busyEnd,60);
+ var mealEnd=addMinutes(p.busyEnd||"16:00",+p.mealMins||60);
+ if(studyT>=(p.busyEnd||"16:00")&&studyT<mealEnd)studyT=mealEnd;
+ function pick(item,count,mins){var ranked=rank(poolFor(item.info,item.name),mins,matchObs(p.obstacle,obsList(item.info))),out=[];
+  for(var i=0;i<ranked.length&&out.length<count;i++){var h=ranked[i];
+   if(h.k&&claimed[h.k]){if(claimed[h.k].also.indexOf(item.name)<0)claimed[h.k].also.push(item.name);continue}
+   var e={n:h.n,a:h.a,m:h.m,k:h.k||"",also:[],time:timeFor(slotOf(h.a,h.n),pp)};if(h.k)claimed[h.k]=e;out.push(e)}
+  return out}
+ var block=Math.min(120,Math.max(30,Math.round(total*60*0.6/(weeks>4?4:3)))),activeDays=Math.min(5,Math.max(3,Math.round(total/3)));
+ items.forEach(function(it){
+  if(it.role==="Primary"){
+   it.habits.push({n:(it.info.kind==="learning"?"Study block: ":"Focus block: ")+it.name+" ("+block+" min)",a:"At "+studyT,m:block,k:"",also:[],time:studyT,days:({3:[1,3,5],4:[1,2,4,5],5:[1,2,3,4,5]})[activeDays]});
+   it.habits=it.habits.concat(pick(it,1,10).map(function(e){if(!e.time)e.time=addMinutes(studyT,-10);return e}))}
+  else if(it.role==="Supporting")it.habits=pick(it,2,10);
+  else if(it.role==="Maintenance"){it.habits=pick(it,1,5);if(it.habits[0]&&it.info.kind==="fitness")it.habits[0].time=p.exerciseTime||it.habits[0].time}
+  else it.queue=pick(it,3,10)});
+ return{days:days,weeks:weeks,total:total,items:items,studyT:studyT,summary:"No goal is being deleted. Habita decides what gets attention now, what supports it, and what waits its turn."}}
+function plannerHTML(){
+ var h='<div class="card">',P=planner;
+ if(P.step===1){
+  h+='<h2>Plan your goals</h2><p class="note left" style="margin:0 0 8px">Name every goal you want. Habita starts with the few that fit your life now and holds the rest.</p><span class="lbl" style="margin-top:0">Your goals</span><div class="plan-grid">';
+  P.goals.forEach(function(g,i){h+='<div class="plan-goal"><input type="text" data-pgoal="'+i+'" maxlength="80" placeholder="e.g. Learn statistics" value="'+esc(g)+'" aria-label="Goal '+(i+1)+'">'+(P.goals.length>1?'<button class="mini" data-act="premove" data-i="'+i+'" type="button" aria-label="Remove goal '+(i+1)+'">&times;</button>':'')+'</div>'});
+  h+='</div><button class="link" data-act="padd" type="button" style="margin-top:10px">+ Add another goal</button>'+
+  '<label class="lbl" for="pDeadline">When do you want meaningful progress?</label><input type="date" id="pDeadline" data-pf="deadline" value="'+esc(P.deadline)+'">'+
+  '<label class="lbl" for="pHours">Hours per week you can realistically protect</label><input type="number" id="pHours" data-pf="hours" min="1" max="80" value="'+esc(P.hours)+'">'+
+  '<label class="lbl" for="pUrgent">Anything especially urgent?</label><input type="text" id="pUrgent" data-pf="urgent" maxlength="180" placeholder="e.g. Statistics exam in 8 weeks" value="'+esc(P.urgent)+'">'+
+  '<div class="btnrow"><button class="primary" data-act="pquestions" type="button">Continue</button><button class="link" data-act="pcancel" type="button">Cancel</button></div>'}
+ else if(P.step===2){
+  function q(label,id,f,type,extra){return'<label class="lbl" for="'+id+'">'+label+'</label><input type="'+type+'" id="'+id+'" data-pf="'+f+'" value="'+esc(P[f])+'" '+(extra||"")+'>'}
+  h+='<h2>About your day</h2><p class="note left" style="margin:0">These set when your habits land.</p>'+
+  q("When do you start your day?","pDayStart","dayStart","time")+q("When do you go to sleep?","pSleep","sleepTime","time")+
+  '<span class="lbl">When are you at school or work?</span><div class="two"><input type="time" data-pf="busyStart" value="'+esc(P.busyStart)+'" aria-label="From"><input type="time" data-pf="busyEnd" value="'+esc(P.busyEnd)+'" aria-label="Until"></div>'+
+  q("How many minutes do meals usually take in the evening?","pMeal","mealMins","number",'min="15" max="240"')+
+  '<span class="lbl">When do you have the most energy?</span><div class="chips">'+["Morning","Afternoon","Evening","It varies"].map(function(x){return'<button type="button" data-act="penergy" data-v="'+x+'" class="'+(P.energy==x?"sel":"")+'">'+x+'</button>'}).join("")+'</div>'+
+  q("What usually makes routines fail for you?","pObs","obstacle","text",'maxlength="160" placeholder="e.g. I forget, get tired, my phone"')+
+  q("When do you prefer your main focus session?","pStudy","studyTime","time")+q("If exercise is in the plan, when suits you?","pEx","exerciseTime","time")+
+  '<div class="btnrow"><button class="primary" data-act="pgenerate" type="button">Build my plan</button><button class="link" data-act="pback" type="button">Back</button></div>'}
+ else{
+  var r=P.result,act=[];
+  h+='<h2>Your first plan</h2><p class="note left" style="margin:0">'+esc(r.summary)+'</p><p class="note left"><strong>'+r.weeks+'-week horizon, '+r.total+' protected hours a week.</strong> One waiting habit unlocks each week, as long as last week went at least 40% well.</p>';
+  r.items.forEach(function(it){
+   h+='<div class="pitem"><h3>'+esc(it.name)+'<span class="badge '+it.cls+'">'+it.role+'</span></h3><p>'+esc(it.reason)+'</p>';
+   if(it.habits.length)h+='<p><strong>Starts now:</strong> '+it.habits.map(function(e){act.push(e);return esc(e.n)+(e.also.length?' <em>(also helps '+esc(e.also.join(", "))+')</em>':'')}).join("; ")+'</p>';
+   if(it.queue.length)h+='<p><strong>Waiting:</strong> '+it.queue.map(function(e){return esc(e.n)+(e.also.length?' <em>(also helps '+esc(e.also.join(", "))+')</em>':'')}).join("; ")+'</p>';
+   h+='</div>'});
+  act.sort(function(a,b){return (a.time||"99:99")<(b.time||"99:99")?-1:1});
+  h+='<div class="sect">A first weekly rhythm</div>'+act.map(function(e){return'<div class="trow" style="padding:8px 0"><span class="ttime" style="width:56px">'+esc(e.time||"Any")+'</span><div class="tmain"><div class="name">'+esc(e.n)+'</div><div class="streak">'+esc(dayLabel(e.days||null))+'</div></div></div>'}).join("")+
+  '<div class="btnrow"><button class="primary" data-act="papply" type="button">Apply this plan</button><button class="link" data-act="pback" type="button">Adjust answers</button></div>'}
+ return h+'</div>'}
+function startPlanner(){var d=addDays(new Date(),56);planner={step:1,goals:["","",""],deadline:key(d),hours:7,urgent:"",dayStart:"07:00",sleepTime:"22:30",busyStart:"08:00",busyEnd:"16:00",mealMins:60,energy:"",obstacle:"",studyTime:"18:00",exerciseTime:"17:00",result:null}}
+function applyPlan(){var r=planner.result;if(!r)return;var P=planner;
+ state.profile={dayStart:P.dayStart,sleepTime:P.sleepTime,busyStart:P.busyStart,busyEnd:P.busyEnd,studyTime:r.studyT,exerciseTime:P.exerciseTime,mealMins:+P.mealMins||60,energy:P.energy};
+ var ids={};r.items.forEach(function(it){if(!state.goals.some(function(g){return g.name.toLowerCase()===it.name.toLowerCase()}))ids[it.name]=uid()});
+ function nid(ns){return(ns||[]).map(function(n){return ids[n]}).filter(Boolean)}
+ var n=0;r.items.forEach(function(it){if(!ids[it.name])return;n++;
+  state.goals.push({id:ids[it.name],name:it.name,why:it.reason,mins:30,book:null,role:it.role,
+   habits:it.habits.map(function(e){return mkHabit(e,{time:e.time,days:e.days||null,also:nid(e.also)})}),
+   queue:it.queue.map(function(e){return{n:e.n,a:e.a,m:e.m,k:e.k,time:e.time,also:nid(e.also)}})})});
+ state.unlock={next:key(addDays(new Date(),7))};
+ note("Your plan is set. Start with today's list. A new habit unlocks every week you stay consistent.");
+ planner=null;view="home";save();render()}
+
+/* ---------- render + events ---------- */
+function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme)}
+function render(){
+ var t={home:"Habita",habits:"Habits",goals:"Goals",journal:"Journal",more:"More"}[view],h='<h1>'+t+'</h1>';
+ h+=view=="home"?homeHTML():view=="habits"?habitsHTML():view=="goals"?goalsHTML():view=="journal"?journalHTML():moreHTML();
+ $("view").innerHTML=h;
+ if(view=="habits")renderTimer();
+ Array.prototype.forEach.call(document.querySelectorAll("nav button"),function(b){var on=b.dataset.v==view;b.className=on?"on":"";if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
+document.addEventListener("input",function(e){var t=e.target,id=t.id,v=t.value;
+ if(id=="jText"){var tk=key(daysBack(0));if(v.trim())state.journal[tk]=v;else delete state.journal[tk];save();return}
+ if(planner){if(t.dataset.pgoal!=null)planner.goals[+t.dataset.pgoal]=v;else if(t.dataset.pf)planner[t.dataset.pf]=v;return}
+ if(!wiz)return;
+ if(id=="wName")wiz.name=v;else if(id=="wWhy")wiz.why=v;else if(id=="wTitle")wiz.title=v;else if(id=="wTotal")wiz.total=v;else if(id=="wOwn")wiz.own=v});
+document.addEventListener("change",function(e){var t=e.target;
+ if(wiz&&wiz.step==3&&t.dataset&&t.dataset.i!=null){wiz.picks[+t.dataset.i]=t.checked;return}
+ if(t.dataset&&t.dataset.ht){var x=findH(t.dataset.ht);if(x){x.h.time=t.value;save()}return}
+ if(t.id=="impFile"&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){try{var s=JSON.parse(fr.result);if(!s||!Array.isArray(s.goals))throw 0;if(confirm("Replace your current data with this backup?")){localStorage.setItem(KEY,JSON.stringify(s));state=load();applyTheme();render()}}catch(err){var m=$("impMsg");if(m)m.textContent="That file is not a Habita backup."}};fr.readAsText(t.files[0])}});
+document.addEventListener("click",function(e){
+ var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act,d=t.dataset;
+ if(a=="nav"){view=d.v;window.scrollTo(0,0);render();return}
+ if(a=="dismiss"){state.notices=state.notices.filter(function(n){return n.id!=d.id});save();render();return}
+ if(a=="gotoplan"){view="goals";startPlanner();render();return}
+ if(a=="edit"){editing=!editing;render();return}
+ if(a=="theme"){state.theme=d.v;applyTheme();save();render();return}
+ if(a=="export"){var b=new Blob([JSON.stringify(state)],{type:"application/json"}),l=document.createElement("a");l.href=URL.createObjectURL(b);l.download="habita-backup.json";document.body.appendChild(l);l.click();l.remove();return}
+ if(a=="import"){$("impFile").click();return}
+ if(a=="reset"){if(confirm("Delete all goals, habits, and journal entries? This cannot be undone.")){try{localStorage.removeItem(KEY);localStorage.removeItem(OLD)}catch(err){}state=load();wiz=null;planner=null;render()}return}
+ if(a=="plan"){startPlanner();render();return}
+ if(a=="pcancel"){planner=null;render();return}
+ if(a=="padd"){planner.goals.push("");render();return}
+ if(a=="premove"){planner.goals.splice(+d.i,1);render();return}
+ if(a=="pquestions"){planner.goals=planner.goals.map(function(x){return x.trim()}).filter(Boolean);if(!planner.goals.length){planner.goals=[""];render();return}planner.step=2;render();return}
+ if(a=="penergy"){planner.energy=d.v;render();return}
+ if(a=="pgenerate"){planner.result=buildPlan(planner);planner.step=3;render();return}
+ if(a=="pback"){planner.step=planner.step==3?2:1;render();return}
+ if(a=="papply"){applyPlan();return}
+ if(a=="tog"){var x=findH(d.h);if(x){if(x.h.done[d.k])delete x.h.done[d.k];else x.h.done[d.k]=1;save();render()}}
+ else if(a=="delh"){var y=findH(d.h);if(y&&confirm('Delete "'+y.h.name+'"?')){y.g.habits=y.g.habits.filter(function(h){return h!==y.h});save();render()}}
+ else if(a=="delg"){var g=goalById(d.g);if(g&&confirm('Delete "'+g.name+'" and its habits?')){state.goals=state.goals.filter(function(z){return z!==g});save();render()}}
+ else if(a=="addh"){var g2=goalById(d.g),i=$("ah-"+d.g),v=i&&i.value.trim();if(g2&&v){g2.habits.push(mkHabit({n:v,a:""}));save();render()}}
+ else if(a=="logp"){var g3=goalById(d.g),n=parseInt($("lp-"+d.g).value,10);if(g3&&g3.book&&n>0){g3.book.read=Math.min(g3.book.total,g3.book.read+n);save();render()}}
+ else if(a=="newg"){wiz={step:1,lib:null,name:"",why:"",mins:10,obs:"",title:"",total:"",own:"",sug:[],picks:[],err:""};render()}
+ else if(a=="cancel"){wiz=null;render()}
+ else if(a=="pick"){if(d.k=="custom"){wiz.lib="custom";wiz.name=""}else{wiz.lib=d.k;wiz.name=LIB[d.k].name;wiz.step=2}wiz.err="";render()}
+ else if(a=="nameok"){if(!wiz.name.trim()){wiz.err="Give your goal a name first.";render();return}wiz.name=wiz.name.trim();wiz.step=2;wiz.err="";render()}
+ else if(a=="mins"){wiz.mins=+d.v;render()}
+ else if(a=="obs"){wiz.obs=wiz.obs==d.v?"":d.v;render()}
+ else if(a=="sug"){wiz.sug=suggest(wiz);wiz.picks=wiz.sug.map(function(){return true});wiz.step=3;wiz.err="";render()}
+ else if(a=="back"){if(wiz.step==3)wiz.step=2;else if(wiz.step==2)wiz.step=1;else if(wiz.lib=="custom")wiz.lib=null;else wiz=null;if(wiz)wiz.err="";render()}
+ else if(a=="create"){
+  var hs=wiz.sug.filter(function(s,i){return wiz.picks[i]}).map(function(s){return mkHabit(s)});
+  if(wiz.own.trim())hs.push(mkHabit({n:wiz.own.trim(),a:""}));
+  if(!hs.length){wiz.err="Pick at least one habit, or add your own.";render();return}
+  var tot=parseInt(wiz.total,10);
+  state.goals.push({id:uid(),name:wiz.name,why:wiz.why.trim(),mins:wiz.mins,role:"",queue:[],book:wiz.lib=="reading"&&tot>0?{title:wiz.title.trim(),total:tot,read:0}:null,habits:hs});
+  wiz=null;save();render()}
+});
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&checkUnlock())render()});
+applyTheme();checkUnlock();render();
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+</script>
+</body>
+</html>
