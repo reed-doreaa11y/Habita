@@ -96,6 +96,8 @@ nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stro
 .sect{font-weight:800;margin:16px 0 4px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 textarea{resize:vertical;min-height:120px}
+.coin{display:inline-block;width:1em;height:1em;border-radius:50%;background:#f5b301;border:2px solid #d99a00;vertical-align:-.12em;margin-right:6px}
+button,input,select,textarea,label{scroll-margin-bottom:104px}
 .time-in{width:auto;max-width:130px;padding:6px 8px;margin-top:6px}
 </style>
 </head>
@@ -201,6 +203,8 @@ function load(){
    (o.goals||[]).forEach(function(g){s.goals.push({id:g.id,name:g.name,why:"",mins:g.mins||20,book:{title:g.name,total:g.total,read:g.read},habits:[]})})}}catch(e){}}
  if(!s.mins)s.mins={};if(!s.notices)s.notices=[];if(!s.journal)s.journal={};if(!s.theme)s.theme="auto";
  s.goals.forEach(function(g){if(!g.habits)g.habits=[];if(!g.queue)g.queue=[];g.habits.forEach(function(h){if(!h.also)h.also=[];if(!h.done)h.done={}})});
+ if(!s.days)s.days={};if(!s.day)s.day={};if(!s.ach)s.ach={};if(!s.spent)s.spent=0;
+ if(!s.start&&s.goals.length){var m="";s.goals.forEach(function(g){g.habits.forEach(function(h){Object.keys(h.done||{}).forEach(function(k){if(!m||k<m)m=k})})});s.start=m||key(daysBack(0))}
  return s}
 var state=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -217,8 +221,8 @@ function slotOf(a,n){var x=((a||"")+" "+(n||"")).toLowerCase();
  if(/bed|sleep|night|wind/.test(x))return"night";if(/lunch|midday|noon/.test(x))return"midday";
  if(/wak|morning|breakfast|coffee|brush/.test(x))return"morning";if(/dinner|evening|after work|after you study/.test(x))return"evening";return""}
 function timeFor(slot,pp){pp=pp||prof();return slot=="morning"?addMinutes(pp.dayStart,30):slot=="midday"?"12:30":slot=="evening"?"19:30":slot=="night"?addMinutes(pp.sleepTime,-30):""}
-function mkHabit(src,over){return Object.assign({id:uid(),name:src.n,anchor:src.a||"",done:{},time:src.time||timeFor(slotOf(src.a,src.n)),days:null,k:src.k||"",also:[]},over||{})}
-function sched(h,d){return !h.days||h.days.indexOf(d.getDay())>=0}
+function mkHabit(src,over){return Object.assign({id:uid(),name:src.n,anchor:src.a||"",done:{},time:src.time||timeFor(slotOf(src.a,src.n)),days:null,k:src.k||"",also:[],m:src.m||0,block:src.block||0,base:src.base||"",created:key(daysBack(-1))},over||{})}
+function sched(h,d){if(h.p&&planMin(h,key(d))===0)return false;return !h.days||h.days.indexOf(d.getDay())>=0}
 function streak(h){var n=0,i=h.done[key(daysBack(0))]?0:1;while(i<400){var d=daysBack(i);if(!sched(h,d)){i++;continue}if(h.done[key(d)]){n++;i++}else break}return n}
 function allHabits(){var a=[];state.goals.forEach(function(g){g.habits.forEach(function(h){a.push({g:g,h:h})})});return a}
 function findH(id){return allHabits().find(function(x){return x.h.id==id})}
@@ -230,11 +234,63 @@ function needDays(g){var b=g.book;return Math.ceil(Math.max(0,b.total-b.read)/(M
 function dayLabel(days){if(!days)return"Daily";var n=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];return days.map(function(d){return n[d]}).join(", ")}
 function note(t){state.notices.push({id:uid(),t:t});if(state.notices.length>5)state.notices.shift()}
 
+
+/* ---------- coins, streaks, achievements ---------- */
+var COMPLETE=state.threshold||0.75,COINS=5;
+function needFor(n){return Math.max(1,Math.ceil(COMPLETE*n-1e-9))}
+function isPast(k){return k<key(daysBack(0))}
+function computeFlag(k){var d=new Date(k+"T12:00:00"),hs=allHabits().filter(function(x){return (x.h.created||state.start||k)<=k&&sched(x.h,d)});
+ if(!hs.length)return false;return hs.filter(function(x){return x.h.done[k]}).length/hs.length>=COMPLETE}
+function flag(k){if(!state.start||k<state.start)return false;return isPast(k)?!!state.days[k]:computeFlag(k)}
+function eachDay(fn){if(!state.start)return;var d=new Date(state.start+"T12:00:00"),t=key(daysBack(0));for(var i=0;i<900;i++){var k=key(d);if(k>t)break;fn(k);d.setDate(d.getDate()+1)}}
+function finalizeDays(){var y=key(daysBack(1));eachDay(function(k){if(k<=y&&state.days[k]==null)state.days[k]=computeFlag(k)?1:0})}
+function earned(){var n=0;eachDay(function(k){if(flag(k))n++});return n*COINS}
+function balance(){return Math.max(0,earned()-(state.spent||0))}
+function curStreak(){if(!state.start)return 0;var i=flag(key(daysBack(0)))?0:1,n=0;while(i<900&&flag(key(daysBack(i)))){n++;i++}return n}
+function bestStreak(){var b=0,r=0;eachDay(function(k){if(flag(k)){r++;if(r>b)b=r}else r=0});return b}
+function stageDone(g){var n=0;if(!g.activated)return 0;eachDay(function(k){if(k>=g.activated&&flag(k))n++});return n}
+function award(id,t){if(state.ach[id])return false;state.ach[id]={t:t,d:key(daysBack(0))};note("Achievement unlocked: "+t);return true}
+function checkAch(){var b=bestStreak();
+ [[7,"7-day streak"],[21,"21-day streak"],[30,"30-day streak"]].forEach(function(a){if(b>=a[0])award("s"+a[0],a[1])});
+ state.goals.forEach(function(g){if(!g.locked&&g.activated&&g.stage&&!g.finished&&stageDone(g)>=g.stage){
+  g.finished=key(daysBack(0));g.role="Complete";award("done-"+g.id,"Stage complete: "+g.name);note("Big win! You finished the stage for "+g.name+"."+(g.reward?" Your reward: "+g.reward:""))}})}
+
+/* ---------- weekly plan review ---------- */
+function gInfo(g){return g.lib?{lib:g.lib,kind:g.lib}:planKeyword(g.name)}
+function rateOf(h){var dn=0,t=0;for(var i=0;i<7;i++){var d=daysBack(i);if(sched(h,d)){t++;if(h.done[key(d)])dn++}}return t?dn/t:0}
+function buildProposal(){
+ var c=0;for(var i=0;i<7;i++)if(flag(key(daysBack(i))))c++;
+ var up=c>=5,down=c<=2;if(!up&&!down)return null;
+ var ch=[],week=key(daysBack(7)),cand=allHabits().filter(function(x){return !x.g.locked&&(x.h.created||state.start)<=week});
+ cand.forEach(function(x){x.r=rateOf(x.h)});
+ cand.sort(function(a,b){return up?b.r-a.r:a.r-b.r});
+ if(up){
+  cand.forEach(function(x){if(x.h.block&&x.r>=0.8&&ch.length<1){var to=Math.min(120,x.h.block+15);if(to!==x.h.block)ch.push({type:"block",gid:x.g.id,hid:x.h.id,to:to,label:x.h.base+": "+x.h.block+" min \u2192 "+to+" min",on:true})}});
+  var goals={};cand.forEach(function(x){if(!goals[x.g.id])goals[x.g.id]={g:x.g,r:[]};goals[x.g.id].r.push(x.r)});
+  var best=Object.keys(goals).map(function(k){var o=goals[k];o.avg=o.r.reduce(function(a,b){return a+b},0)/o.r.length;return o}).filter(function(o){return o.avg>=0.8&&o.g.habits.length<4}).sort(function(a,b){return b.avg-a.avg})[0];
+  if(best){var taken=allHabits().map(function(y){return y.h.k}).filter(Boolean),names=best.g.habits.map(function(y){return y.name}).concat((best.g.queue||[]).map(function(y){return y.n}));
+   var opt=rank(poolFor(gInfo(best.g),best.g.name),15,"").filter(function(p){return names.indexOf(p.n)<0&&!(p.k&&taken.indexOf(p.k)>=0)})[0];
+   if(opt)ch.push({type:"add",gid:best.g.id,to:{n:opt.n,a:opt.a,m:opt.m,k:opt.k||""},label:"Add to "+best.g.name+": "+opt.n,on:true})}}
+ else{
+  cand.forEach(function(x){if(x.h.block&&x.r<0.5&&ch.length<1){var to=Math.max(30,x.h.block-15);if(to!==x.h.block)ch.push({type:"block",gid:x.g.id,hid:x.h.id,to:to,label:x.h.base+": "+x.h.block+" min \u2192 "+to+" min",on:true})}});
+  var pz=0;cand.forEach(function(x){if(pz<2&&!x.h.block&&x.r<0.5&&x.g.habits.length>1){pz++;ch.push({type:"pause",gid:x.g.id,hid:x.h.id,label:"Pause \""+x.h.name+"\" (it returns later)",on:true})}})}
+ return ch.length?{kind:up?"up":"down",days:c,changes:ch}:null}
+function checkReview(){var r=state.review;if(!r||!r.next||state.proposal)return;if(r.next>key(daysBack(0)))return;
+ var p=buildProposal();if(p)state.proposal=p;else r.next=key(addDays(new Date(),7))}
+function applyProposal(){var p=state.proposal;if(!p)return;var n=0;
+ p.changes.forEach(function(c){if(!c.on)return;var g=goalById(c.gid);if(!g)return;
+  if(c.type=="add"){g.habits.push(mkHabit(c.to));n++;return}
+  var i=g.habits.findIndex(function(h){return h.id==c.hid});if(i<0)return;var h=g.habits[i];
+  if(c.type=="block"){h.block=c.to;h.m=c.to;h.name=h.base+" ("+c.to+" min)";n++}
+  else if(c.type=="pause"&&g.habits.length>1){g.habits.splice(i,1);g.queue.unshift({n:h.name,a:h.anchor,m:h.m,k:h.k,time:h.time,also:h.also||[]});n++}});
+ state.proposal=null;state.review.next=key(addDays(new Date(),7));note(n?"Plan updated: "+n+(n==1?" change":" changes")+" applied.":"Nothing was changed.");save();render()}
+function refresh(){adaptWeek();finalizeDays();checkAch();checkUnlock();checkReview();save()}
+
 /* ---------- weekly unlock ---------- */
 function checkUnlock(){
  var u=state.unlock;if(!u||!u.next)return false;if(u.next>key(daysBack(0)))return false;
- var waiting=state.goals.filter(function(g){return g.queue&&g.queue.length});
- if(!waiting.length){u.next="";save();return false}
+ var waiting=state.goals.filter(function(g){return g.queue&&g.queue.length&&!g.locked});
+ if(!waiting.length){u.next=key(addDays(new Date(),7));save();return false}
  var next=key(addDays(new Date(),7));
  if(ratioOf(allHabits().map(function(x){return x.h}))<0.4){note("Holding steady this week. A new habit unlocks once your current ones feel easier (about 40% of check-ins done).");u.next=next;save();return true}
  waiting.sort(function(a,b){return (a.habits.length?1:0)-(b.habits.length?1:0)});
@@ -248,16 +304,37 @@ function checkUnlock(){
 function homeHTML(){
  var td=daysBack(0),tk=key(td),list=allHabits().filter(function(x){return sched(x.h,td)});
  list.sort(function(a,b){return (a.h.time||"99:99")<(b.h.time||"99:99")?-1:1});
- var done=list.filter(function(x){return x.h.done[tk]}).length;
- var h='<p class="sub">'+(list.length?done+' of '+list.length+' done today':td.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}))+'</p><div class="bar"><i style="width:'+(list.length?done/list.length*100:0)+'%"></i></div>';
+ var cl=list.filter(function(x){return (x.h.created||state.start||tk)<=tk}),done=cl.filter(function(x){return x.h.done[tk]}).length;
+ var h='<p class="sub">'+(cl.length?done+' of '+cl.length+' done · '+needFor(cl.length)+' completes the day':td.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}))+'</p><div class="bar"><i style="width:'+(cl.length?done/cl.length*100:0)+'%"></i></div>';
+ h+=dayPlanHTML();if(state.goals.length)h+=coinHTML();
  state.notices.forEach(function(n){h+='<div class="card notice"><p>'+esc(n.t)+'</p><button class="link" data-act="dismiss" data-id="'+n.id+'" type="button">Got it</button></div>'});
+ h+=proposalHTML();
  if(!state.goals.length)h+='<div class="card empty">No goals yet.<div style="margin-top:12px"><button class="primary" data-act="gotoplan" type="button">Plan my goals</button></div></div>';
  else if(!list.length)h+='<div class="card empty">Nothing scheduled today.</div>';
  else h+='<div class="card">'+list.map(function(x){var on=x.h.done[tk],s=streak(x.h);
-  return'<div class="trow"><span class="ttime">'+esc(x.h.time||"Any")+'</span><button type="button" class="check'+(on?" on":"")+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" aria-pressed="'+(!!on)+'" aria-label="'+esc(x.h.name)+'">'+(on?"&#10003;":"")+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak'+(s?" on":"")+'">'+esc(helpNames(x).join(" + "))+(s?" · "+s+(s==1?" day":" days")+" in a row":"")+'</div></div></div>'}).join("")+'</div>';
+  return'<div class="trow"><span class="ttime">'+esc(x.h.time||"Any")+'</span><button type="button" class="check'+(on?" on":"")+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" aria-pressed="'+(!!on)+'" aria-label="'+esc(x.h.name)+'">'+(on?"&#10003;":"")+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak'+(s?" on":"")+'">'+esc(helpNames(x).join(" + "))+(s?" · "+s+(s==1?" day":" days")+" in a row":"")+((x.h.created||"")>tk?" · counts from tomorrow":"")+'</div></div></div>'}).join("")+'</div>';
  var wait=state.goals.reduce(function(n,g){return n+(g.queue?g.queue.length:0)},0);
  if(wait&&state.unlock&&state.unlock.next)h+='<p class="note">'+wait+(wait==1?" habit is":" habits are")+' waiting. Next unlock check: '+nice(new Date(state.unlock.next+"T12:00:00"))+'.</p>';
  return h}
+
+
+function coinHTML(){var s=curStreak();return'<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><span class="coin"></span><strong style="font-size:1.4rem">'+balance()+'</strong> coins</div><div class="streak'+(s?" on":"")+'" style="font-size:.9rem">'+s+(s==1?" day":" days")+' in a row</div></div>'}
+function proposalHTML(){var p=state.proposal;if(!p)return"";
+ return'<div class="card"><h2>'+(p.kind=="up"?"Strong week. Ready to level up?":"Tough week. Want to ease it?")+'</h2><p class="note left" style="margin:0 0 6px">'+(p.kind=="up"?"You completed "+p.days+" of the last 7 days. Here is an adjusted plan. Tick the changes you want.":"You completed "+p.days+" of the last 7 days, and that is okay. Smaller steps are easier to keep. Tick the changes you want.")+'</p>'+
+ p.changes.map(function(c,i){return'<label class="pick"><input type="checkbox" data-pc="'+i+'"'+(c.on?" checked":"")+'><span>'+esc(c.label)+'</span></label>'}).join("")+
+ '<div class="btnrow"><button class="primary" data-act="pcapply" type="button">Apply selected</button><button class="link" data-act="pckeep" type="button">Keep my current plan</button></div></div>'}
+function rewardsHTML(){if(!state.goals.length)return"";var s=curStreak(),nx=[7,21,30].find(function(x){return s<x}),ks=Object.keys(state.ach);
+ return'<div class="card"><h2>Rewards</h2><div><span class="coin"></span><strong style="font-size:1.4rem">'+balance()+'</strong> coins</div><p class="note left">You earn '+COINS+' coins for every day you complete '+Math.round(COMPLETE*100)+'% or more of your habits. A skipped day earns nothing, so unlocking a goal then takes one make-up day.</p>'+
+ (nx?'<p class="note left">Next badge: '+nx+'-day streak ('+s+' of '+nx+')</p>':'')+
+ (ks.length?'<ul class="hlist">'+ks.map(function(k){return'<li>'+esc(state.ach[k].t)+'<small>'+esc(state.ach[k].d)+'</small></li>'}).join("")+'</ul>':'<p class="note left">No badges yet. Your first is a 7-day streak.</p>')+'</div>'}
+function editHTML(g){return'<div class="two" style="margin-top:12px"><div><label class="lbl" style="margin-top:0" for="gs-'+g.id+'">Stage length (days)</label><input type="number" id="gs-'+g.id+'" data-gs="'+g.id+'" min="7" max="365" value="'+(g.stage||21)+'"></div><div><label class="lbl" style="margin-top:0" for="gr-'+g.id+'">Your reward</label><input type="text" id="gr-'+g.id+'" data-gr="'+g.id+'" maxlength="80" placeholder="e.g. a meal out" value="'+esc(g.reward||"")+'"></div></div>'+
+ (g.locked?'':'<div class="eform"><input type="text" id="ah-'+g.id+'" placeholder="Add your own habit to this goal" maxlength="80" aria-label="New habit for '+esc(g.name)+'"><button class="primary" data-act="addh" data-g="'+g.id+'" type="button">Add</button></div>')+
+ '<button class="del" style="margin-top:10px" data-act="delg" data-g="'+g.id+'" type="button">Delete this goal</button>'}
+function lockedHTML(g){var cost=COINS*(g.stage||21),bal=balance(),q=g.queue||[];
+ return'<div class="card"><div class="gtitle">'+esc(g.name)+'<span class="badge">Locked</span></div>'+(g.why?'<p class="why">'+esc(g.why)+'</p>':'')+
+ '<p class="note left">Unlock cost: '+cost+' coins. '+(bal>=cost?'You can unlock it now.':(cost-bal)+' more coins to go, about '+Math.ceil((cost-bal)/COINS)+' complete days.')+'</p>'+
+ (q.length?'<p class="note left">First habits: '+q.slice(0,2).map(function(x){return esc(x.n)}).join("; ")+'</p>':'')+
+ '<div class="btnrow" style="margin-top:8px"><button class="primary" data-act="unlockg" data-g="'+g.id+'" type="button"'+(bal>=cost?'':' disabled')+'>Unlock for '+cost+' coins</button></div>'+(editing?editHTML(g):'')+'</div>'}
 
 function habitsHTML(){
  var days=[];for(var i=6;i>=0;i--)days.push(daysBack(i));
@@ -275,17 +352,20 @@ function goalsHTML(){
  var h="";
  if(!wiz&&!planner)h+='<div class="btnrow" style="margin-top:0;margin-bottom:16px"><button class="primary" style="flex:1" data-act="plan" type="button">Plan my goals</button><button class="link" data-act="newg" type="button">Add one goal</button></div>';
  if(planner)h+=plannerHTML();else if(wiz)h+=wizHTML();
+ h+=rewardsHTML();
  if(!state.goals.length&&!wiz&&!planner)h+='<div class="card empty">No goals yet. Start with something you want to become or achieve.</div>';
  state.goals.forEach(function(g){
   var hs=goalHabits(g),pct=Math.round(ratioOf(hs)*100),q=g.queue||[];
+  if(g.locked){h+=lockedHTML(g);return}
   h+='<div class="card"><div class="gtitle">'+esc(g.name)+(g.role?'<span class="badge '+(g.role=="Primary"?"primary":g.role=="Supporting"?"support":"")+'">'+esc(g.role)+'</span>':'')+'</div>'+(g.why?'<p class="why">'+esc(g.why)+'</p>':'')+
    '<p class="note left">'+(hs.length?'This week: '+pct+'% of check-ins done':(q.length?'Not started yet. Its habits unlock one at a time.':'No habits yet.'))+'</p>'+
    (hs.length?'<ul class="hlist">'+hs.map(function(hb){var own=g.habits.indexOf(hb)>=0;return'<li>'+esc(hb.name)+'<small>'+(hb.time?esc(hb.time)+" · ":"")+(hb.days?esc(dayLabel(hb.days)):"Daily")+(own?"":" · shared")+'</small></li>'}).join("")+'</ul>':'')+
    (q.length?'<p class="note left">Waiting: '+q.map(function(x){return esc(x.n)}).join("; ")+'</p>':'');
+  if(g.activated&&g.stage){var sd=Math.min(g.stage,stageDone(g));h+='<div class="book"><div class="name">Stage<span class="streak">'+sd+' of '+g.stage+' complete days</span></div><div class="gbar"><i style="width:'+Math.round(sd/g.stage*100)+'%"></i></div>'+(g.finished?'<p class="note left ok">Stage complete'+(g.reward?'. Your reward: '+esc(g.reward):'')+'</p>':'')+'</div>'}
   if(g.book){var b=g.book,rem=b.total-b.read,bp=Math.min(100,Math.round(b.read/b.total*100));
    h+='<div class="book"><div class="name">'+esc(b.title||"Book")+'<span class="streak">'+b.read+' of '+b.total+' pages</span></div><div class="gbar"><i style="width:'+bp+'%"></i></div><p class="note left">'+(rem<=0?'<span class="ok">Finished. Nice work.</span>':'At '+g.mins+' min a day, you would finish around '+nice(daysBack(-needDays(g)))+'.')+'</p>'+
    (rem>0?'<div class="logrow"><input type="number" min="1" id="lp-'+g.id+'" placeholder="Pages read" aria-label="Pages read for '+esc(b.title||g.name)+'"><button class="primary" data-act="logp" data-g="'+g.id+'" type="button">Log pages</button></div>':'')+'</div>'}
-  if(editing)h+='<div class="eform"><input type="text" id="ah-'+g.id+'" placeholder="Add your own habit to this goal" maxlength="80" aria-label="New habit for '+esc(g.name)+'"><button class="primary" data-act="addh" data-g="'+g.id+'" type="button">Add</button></div><button class="del" style="margin-top:10px" data-act="delg" data-g="'+g.id+'" type="button">Delete this goal</button>';
+  if(editing)h+=editHTML(g);
   h+='</div>'});
  return h+'<div class="tools"><button class="link" data-act="edit" type="button">'+(editing?"Done editing":"Edit")+'</button></div>'}
 
@@ -298,6 +378,7 @@ function journalHTML(){
 
 function moreHTML(){
  return'<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+
+ '<div class="card"><span class="lbl" style="margin-top:0">A day counts as complete at</span><div class="chips">'+[70,75,79].map(function(v){return'<button type="button" data-act="thr" data-v="'+v+'" class="'+(Math.round(COMPLETE*100)==v?"sel":"")+'">'+v+'%</button>'}).join("")+'</div><p class="note left" style="margin:10px 0 0">Applies from today. Days already counted stay as they were.</p></div>'+
  '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+
  '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
 
@@ -307,7 +388,7 @@ function weekMins(){var t=0;for(var i=0;i<7;i++)t+=state.mins[key(daysBack(i))]|
 function fmt(ms){var s=Math.ceil(ms/1000);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
 function tick(){var left=tm.end-Date.now(),c=$("clock");if(left<=0){finishT();return}if(c)c.textContent=fmt(left)}
 function finishT(){clearInterval(tm.iv);var x=findH(tm.hid),k=key(daysBack(0));
- if(x){x.h.done[k]=1;state.mins[k]=(state.mins[k]||0)+tm.mins;
+ if(x){x.h.done[k]=1;if(x.h.p){x.h.log=x.h.log||{};x.h.log[k]=(x.h.log[k]||0)+tm.mins}state.mins[k]=(state.mins[k]||0)+tm.mins;
   if(x.g.book&&x.g.book.read<x.g.book.total)tm.pend={gid:x.g.id,est:Math.max(1,Math.round(tm.mins*PPM))}}
  tm.msg=tm.mins+" minutes logged. Today is checked off.";tm.end=0;save();
  try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}render()}
@@ -383,7 +464,7 @@ function buildPlan(p){
  var block=Math.min(120,Math.max(30,Math.round(total*60*0.6/(weeks>4?4:3)))),activeDays=Math.min(5,Math.max(3,Math.round(total/3)));
  items.forEach(function(it){
   if(it.role==="Primary"){
-   it.habits.push({n:(it.info.kind==="learning"?"Study block: ":"Focus block: ")+it.name+" ("+block+" min)",a:"At "+studyT,m:block,k:"",also:[],time:studyT,days:({3:[1,3,5],4:[1,2,4,5],5:[1,2,3,4,5]})[activeDays]});
+   it.habits.push({n:(it.info.kind==="learning"?"Study block: ":"Focus block: ")+it.name+" ("+block+" min)",a:"At "+studyT,m:block,base:(it.info.kind==="learning"?"Study block: ":"Focus block: ")+it.name,block:block,k:"",also:[],time:studyT,days:({3:[1,3,5],4:[1,2,4,5],5:[1,2,3,4,5]})[activeDays]});
    it.habits=it.habits.concat(pick(it,1,10).map(function(e){if(!e.time)e.time=addMinutes(studyT,-10);return e}))}
   else if(it.role==="Supporting")it.habits=pick(it,2,10);
   else if(it.role==="Maintenance"){it.habits=pick(it,1,5);if(it.habits[0]&&it.info.kind==="fitness")it.habits[0].time=p.exerciseTime||it.habits[0].time}
@@ -427,16 +508,54 @@ function applyPlan(){var r=planner.result;if(!r)return;var P=planner;
  var ids={};r.items.forEach(function(it){if(!state.goals.some(function(g){return g.name.toLowerCase()===it.name.toLowerCase()}))ids[it.name]=uid()});
  function nid(ns){return(ns||[]).map(function(n){return ids[n]}).filter(Boolean)}
  var n=0;r.items.forEach(function(it){if(!ids[it.name])return;n++;
-  state.goals.push({id:ids[it.name],name:it.name,why:it.reason,mins:30,book:null,role:it.role,
-   habits:it.habits.map(function(e){return mkHabit(e,{time:e.time,days:e.days||null,also:nid(e.also)})}),
+  state.goals.push({id:ids[it.name],name:it.name,why:it.reason,mins:30,book:null,role:it.role,lib:it.info.lib||"",stage:21,reward:"",locked:it.role==="Later",activated:it.role==="Later"?"":key(daysBack(0)),
+   habits:it.habits.map(function(e){return mkHabit(e,{time:e.time,days:e.days||null,also:nid(e.also),created:key(daysBack(0))})}),
    queue:it.queue.map(function(e){return{n:e.n,a:e.a,m:e.m,k:e.k,time:e.time,also:nid(e.also)}})})});
- state.unlock={next:key(addDays(new Date(),7))};
- note("Your plan is set. Start with today's list. A new habit unlocks every week you stay consistent.");
+ state.start=state.start||key(daysBack(0));state.unlock={next:key(addDays(new Date(),7))};state.review={next:key(addDays(new Date(),7))};
+ note("Your plan is set. You earn "+COINS+" coins for each day you complete "+Math.round(COMPLETE*100)+"% of your habits. Coins unlock your waiting goals.");
  planner=null;view="home";save();render()}
+
+
+/* ---------- day plan (Stage 1) ---------- */
+function planMin(h,k){var d=state.day&&state.day[k]||{t:"open"},b=h.block||h.m||15;
+ if(d.light)return h.p==1?Math.max(10,Math.round(b/2)):0;
+ if(d.t=="break")return h.p==1?b:0;
+ if(d.t=="half")return Math.max(10,Math.round(b*.75/5)*5);
+ return b}
+function setupStage1(){var t=key(daysBack(0));if(!state.start)state.start=t;
+ [["School prep","Before anything else",30,120,1,"09:00"],["HTML","After school prep",15,60,2,"13:00"]].forEach(function(x){
+  var h=mkHabit({n:x[0],a:x[1],m:x[2],block:x[2],base:x[0],time:x[5]},{created:t,p:x[4],target:x[3],log:{}});
+  state.goals.push({id:uid(),name:x[0],why:"",mins:x[2],book:null,habits:[h],queue:[],activated:t,stage:14,role:x[4]==1?"Primary":"Supporting",reward:""})});
+ state.adapt={next:key(addDays(new Date(),7))};save();render()}
+function adaptWeek(){var a=state.adapt,t=key(daysBack(0));if(!a||!a.next||a.next>t)return;
+ allHabits().forEach(function(x){var h=x.h;if(!h.p)return;var pl=0,lg=0;
+  for(var i=1;i<=7;i++){var k=key(daysBack(i)),p=planMin(h,k);if(p){pl+=p;lg+=Math.min(p,(h.log||{})[k]||0)}}
+  if(!pl)return;var r=lg/pl,b=h.block||15;
+  if(r>=.8&&b<h.target){h.block=Math.min(h.target,b+15);note(h.base+" goes up to "+h.block+" minutes. You kept up with "+Math.round(r*100)+"% of it last week.")}
+  else if(r<.5&&b>10){h.block=Math.max(10,b-15);note(h.base+" eases to "+h.block+" minutes this week. A smaller block is easier to keep.")}});
+ a.next=key(addDays(new Date(),7));save()}
+function dayPlanHTML(){var hs=allHabits().filter(function(x){return x.h.p}).sort(function(a,b){return a.h.p-b.h.p}),tk=key(daysBack(0));
+ if(!hs.length)return'<div class="card"><span class="lbl" style="margin-top:0">Stage 1</span><p class="note left" style="margin:0 0 10px">School prep first, then HTML. Both start small and grow as you keep up.</p><button class="primary wide" data-act="stage1" type="button">Set up Stage 1</button></div>';
+ var d=state.day[tk]||{t:"open"},T=[["open","Open day"],["half","Half day"],["break","Break only"]];
+ var h='<div class="card"><span class="lbl" style="margin-top:0">What kind of day is it?</span><div class="chips">'+T.map(function(x){return'<button type="button" data-act="dtype" data-v="'+x[0]+'" class="'+(d.t==x[0]?"sel":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
+ '<button class="link" data-act="light" type="button" style="margin-top:8px">'+(d.light?"Light day is on. Tap to turn off":"Make it a light day")+'</button>';
+ hs.forEach(function(x){var pm=planMin(x.h,tk),lg=(x.h.log||{})[tk]||0;
+  h+='<div class="goal"><div class="name">'+esc(x.h.base)+(pm?'<span class="streak">'+pm+' min planned, '+lg+' logged'+(lg>=pm?" (done)":"")+'</span>':'<span class="streak">Skipped on this kind of day</span>')+'</div>'+
+  (pm&&lg<pm?'<div class="logrow"><input type="number" min="1" id="lm-'+x.h.id+'" placeholder="Minutes" aria-label="Minutes spent on '+esc(x.h.base)+'"><button class="primary" data-act="logmin" data-h="'+x.h.id+'" type="button">Log</button></div>':'')+'</div>'});
+ return h+'</div>'}
+document.addEventListener("click",function(e){var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act,tk=key(daysBack(0));
+ if(["stage1","dtype","light","logmin"].indexOf(a)<0)return;e.stopPropagation();
+ if(a=="stage1")setupStage1();
+ else if(a=="dtype"){state.day[tk]={t:t.dataset.v,light:(state.day[tk]||{}).light};save();render()}
+ else if(a=="light"){var d=state.day[tk]||{t:"open"};state.day[tk]={t:d.t,light:!d.light};save();render()}
+ else if(a=="logmin"){var x=findH(t.dataset.h),i=$("lm-"+t.dataset.h),v=i?parseInt(i.value,10):0;if(!x||!(v>0))return;
+  x.h.log=x.h.log||{};x.h.log[tk]=(x.h.log[tk]||0)+v;state.mins[tk]=(state.mins[tk]||0)+v;
+  if(x.h.log[tk]>=planMin(x.h,tk))x.h.done[tk]=1;save();render()}},true);
 
 /* ---------- render + events ---------- */
 function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme)}
 function render(){
+ refresh();
  var t={home:"Habita",habits:"Habits",goals:"Goals",journal:"Journal",more:"More"}[view],h='<h1>'+t+'</h1>';
  h+=view=="home"?homeHTML():view=="habits"?habitsHTML():view=="goals"?goalsHTML():view=="journal"?journalHTML():moreHTML();
  $("view").innerHTML=h;
@@ -449,6 +568,9 @@ document.addEventListener("input",function(e){var t=e.target,id=t.id,v=t.value;
  if(id=="wName")wiz.name=v;else if(id=="wWhy")wiz.why=v;else if(id=="wTitle")wiz.title=v;else if(id=="wTotal")wiz.total=v;else if(id=="wOwn")wiz.own=v});
 document.addEventListener("change",function(e){var t=e.target;
  if(wiz&&wiz.step==3&&t.dataset&&t.dataset.i!=null){wiz.picks[+t.dataset.i]=t.checked;return}
+ if(t.dataset&&t.dataset.gs){var gg=goalById(t.dataset.gs);if(gg){gg.stage=Math.max(7,Math.min(365,parseInt(t.value,10)||21));save();render()}return}
+ if(t.dataset&&t.dataset.gr){var gr=goalById(t.dataset.gr);if(gr){gr.reward=t.value;save()}return}
+ if(t.dataset&&t.dataset.pc!=null&&state.proposal){state.proposal.changes[+t.dataset.pc].on=t.checked;save();return}
  if(t.dataset&&t.dataset.ht){var x=findH(t.dataset.ht);if(x){x.h.time=t.value;save()}return}
  if(t.id=="impFile"&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){try{var s=JSON.parse(fr.result);if(!s||!Array.isArray(s.goals))throw 0;if(confirm("Replace your current data with this backup?")){localStorage.setItem(KEY,JSON.stringify(s));state=load();applyTheme();render()}}catch(err){var m=$("impMsg");if(m)m.textContent="That file is not a Habita backup."}};fr.readAsText(t.files[0])}});
 document.addEventListener("click",function(e){
@@ -457,6 +579,7 @@ document.addEventListener("click",function(e){
  if(a=="dismiss"){state.notices=state.notices.filter(function(n){return n.id!=d.id});save();render();return}
  if(a=="gotoplan"){view="goals";startPlanner();render();return}
  if(a=="edit"){editing=!editing;render();return}
+ if(a=="thr"){state.threshold=+d.v/100;COMPLETE=state.threshold;save();render();return}
  if(a=="theme"){state.theme=d.v;applyTheme();save();render();return}
  if(a=="export"){var b=new Blob([JSON.stringify(state)],{type:"application/json"}),l=document.createElement("a");l.href=URL.createObjectURL(b);l.download="habita-backup.json";document.body.appendChild(l);l.click();l.remove();return}
  if(a=="import"){$("impFile").click();return}
@@ -470,7 +593,15 @@ document.addEventListener("click",function(e){
  if(a=="pgenerate"){planner.result=buildPlan(planner);planner.step=3;render();return}
  if(a=="pback"){planner.step=planner.step==3?2:1;render();return}
  if(a=="papply"){applyPlan();return}
- if(a=="tog"){var x=findH(d.h);if(x){if(x.h.done[d.k])delete x.h.done[d.k];else x.h.done[d.k]=1;save();render()}}
+ if(a=="pcapply"){applyProposal();return}
+ if(a=="pckeep"){state.proposal=null;if(state.review)state.review.next=key(addDays(new Date(),7));note("Kept your current plan.");save();render();return}
+ if(a=="unlockg"){var gu=goalById(d.g),cu=gu?COINS*(gu.stage||21):0;
+  if(gu&&gu.locked&&balance()>=cu){state.spent=(state.spent||0)+cu;gu.locked=false;gu.activated=key(daysBack(0));gu.role="Supporting";var got=0;
+   while(gu.queue.length&&got<2){var q=gu.queue.shift(),ex=q.k&&allHabits().find(function(z){return z.h.k==q.k});
+    if(ex){if(ex.g.id!=gu.id&&ex.h.also.indexOf(gu.id)<0)ex.h.also.push(gu.id);continue}
+    gu.habits.push(mkHabit(q,{also:q.also||[]}));got++}
+   note("Unlocked: "+gu.name+".");award("unlock-"+gu.id,"Unlocked "+gu.name);save();render()}return}
+ if(a=="tog"){var x=findH(d.h);if(x){if(x.h.done[d.k])delete x.h.done[d.k];else x.h.done[d.k]=1;if(state.start&&isPast(d.k))state.days[d.k]=computeFlag(d.k)?1:0;save();render()}}
  else if(a=="delh"){var y=findH(d.h);if(y&&confirm('Delete "'+y.h.name+'"?')){y.g.habits=y.g.habits.filter(function(h){return h!==y.h});save();render()}}
  else if(a=="delg"){var g=goalById(d.g);if(g&&confirm('Delete "'+g.name+'" and its habits?')){state.goals=state.goals.filter(function(z){return z!==g});save();render()}}
  else if(a=="addh"){var g2=goalById(d.g),i=$("ah-"+d.g),v=i&&i.value.trim();if(g2&&v){g2.habits.push(mkHabit({n:v,a:""}));save();render()}}
@@ -484,15 +615,16 @@ document.addEventListener("click",function(e){
  else if(a=="sug"){wiz.sug=suggest(wiz);wiz.picks=wiz.sug.map(function(){return true});wiz.step=3;wiz.err="";render()}
  else if(a=="back"){if(wiz.step==3)wiz.step=2;else if(wiz.step==2)wiz.step=1;else if(wiz.lib=="custom")wiz.lib=null;else wiz=null;if(wiz)wiz.err="";render()}
  else if(a=="create"){
-  var hs=wiz.sug.filter(function(s,i){return wiz.picks[i]}).map(function(s){return mkHabit(s)});
-  if(wiz.own.trim())hs.push(mkHabit({n:wiz.own.trim(),a:""}));
+  var hs=wiz.sug.filter(function(s,i){return wiz.picks[i]}).map(function(s){return mkHabit(s,{created:key(daysBack(0))})});
+  if(wiz.own.trim())hs.push(mkHabit({n:wiz.own.trim(),a:""},{created:key(daysBack(0))}));
   if(!hs.length){wiz.err="Pick at least one habit, or add your own.";render();return}
   var tot=parseInt(wiz.total,10);
-  state.goals.push({id:uid(),name:wiz.name,why:wiz.why.trim(),mins:wiz.mins,role:"",queue:[],book:wiz.lib=="reading"&&tot>0?{title:wiz.title.trim(),total:tot,read:0}:null,habits:hs});
+  state.start=state.start||key(daysBack(0));if(!state.review)state.review={next:key(addDays(new Date(),7))};
+  state.goals.push({id:uid(),name:wiz.name,why:wiz.why.trim(),mins:wiz.mins,role:"",queue:[],lib:wiz.lib!="custom"?wiz.lib:"",stage:21,reward:"",locked:false,activated:key(daysBack(0)),book:wiz.lib=="reading"&&tot>0?{title:wiz.title.trim(),total:tot,read:0}:null,habits:hs});
   wiz=null;save();render()}
 });
-document.addEventListener("visibilitychange",function(){if(!document.hidden&&checkUnlock())render()});
-applyTheme();checkUnlock();render();
+document.addEventListener("visibilitychange",function(){if(!document.hidden)render()});
+applyTheme();render();
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script>
 </body>
