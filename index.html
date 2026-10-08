@@ -99,20 +99,22 @@ textarea{resize:vertical;min-height:120px}
 .coin{display:inline-block;width:1em;height:1em;border-radius:50%;background:#f5b301;border:2px solid #d99a00;vertical-align:-.12em;margin-right:6px}
 button,input,select,textarea,label{scroll-margin-bottom:104px}
 .time-in{width:auto;max-width:130px;padding:6px 8px;margin-top:6px}
+
+.award-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.award{border:1px solid var(--line);border-radius:16px;padding:12px;background:var(--surface);min-height:138px}.award.locked{opacity:.48}.award-icon{font-size:2rem;line-height:1;margin-bottom:10px}.award-title{font-weight:800;font-size:.95rem}.award-desc{color:var(--muted);font-size:.8rem;margin-top:4px}.award-date{color:var(--muted);font-size:.72rem;margin-top:10px}.profile-hero{display:flex;align-items:center;gap:14px}.profile-avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,transparent);font-size:1.7rem}.profile-stat{background:color-mix(in srgb,var(--accent) 5%,transparent);border-radius:12px;padding:10px}.profile-stat strong{display:block;font-size:1.1rem}.profile-stat span{display:block;color:var(--muted);font-size:.75rem}.milestone-box{border:1px dashed var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);border-radius:14px;padding:12px;margin-top:12px}.milestone-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.account-head{display:flex;align-items:center;gap:12px}.account-dot{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 14%,transparent);font-size:1.4rem}.status{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700}.status i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}.status.ok i{background:var(--done)}.status.warn i{background:#f5b301}.status.err i{background:#d64545}.stack{display:grid;gap:8px}.small-input{font-size:.88rem}.danger-box{border-color:#d64545}.muted-box{background:color-mix(in srgb,var(--muted) 5%,transparent)}.release-list{display:grid;gap:8px;margin-top:10px}.release-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}.release-item:first-child{border-top:0}.release-item b{font-size:.9rem}.release-item span{color:var(--muted);font-size:.82rem;display:block}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);font-size:.75rem;font-weight:800}
 </style>
 </head>
 <body>
 <main><div id="view"></div></main>
 <nav aria-label="Main">
-<button type="button" data-act="nav" data-v="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+<button type="button" data-act="nav" data-v="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5"/></svg>Journal</button>
 <button type="button" data-act="nav" data-v="habits"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Habits</button>
 <button type="button" data-act="nav" data-v="goals"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
-<button type="button" data-act="nav" data-v="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5"/></svg>Journal</button>
 <button type="button" data-act="nav" data-v="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>More</button>
 </nav>
 <script>
 var $=function(i){return document.getElementById(i)};
-var PPM=0.5,KEY="habita-v2",OLD="habit-tracker-v1",editing=false,wiz=null,planner=null,view="home";
+var PPM=0.5,KEY="habita-v2",OLD="habit-tracker-v1",editing=false,wiz=null,planner=null,view="journal";
 
 /* ---------- starter library (k = shared habit that serves several goals) ---------- */
 var LIB={
@@ -201,13 +203,13 @@ function load(){
   try{var o=JSON.parse(localStorage.getItem(OLD)||"null");if(o){s.mins=o.mins||{};
    if((o.habits||[]).length)s.goals.push({id:"g0",name:"My habits",why:"",mins:10,book:null,habits:o.habits.map(function(h){return{id:h.id,name:h.name,anchor:"",done:h.done||{}}})});
    (o.goals||[]).forEach(function(g){s.goals.push({id:g.id,name:g.name,why:"",mins:g.mins||20,book:{title:g.name,total:g.total,read:g.read},habits:[]})})}}catch(e){}}
- if(!s.mins)s.mins={};if(!s.notices)s.notices=[];if(!s.journal)s.journal={};if(!s.theme)s.theme="auto";
- s.goals.forEach(function(g){if(!g.habits)g.habits=[];if(!g.queue)g.queue=[];g.habits.forEach(function(h){if(!h.also)h.also=[];if(!h.done)h.done={}})});
+ if(!s.mins)s.mins={};if(!s.notices)s.notices=[];if(!s.journal)s.journal={};if(!s.moods)s.moods={};if(!s.moodNotes)s.moodNotes={};if(!s.monthly)s.monthly={};if(!s.tests)s.tests={};if(!s.ach)s.ach={};if(!s.yearly)s.yearly={};if(!s.milestones)s.milestones=[];if(!s.theme)s.theme="auto";if(!s.profile)s.profile={name:"",email:""};if(!s.cloud)s.cloud={configured:false};
+ s.goals.forEach(function(g){if(g.stageIndex==null)g.stageIndex=0;if(!g.habits)g.habits=[];if(!g.queue)g.queue=[];if(!g.stageStarted)g.stageStarted=g.activated||key(daysBack(0));if(g.finished){g.finished="";if(g.role==="Complete")g.role="Supporting"}if(!g.stageHistory)g.stageHistory=[];g.habits.forEach(function(h){if(!h.also)h.also=[];if(!h.done)h.done={}})});
  if(!s.days)s.days={};if(!s.day)s.day={};if(!s.ach)s.ach={};if(!s.spent)s.spent=0;
  if(!s.start&&s.goals.length){var m="";s.goals.forEach(function(g){g.habits.forEach(function(h){Object.keys(h.done||{}).forEach(function(k){if(!m||k<m)m=k})})});s.start=m||key(daysBack(0))}
  return s}
-var state=load();
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+var state=load();window.state=state;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));if(window.habitaCloud&&window.habitaCloud.queueSave)window.habitaCloud.queueSave(state)}catch(e){}}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function key(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function daysBack(n){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d}
@@ -229,6 +231,7 @@ function findH(id){return allHabits().find(function(x){return x.h.id==id})}
 function goalById(id){return state.goals.find(function(g){return g.id==id})}
 function goalHabits(g){var o=g.habits.slice();state.goals.forEach(function(x){if(x!==g)x.habits.forEach(function(h){if(h.also&&h.also.indexOf(g.id)>=0)o.push(h)})});return o}
 function ratioOf(hs){var dn=0,tot=0;hs.forEach(function(h){for(var i=0;i<7;i++){var d=daysBack(i);if(sched(h,d)){tot++;if(h.done[key(d)])dn++}}});return tot?dn/tot:0}
+function goalProgress(g){var hs=goalHabits(g),start=g.activated||g.created||state.start,end=key(daysBack(0)),dn=0,tot=0;if(!start)return 0;var d=new Date(start+"T12:00:00"),e=new Date(end+"T12:00:00");while(d<=e){var k=key(d);hs.forEach(function(h){if(sched(h,d)){tot++;if(h.done[k])dn++}});d.setDate(d.getDate()+1)}return tot?Math.min(1,dn/tot):0}
 function helpNames(x){return [x.g.name].concat((x.h.also||[]).map(function(id){var g=goalById(id);return g?g.name:""}).filter(Boolean))}
 function needDays(g){var b=g.book;return Math.ceil(Math.max(0,b.total-b.read)/(Math.max(1,g.mins)*PPM)*1.2)}
 function dayLabel(days){if(!days)return"Daily";var n=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];return days.map(function(d){return n[d]}).join(", ")}
@@ -236,8 +239,21 @@ function note(t){state.notices.push({id:uid(),t:t});if(state.notices.length>5)st
 
 
 /* ---------- coins, streaks, achievements ---------- */
-var COMPLETE=state.threshold||0.75,COINS=5;
+var COMPLETE=state.threshold||0.70,COINS=5;
 function needFor(n){return Math.max(1,Math.ceil(COMPLETE*n-1e-9))}
+function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
+function monthName(k){var d=new Date(k+"-01T12:00:00");return d.toLocaleDateString(undefined,{month:"long",year:"numeric"})}
+function monthRange(k){var a=new Date(k+"-01T12:00:00"),b=new Date(a);b.setMonth(b.getMonth()+1);b.setDate(0);return{start:key(a),end:key(b)}}
+function monthStats(k){var r=monthRange(k),scheduled=0,done=0,completeDays=0,totalDays=0,longest=0,run=0;
+ var d=new Date(r.start+"T12:00:00"),end=new Date(r.end+"T12:00:00");
+ while(d<=end){var kk=key(d),hs=allHabits().filter(function(x){return (x.h.created||state.start||kk)<=kk&&sched(x.h,d)});if(hs.length){totalDays++;var dn=hs.filter(function(x){return x.h.done[kk]}).length;scheduled+=hs.length;done+=dn;if(dn/hs.length>=COMPLETE){completeDays++;run++;if(run>longest)longest=run}else run=0}else run=0;d.setDate(d.getDate()+1)}
+ return{scheduled:scheduled,done:done,rate:scheduled?done/scheduled:0,completeDays:completeDays,totalDays:totalDays,longest:longest};}
+function moodLabel(v){return({great:"Great",good:"Good",okay:"Okay",low:"Low",tired:"Exhausted",frustrated:"Frustrated",stressed:"Stressed"})[v]||""}
+function currentMonth(){return monthKey(new Date())}
+function previousMonth(){var d=new Date();d.setMonth(d.getMonth()-1);return monthKey(d)}
+function monthlyReady(k){var d=new Date(k+"-01T12:00:00"),now=new Date(),cm=monthKey(now);return k!==cm && d<new Date(cm+"-01T12:00:00")}
+function yearStats(y){var out={days:0,completedDays:0,scheduled:0,done:0,best:0,badges:0,goals:0,stages:0};for(var m=1;m<=12;m++){var k=y+"-"+String(m).padStart(2,"0"),x=monthStats(k);out.scheduled+=x.scheduled;out.done+=x.done;out.completedDays+=x.completeDays;out.days+=x.totalDays;out.best=Math.max(out.best,x.longest)}out.badges=Object.keys(state.ach||{}).length;state.goals.forEach(function(g){if(g.finished)out.stages++;if(g.role==="Complete")out.goals++});return out}
+
 function isPast(k){return k<key(daysBack(0))}
 function computeFlag(k){var d=new Date(k+"T12:00:00"),hs=allHabits().filter(function(x){return (x.h.created||state.start||k)<=k&&sched(x.h,d)});
  if(!hs.length)return false;return hs.filter(function(x){return x.h.done[k]}).length/hs.length>=COMPLETE}
@@ -248,12 +264,12 @@ function earned(){var n=0;eachDay(function(k){if(flag(k))n++});return n*COINS}
 function balance(){return Math.max(0,earned()-(state.spent||0))}
 function curStreak(){if(!state.start)return 0;var i=flag(key(daysBack(0)))?0:1,n=0;while(i<900&&flag(key(daysBack(i)))){n++;i++}return n}
 function bestStreak(){var b=0,r=0;eachDay(function(k){if(flag(k)){r++;if(r>b)b=r}else r=0});return b}
-function stageDone(g){var n=0;if(!g.activated)return 0;eachDay(function(k){if(k>=g.activated&&flag(k))n++});return n}
-function award(id,t){if(state.ach[id])return false;state.ach[id]={t:t,d:key(daysBack(0))};note("Achievement unlocked: "+t);return true}
-function checkAch(){var b=bestStreak();
- [[7,"7-day streak"],[21,"21-day streak"],[30,"30-day streak"]].forEach(function(a){if(b>=a[0])award("s"+a[0],a[1])});
- state.goals.forEach(function(g){if(!g.locked&&g.activated&&g.stage&&!g.finished&&stageDone(g)>=g.stage){
-  g.finished=key(daysBack(0));g.role="Complete";award("done-"+g.id,"Stage complete: "+g.name);note("Big win! You finished the stage for "+g.name+"."+(g.reward?" Your reward: "+g.reward:""))}})}
+function stageList(g){var x=((g.name||"")+" "+(g.lib||"")).toLowerCase();if(/cyber|security/.test(x))return["Foundations","Networking & systems","Linux","Practical security","Security project"];if(/web|html|css|javascript|frontend|website/.test(x))return["HTML foundations","CSS & responsive design","JavaScript","Projects","Portfolio"];if(/engineer|engineering|quantity|survey|cost|estim/.test(x))return["Core concepts","Applied problem solving","Costing & estimating","Construction documentation","Practical project"];if(/writ|copy|content/.test(x))return["Choose a service","Build samples","Find opportunities","First client","Reliable workflow"];if(/draw|art|design/.test(x))return["Foundations","Technique","Practice","Projects","Portfolio"];return["Foundation","Practice","Application","Project","Mastery"];}
+function stageLabel(g){return stageList(g)[Math.min(g.stageIndex||0,stageList(g).length-1)]} function stageCount(g){return stageList(g).length} function stageDone(g){var n=0;if(!g.stageStarted)return 0;var hs=goalHabits(g);eachDay(function(k){if(k>=g.stageStarted){var dd=new Date(k+"T12:00:00"),scheduled=hs.filter(function(h){return sched(h,dd)}),done=scheduled.filter(function(h){return h.done[k]});if(scheduled.length&&done.length/scheduled.length>=COMPLETE)n++}});return n}
+function goalProgress(g){var total=stageCount(g),idx=Math.min(g.stageIndex||0,total-1),d=Math.min(1,stageDone(g)/Math.max(1,g.stage||21));return Math.min(1,(idx+d)/total)}
+function advanceStages(){var changed=false;state.goals.forEach(function(g){if(g.locked||!g.activated||g.completed)return;var total=stageCount(g),need=g.stage||21,done=stageDone(g);while(done>=need && (g.stageIndex||0)<total-1){g.stageHistory.push({stage:g.stageIndex||0,label:stageLabel(g),completed:key(daysBack(0)),days:done});g.stageIndex=(g.stageIndex||0)+1;g.stageStarted=key(daysBack(0));done=0;changed=true;award("stage-"+g.id+"-"+(g.stageIndex-1),"Completed "+g.stageHistory[g.stageHistory.length-1].label);note("You advanced "+g.name+" to "+stageLabel(g)+".");}if((g.stageIndex||0)>=total-1&&done>=need&&!g.completed){g.stageHistory.push({stage:g.stageIndex,label:stageLabel(g),completed:key(daysBack(0)),days:done});g.completed=key(daysBack(0));g.role="Complete";changed=true;award("goal-"+g.id,"Goal complete: "+g.name);note("Big win! You completed the full pathway for "+g.name+"."+(g.reward?" Your reward: "+g.reward:""));}});return changed}
+function award(id,t,meta){if(state.ach[id])return false;meta=meta||{};state.ach[id]={t:t,d:meta.date||key(daysBack(0)),journalDate:meta.journalDate||null,note:meta.note||"",category:meta.category||""};note("Achievement unlocked: "+t);return true}
+function checkAch(){var b=bestStreak();[[7,"7-day streak"],[21,"21-day streak"],[30,"30-day streak"],[60,"60-day streak"],[100,"100-day streak"]].forEach(function(a){if(b>=a[0])award("s"+a[0],a[1])});var m=previousMonth(),ms=monthStats(m);if(ms.totalDays>=5&&ms.rate>=COMPLETE)award("month-"+m,"Monthly momentum: "+monthName(m));state.goals.forEach(function(g){var p=goalProgress(g);if(p>=.25)award("g25-"+g.id,"25% of the way: "+g.name);if(p>=.5)award("g50-"+g.id,"Halfway there: "+g.name);if(p>=.75)award("g75-"+g.id,"75% of the way: "+g.name)});advanceStages()}
 
 /* ---------- weekly plan review ---------- */
 function gInfo(g){return g.lib?{lib:g.lib,kind:g.lib}:planKeyword(g.name)}
@@ -323,10 +339,10 @@ function proposalHTML(){var p=state.proposal;if(!p)return"";
  return'<div class="card"><h2>'+(p.kind=="up"?"Strong week. Ready to level up?":"Tough week. Want to ease it?")+'</h2><p class="note left" style="margin:0 0 6px">'+(p.kind=="up"?"You completed "+p.days+" of the last 7 days. Here is an adjusted plan. Tick the changes you want.":"You completed "+p.days+" of the last 7 days, and that is okay. Smaller steps are easier to keep. Tick the changes you want.")+'</p>'+
  p.changes.map(function(c,i){return'<label class="pick"><input type="checkbox" data-pc="'+i+'"'+(c.on?" checked":"")+'><span>'+esc(c.label)+'</span></label>'}).join("")+
  '<div class="btnrow"><button class="primary" data-act="pcapply" type="button">Apply selected</button><button class="link" data-act="pckeep" type="button">Keep my current plan</button></div></div>'}
-function rewardsHTML(){if(!state.goals.length)return"";var s=curStreak(),nx=[7,21,30].find(function(x){return s<x}),ks=Object.keys(state.ach);
- return'<div class="card"><h2>Rewards</h2><div><span class="coin"></span><strong style="font-size:1.4rem">'+balance()+'</strong> coins</div><p class="note left">You earn '+COINS+' coins for every day you complete '+Math.round(COMPLETE*100)+'% or more of your habits. A skipped day earns nothing, so unlocking a goal then takes one make-up day.</p>'+
- (nx?'<p class="note left">Next badge: '+nx+'-day streak ('+s+' of '+nx+')</p>':'')+
- (ks.length?'<ul class="hlist">'+ks.map(function(k){return'<li>'+esc(state.ach[k].t)+'<small>'+esc(state.ach[k].d)+'</small></li>'}).join("")+'</ul>':'<p class="note left">No badges yet. Your first is a 7-day streak.</p>')+'</div>'}
+function rewardsHTML(){if(!state.goals.length)return"";var s=curStreak(),nx=[7,21,30].find(function(x){return s<x});
+ return'<div class="card"><h2>Rewards</h2><div><span class="coin"></span><strong style="font-size:1.4rem">'+balance()+'</strong> coins</div><p class="note left">You earn '+COINS+' coins for every day you complete '+Math.round(COMPLETE*100)+'% or more of your scheduled habits. Coins can help you accelerate optional goal progression.</p>'+
+ (nx?'<p class="note left">Next consistency award: '+nx+'-day streak ('+s+' of '+nx+')</p>':'<p class="note left">Your next step is already visible in Awards.</p>')+
+ '<button class="link" data-act="profile" type="button">View your Awards →</button></div>'}
 function editHTML(g){return'<div class="two" style="margin-top:12px"><div><label class="lbl" style="margin-top:0" for="gs-'+g.id+'">Stage length (days)</label><input type="number" id="gs-'+g.id+'" data-gs="'+g.id+'" min="7" max="365" value="'+(g.stage||21)+'"></div><div><label class="lbl" style="margin-top:0" for="gr-'+g.id+'">Your reward</label><input type="text" id="gr-'+g.id+'" data-gr="'+g.id+'" maxlength="80" placeholder="e.g. a meal out" value="'+esc(g.reward||"")+'"></div></div>'+
  (g.locked?'':'<div class="eform"><input type="text" id="ah-'+g.id+'" placeholder="Add your own habit to this goal" maxlength="80" aria-label="New habit for '+esc(g.name)+'"><button class="primary" data-act="addh" data-g="'+g.id+'" type="button">Add</button></div>')+
  '<button class="del" style="margin-top:10px" data-act="delg" data-g="'+g.id+'" type="button">Delete this goal</button>'}
@@ -337,16 +353,16 @@ function lockedHTML(g){var cost=COINS*(g.stage||21),bal=balance(),q=g.queue||[];
  '<div class="btnrow" style="margin-top:8px"><button class="primary" data-act="unlockg" data-g="'+g.id+'" type="button"'+(bal>=cost?'':' disabled')+'>Unlock for '+cost+' coins</button></div>'+(editing?editHTML(g):'')+'</div>'}
 
 function habitsHTML(){
- var days=[];for(var i=6;i>=0;i--)days.push(daysBack(i));
- var head='<div class="head">'+days.map(function(d,i){return'<span class="'+(i==6?"today":"")+'">'+d.toLocaleDateString(undefined,{weekday:"narrow"})+'</span>'}).join("")+'</div>';
- var gs=state.goals.filter(function(g){return g.habits.length}),h="";
- if(!gs.length)h+='<div class="card empty">No habits yet. Add a goal on the Goals tab.</div>';
- gs.forEach(function(g){h+='<div class="card"><div class="gtitle">'+esc(g.name)+(g.role?'<span class="badge '+(g.role=="Primary"?"primary":g.role=="Supporting"?"support":"")+'">'+esc(g.role)+'</span>':'')+'</div>'+head+
-  g.habits.map(function(hb){var s=streak(hb),others=helpNames({g:g,h:hb}).slice(1);
-   return'<div class="row"><div class="name">'+esc(hb.name)+'<span class="streak'+(s?" on":"")+'">'+(hb.time?esc(hb.time)+" · ":"")+(hb.days?esc(dayLabel(hb.days))+" · ":"")+(s?s+(s==1?" day":" days")+" in a row":(hb.anchor?esc(hb.anchor):"No streak yet"))+'</span>'+(others.length?'<span class="streak">Also helps: '+esc(others.join(", "))+'</span>':'')+
-   (editing?'<input type="time" class="time-in" data-ht="'+hb.id+'" value="'+esc(hb.time||"")+'" aria-label="Time for '+esc(hb.name)+'"> <button class="del" data-act="delh" data-h="'+hb.id+'" type="button">Delete</button>':'')+'</div>'+
-   days.map(function(d,i){var k=key(d),on=hb.done[k];return'<button type="button" class="dot'+(on?" on":"")+(i==6?" today":"")+(sched(hb,d)?"":" off")+'" data-act="tog" data-h="'+hb.id+'" data-k="'+k+'" aria-pressed="'+(!!on)+'" aria-label="'+esc(hb.name)+', '+d.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})+'">'+(on?"&#10003;":"")+'</button>'}).join("")+'</div>'}).join("")+'</div>'});
- return h+'<div id="timer"></div><div class="tools"><button class="link" data-act="edit" type="button">'+(editing?"Done editing":"Edit")+'</button></div>'}
+ var now=new Date(),today=key(now),past=[],upcoming=[];
+ allHabits().forEach(function(x){var h=x.h;if(!h)return;var first=h.created||state.start||today;var lastDone=Object.keys(h.done||{}).sort().pop();if(lastDone&&lastDone<today||first<=today){past.push(x)}else upcoming.push(x)});
+ var groups={};past.forEach(function(x){var ks=Object.keys(x.h.done||{});ks.forEach(function(k){if(k<=today){var m=k.slice(0,7);if(!groups[m])groups[m]=[];groups[m].push({x:x,k:k})}})});
+ var months=Object.keys(groups).sort().reverse(),h='<p class="sub">Your completed habit history, month by month.</p>';
+ if(!months.length)h+='<div class="card empty">No completed habits yet. Your checked habits will appear here.</div>';
+ months.forEach(function(m){h+='<h2 class="sect">'+esc(monthName(m))+'</h2><div class="card">';var seen={};groups[m].sort(function(a,b){return b.k.localeCompare(a.k)}).forEach(function(e){var id=e.x.h.id+'|'+e.k;if(seen[id])return;seen[id]=1;h+='<div class="trow"><span class="ttime">'+esc(new Date(e.k+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}))+'</span><span style="color:var(--done);font-weight:800">✓</span><div class="tmain"><div class="name">'+esc(e.x.h.name)+'</div><div class="streak">'+esc(e.x.g.name)+'</div></div></div>'});h+='</div>'});
+ var pending=allHabits().filter(function(x){return !x.h.done[today]&&sched(x.h,now)&&((x.h.created||state.start||today)<=today)});
+ if(pending.length){h+='<h2 class="sect">Still to do</h2><div class="card">'+pending.map(function(x){return'<div class="trow"><button class="check" data-act="tog" data-h="'+x.h.id+'" data-k="'+today+'" type="button"> </button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak">'+esc(x.g.name)+(x.h.time?' · '+esc(x.h.time):'')+'</div></div></div>'}).join('')+'</div>'}
+ var future=allHabits().filter(function(x){return (x.h.created||today)>today});if(future.length){h+='<h2 class="sect">Upcoming</h2><div class="card">'+future.map(function(x){return'<div class="trow"><span class="ttime">'+esc(new Date(x.h.created+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}))+'</span><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak">'+esc(x.g.name)+'</div></div></div>'}).join('')+'</div>'}
+ return h+'<div class="tools"><button class="link" data-act="edit" type="button">'+(editing?'Done editing':'Edit')+'</button></div>';}
 
 function goalsHTML(){
  var h="";
@@ -355,13 +371,13 @@ function goalsHTML(){
  h+=rewardsHTML();
  if(!state.goals.length&&!wiz&&!planner)h+='<div class="card empty">No goals yet. Start with something you want to become or achieve.</div>';
  state.goals.forEach(function(g){
-  var hs=goalHabits(g),pct=Math.round(ratioOf(hs)*100),q=g.queue||[];
+  var hs=goalHabits(g),pct=Math.round(goalProgress(g)*100),q=g.queue||[];
   if(g.locked){h+=lockedHTML(g);return}
   h+='<div class="card"><div class="gtitle">'+esc(g.name)+(g.role?'<span class="badge '+(g.role=="Primary"?"primary":g.role=="Supporting"?"support":"")+'">'+esc(g.role)+'</span>':'')+'</div>'+(g.why?'<p class="why">'+esc(g.why)+'</p>':'')+
-   '<p class="note left">'+(hs.length?'This week: '+pct+'% of check-ins done':(q.length?'Not started yet. Its habits unlock one at a time.':'No habits yet.'))+'</p>'+
+   '<p class="note left">'+(hs.length?'Pathway progress: '+pct+'% — '+esc(stageLabel(g))+' is the current stage':(q.length?'Not started yet. Its habits unlock one at a time.':'No habits yet.'))+'</p>'+
    (hs.length?'<ul class="hlist">'+hs.map(function(hb){var own=g.habits.indexOf(hb)>=0;return'<li>'+esc(hb.name)+'<small>'+(hb.time?esc(hb.time)+" · ":"")+(hb.days?esc(dayLabel(hb.days)):"Daily")+(own?"":" · shared")+'</small></li>'}).join("")+'</ul>':'')+
    (q.length?'<p class="note left">Waiting: '+q.map(function(x){return esc(x.n)}).join("; ")+'</p>':'');
-  if(g.activated&&g.stage){var sd=Math.min(g.stage,stageDone(g));h+='<div class="book"><div class="name">Stage<span class="streak">'+sd+' of '+g.stage+' complete days</span></div><div class="gbar"><i style="width:'+Math.round(sd/g.stage*100)+'%"></i></div>'+(g.finished?'<p class="note left ok">Stage complete'+(g.reward?'. Your reward: '+esc(g.reward):'')+'</p>':'')+'</div>'}
+  if(g.activated&&g.stage){var sd=Math.min(g.stage,stageDone(g)),sc=stageCount(g),si=Math.min(g.stageIndex||0,sc-1);h+='<div class="book"><div class="name">Stage '+(si+1)+' of '+sc+': '+esc(stageLabel(g))+'<span class="streak">'+sd+' of '+g.stage+' complete days</span></div><div class="gbar"><i style="width:'+Math.round(sd/g.stage*100)+'%"></i></div>'+(g.completed?'<p class="note left ok">Full pathway complete'+(g.reward?'. Your reward: '+esc(g.reward):'')+'</p>':(g.stageHistory&&g.stageHistory.length?'<p class="note left">Completed: '+esc(g.stageHistory.map(function(x){return x.label}).join(' · '))+'</p>':''))+'</div>'}
   if(g.book){var b=g.book,rem=b.total-b.read,bp=Math.min(100,Math.round(b.read/b.total*100));
    h+='<div class="book"><div class="name">'+esc(b.title||"Book")+'<span class="streak">'+b.read+' of '+b.total+' pages</span></div><div class="gbar"><i style="width:'+bp+'%"></i></div><p class="note left">'+(rem<=0?'<span class="ok">Finished. Nice work.</span>':'At '+g.mins+' min a day, you would finish around '+nice(daysBack(-needDays(g)))+'.')+'</p>'+
    (rem>0?'<div class="logrow"><input type="number" min="1" id="lp-'+g.id+'" placeholder="Pages read" aria-label="Pages read for '+esc(b.title||g.name)+'"><button class="primary" data-act="logp" data-g="'+g.id+'" type="button">Log pages</button></div>':'')+'</div>'}
@@ -369,18 +385,36 @@ function goalsHTML(){
   h+='</div>'});
  return h+'<div class="tools"><button class="link" data-act="edit" type="button">'+(editing?"Done editing":"Edit")+'</button></div>'}
 
-function journalHTML(){
- var tk=key(daysBack(0)),j=state.journal;
- var h='<div class="card"><label class="lbl" style="margin-top:0" for="jText">Today</label><p class="note left" style="margin:0 0 10px">One win, and one thing to try tomorrow.</p><textarea id="jText" rows="6" maxlength="3000">'+esc(j[tk]||"")+'</textarea></div>';
- var ks=Object.keys(j).filter(function(k){return k!=tk&&j[k]}).sort().reverse().slice(0,14);
- if(ks.length)h+='<h2 class="sect">Earlier</h2>'+ks.map(function(k){return'<div class="card"><div class="streak" style="margin-bottom:6px">'+esc(new Date(k+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}))+'</div><div style="white-space:pre-wrap">'+esc(j[k])+'</div></div>'}).join("");
- return h}
+function moodHTML(){var opts=[['great','😊','Great'],['good','🙂','Good'],['okay','😐','Okay'],['low','😔','Low'],['tired','😫','Exhausted'],['frustrated','😤','Frustrated'],['stressed','😰','Stressed']],tk=key(daysBack(0)),v=state.moods[tk]||'';return'<div class="card"><h2>How are you feeling?</h2><p class="note left" style="margin-top:0">This is context, not a score. A difficult day does not reduce your progress.</p><div class="chips">'+opts.map(function(o){return'<button type="button" data-act="mood" data-v="'+o[0]+'" class="'+(v==o[0]?'sel':'')+'">'+o[1]+' '+o[2]+'</button>'}).join('')+'</div><label class="lbl" for="moodNote">Anything Habita should know? <span class="streak">optional</span></label><textarea id="moodNote" rows="3" maxlength="600">'+esc((state.moodNotes||{})[tk]||'')+'</textarea></div>'}
+function todayHabitsHTML(){var tk=key(daysBack(0)),td=daysBack(0),list=allHabits().filter(function(x){return sched(x.h,td)&&(x.h.created||state.start||tk)<=tk});list.sort(function(a,b){return (a.h.time||'99:99').localeCompare(b.h.time||'99:99')});var done=list.filter(function(x){return x.h.done[tk]}).length;return'<div class="card"><div style="display:flex;justify-content:space-between;gap:12px"><div><h2 style="margin-bottom:2px">Today</h2><p class="sub" style="margin:0">'+(list.length?done+' of '+list.length+' habits done':'Nothing scheduled yet')+'</p></div><div class="streak'+(curStreak()?' on':'')+'">🔥 '+curStreak()+' day'+(curStreak()==1?'':'s')+'</div></div><div class="bar" style="margin:12px 0 4px"><i style="width:'+(list.length?done/list.length*100:0)+'%"></i></div>'+(list.length?list.map(function(x){var on=x.h.done[tk];return'<div class="trow"><button class="check'+(on?' on':'')+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" type="button">'+(on?'✓':'')+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak">'+esc(x.g.name)+(x.h.time?' · '+esc(x.h.time):'')+'</div></div></div>'}).join(''):'<p class="note left">Add a goal to let Habita build your daily plan.</p>')+'</div>'}
+function monthlyEnvelopeHTML(){var pm=previousMonth();if(!monthlyReady(pm))return'';var seen=state.monthly[pm];if(seen)return'<div class="card notice"><div><strong>🍀 '+esc(monthName(pm))+'</strong><p class="note left">Your monthly reflection is saved in Journal.</p></div></div>';return'<div class="card notice"><div><strong>✉️ Your '+esc(monthName(pm))+' with Habita</strong><p class="note left">Your month is ready to look back on.</p></div><button class="primary" data-act="monthly" type="button">Open</button></div>'}
+function monthlyReflectionHTML(k){var ms=monthStats(k),moodCounts={};Object.keys(state.moods||{}).forEach(function(d){if(d.slice(0,7)==k){var v=state.moods[d];moodCounts[v]=(moodCounts[v]||0)+1}});var top=Object.keys(moodCounts).sort(function(a,b){return moodCounts[b]-moodCounts[a]})[0],bad=Object.keys(state.ach||{}).filter(function(id){return state.ach[id].d.slice(0,7)==k});return'<div class="card"><h2>'+esc(monthName(k))+' reflection 🌱</h2><p class="note left">You showed up for '+ms.totalDays+' tracked day'+(ms.totalDays==1?'':'s')+' and completed '+Math.round(ms.rate*100)+'% of scheduled habits.</p><div class="two" style="margin-top:12px"><div><strong>'+ms.completeDays+'</strong><span class="streak">complete days</span></div><div><strong>'+ms.longest+'</strong><span class="streak">best streak</span></div></div>'+(top?'<p class="note left">Your most common mood was <strong>'+esc(moodLabel(top))+'</strong>. That is a pattern, not a verdict.</p>':'')+(bad.length?'<p class="note left">🏅 You earned '+bad.length+' badge'+(bad.length==1?'':'s')+' this month.</p>':'')+'<label class="lbl" for="mref">What are you proud of from this month?</label><textarea id="mref" rows="4" maxlength="1200">'+esc((state.monthly[k]&&state.monthly[k].reflection)||'')+'</textarea><div class="btnrow"><button class="primary" data-act="savemonth" data-k="'+k+'" type="button">Save reflection</button></div><p class="note left">“You’ve come further than you probably realize. Despite sad days, happy days or tired days, you still showed up.”</p></div>'}
+function testMonth(){var now=new Date(),day=now.getDate(),last=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();return day>=Math.max(1,last-6)?monthKey(now):null}
+function testHTML(){var pm=testMonth(),t=pm?(state.tests[pm]||{}):{};if(!pm)return'';var active=state.goals.filter(function(g){return !g.locked&&g.activated&&!g.completed})[0],label=active?stageLabel(active):"your current focus",q=active?[['What did you learn or become better at during '+esc(label)+'?','learn'],['What part of '+esc(label)+' still feels difficult?','hard'],['Show your evidence: what can you now actually do, make, solve, explain, or demonstrate?','proof']]:[['What is one thing you learned or improved this month?','learn'],['What was the hardest part this month?','hard'],['What practical evidence shows your progress?','proof']];return'<div class="card"><h2>🧪 Monthly checkpoint</h2><p class="note left">This checkpoint looks at <strong>'+esc(label)+'</strong>. It is evidence for your pathway, not a pass/fail judgment.</p>'+q.map(function(x){return'<label class="lbl" for="t-'+x[1]+'">'+x[0]+'</label><textarea id="t-'+x[1]+'" rows="3" maxlength="800">'+esc(t[x[1]]||'')+'</textarea>'}).join('')+'<div class="btnrow"><button class="primary" data-act="savetest" data-k="'+pm+'" type="button">Complete checkpoint</button></div>'+(t.done?'<p class="note left ok">Checkpoint completed. Habita has your evidence for this month.</p>':'')+'</div>'}
+function journalHTML(){var tk=key(daysBack(0)),j=state.journal,h='<p class="sub">Your day, your progress, and the things worth remembering.</p>'+monthlyEnvelopeHTML()+todayHabitsHTML()+moodHTML();h+='<div class="card" data-jdate="'+tk+'"><label class="lbl" style="margin-top:0" for="jText">Today’s note</label><p class="note left" style="margin:0 0 10px">One win, one difficulty, or anything you want Habita to remember.</p><textarea id="jText" rows="5" maxlength="3000">'+esc(j[tk]||'')+'</textarea><div class="milestone-actions"><button class="link" data-act="milestone" data-k="'+tk+'" type="button">🏆 Save this as a milestone</button></div></div>';h+=testHTML();var ks=Object.keys(j).filter(function(k){return k!=tk&&j[k]}).sort().reverse().slice(0,10);if(ks.length)h+='<h2 class="sect">Earlier entries</h2>'+ks.map(function(k){return'<div class="card" data-jdate="'+k+'"><div class="streak" style="margin-bottom:6px">'+esc(new Date(k+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric",year:"numeric"}))+'</div><div style="white-space:pre-wrap">'+esc(j[k])+'</div><div class="milestone-actions"><button class="link" data-act="milestone" data-k="'+k+'" type="button">🏆 Save as milestone</button></div></div>'}).join('');var yr=new Date().getFullYear(),yd=new Date();if(yd.getMonth()==11&&yd.getDate()>=24)h+='<div class="card"><h2>🏆 Your year</h2><p class="note left">Your yearly reflection is ready. Take a look before the year closes.</p><button class="link" data-act="yearly" type="button">Open year '+yr+'</button></div>';if(state.monthlyView)h=monthlyReflectionHTML(state.monthlyView)+h;if(state.milestoneDraft)h=milestoneFormHTML()+h;return h}
+function milestoneFormHTML(){var d=state.milestoneDraft||{},text=d.text||"",types=[['milestone','Personal milestone'],['first-pitch','First pitch'],['first-client','First client'],['first-project','First project'],['income-10k','First ₦10k income'],['income-50k','First ₦50k income'],['income-100k','First ₦100k income']];return'<div class="card milestone-box"><h2>🏆 Save a meaningful moment</h2><p class="note left">Your Journal stays the story. This creates an Award that links back to this entry.</p><label class="lbl" for="msType">What kind of milestone is this?</label><select id="msType">'+types.map(function(x){return'<option value="'+x[0]+'" '+(d.type==x[0]?'selected':'')+'>'+x[1]+'</option>'}).join('')+'</select><label class="lbl" for="msTitle">Award title</label><input id="msTitle" type="text" maxlength="100" value="'+esc(d.title||'')+'" placeholder="e.g. First Client"><label class="lbl" for="msNote">What happened?</label><textarea id="msNote" rows="4" maxlength="1200">'+esc(text)+'</textarea><div class="milestone-actions"><button class="primary" data-act="savemilestone" type="button">Save award</button><button class="link" data-act="cancelmilestone" type="button">Cancel</button></div></div>'}
 
-function moreHTML(){
- return'<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+
- '<div class="card"><span class="lbl" style="margin-top:0">A day counts as complete at</span><div class="chips">'+[70,75,79].map(function(v){return'<button type="button" data-act="thr" data-v="'+v+'" class="'+(Math.round(COMPLETE*100)==v?"sel":"")+'">'+v+'%</button>'}).join("")+'</div><p class="note left" style="margin:10px 0 0">Applies from today. Days already counted stay as they were.</p></div>'+
- '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+
- '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
+function yearlyHTML(){var y=new Date().getFullYear(),s=yearStats(y);return'<div class="card"><h2>🏆 Your '+y+' with Habita</h2><p class="note left">A year is more than perfect streaks. This is the record of what you actually built.</p><div class="two" style="margin-top:14px"><div><strong>'+s.completedDays+'</strong><span class="streak">complete days</span></div><div><strong>'+s.best+'</strong><span class="streak">best streak</span></div><div><strong>'+s.goals+'</strong><span class="streak">completed goals</span></div><div><strong>'+s.badges+'</strong><span class="streak">badges earned</span></div></div><label class="lbl" for="yref">What are you proud of this year?</label><textarea id="yref" rows="5" maxlength="1800">'+esc(state.yearly&&state.yearly[y]||'')+'</textarea><div class="btnrow"><button class="primary" data-act="saveyear" data-y="'+y+'" type="button">Save yearly reflection</button></div></div>'}
+function awardCatalog(){return[{id:'s7',icon:'🔥',title:'7-Day Streak',desc:'Show up for seven days.' ,cat:'Consistency'},{id:'s21',icon:'🔥',title:'21-Day Streak',desc:'Build a three-week streak.',cat:'Consistency'},{id:'s30',icon:'🔥',title:'30-Day Streak',desc:'Maintain a full month of consistency.',cat:'Consistency'},{id:'s60',icon:'🔥',title:'60-Day Streak',desc:'Keep showing up for two months.',cat:'Consistency'},{id:'s100',icon:'🔥',title:'100-Day Streak',desc:'A hundred days of consistency.',cat:'Consistency'},{id:'first-milestone',icon:'🌱',title:'First Milestone',desc:'Record your first meaningful personal milestone.',cat:'Growth'},{id:'first-pitch',icon:'✍️',title:'First Pitch',desc:'Send your first genuine pitch.',cat:'Work'},{id:'first-client',icon:'🤝',title:'First Client',desc:'Get your first paying client.',cat:'Work'},{id:'first-project',icon:'💻',title:'First Project',desc:'Complete your first practical project.',cat:'Building'},{id:'income-10k',icon:'💰',title:'First ₦10k',desc:'Record your first ₦10,000 of income.',cat:'Income'},{id:'income-50k',icon:'💰',title:'First ₦50k',desc:'Record your first ₦50,000 of income.',cat:'Income'},{id:'income-100k',icon:'💰',title:'First ₦100k',desc:'Record your first ₦100,000 of income.',cat:'Income'}]}
+function earnedAward(id){return state.ach&&state.ach[id]}
+function awardCard(a){var e=earnedAward(a.id),title=e?e.t:a.title,date=e?e.d:'';return'<button type="button" class="award '+(e?'':'locked')+'" data-act="awarddetail" data-award="'+esc(a.id)+'"><div class="award-icon">'+(e?a.icon:'🔒')+'</div><div class="award-title">'+esc(title)+'</div><div class="award-desc">'+esc(a.desc)+'</div>'+(e?'<div class="award-date">'+esc(date)+'</div>':'<div class="award-date">Locked</div>')+'</button>'}
+function awardsHTML(){var catalog=awardCatalog(),groups={};catalog.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var extra=Object.keys(state.ach||{}).filter(function(id){return !catalog.some(function(a){return a.id==id})}).map(function(id){var e=state.ach[id],icon=/stage-|goal-/.test(id)?'🧠':/month-/.test(id)?'📅':'🏅';return{id:id,icon:icon,title:e.t,desc:'A meaningful achievement recorded by Habita.',cat:/stage-|goal-/.test(id)?'Growth':/month-/.test(id)?'Consistency':'Other'}});extra.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var earnedCount=Object.keys(state.ach||{}).length,total=Object.keys(groups).reduce(function(n,k){return n+groups[k].length},0);var h='<div class="card"><button class="link" data-act="profile" type="button">← Profile</button><h2 style="margin-top:10px">🏆 Awards</h2><p class="note left">A record of what you actually accomplished. Your Journal keeps the story behind the award.</p><div class="profile-stat" style="margin-top:12px"><strong>'+earnedCount+' / '+total+'</strong><span>awards earned</span></div></div>';Object.keys(groups).forEach(function(cat){h+='<h2 class="sect">'+esc(cat)+'</h2><div class="award-grid">'+groups[cat].map(awardCard).join('')+'</div>'});if(state.awardView){var e=state.ach[state.awardView],a=catalog.find(function(x){return x.id==state.awardView});if(e){var journal=e.journalDate&&state.journal[e.journalDate];h+='<div class="card milestone-box" style="margin-top:18px"><button class="link" data-act="closeaward" type="button">← Back to awards</button><h2 style="margin-top:12px">'+(a?a.icon:'🏆')+' '+esc(e.t)+'</h2><p class="note left">Earned '+esc(e.d)+'.</p>'+(e.note?'<div class="card" style="margin:12px 0 0"><strong>What happened</strong><p class="note left" style="white-space:pre-wrap">'+esc(e.note)+'</p></div>':'')+(journal?'<div class="milestone-actions"><button class="primary" data-act="journalentry" data-k="'+esc(e.journalDate)+'" type="button">Read Journal entry →</button></div>':'')+'</div>'}else{state.awardView=null}}return h}
+function profileHTML(){var goals=state.goals.filter(function(g){return !g.locked}),earnedCount=Object.keys(state.ach||{}).length,c=window.habitaCloud&&window.habitaCloud.status?window.habitaCloud.status():{configured:false,signedIn:false,email:""};return'<div class="card"><button class="link" data-act="profileback" type="button">← More</button><div class="profile-hero" style="margin-top:10px"><div class="profile-avatar">🌱</div><div><h2 style="margin:0">Your Habita profile</h2><p class="sub" style="margin:2px 0 0">Your progress, memories, and achievements.</p></div></div><div class="two" style="margin-top:14px"><div class="profile-stat"><strong>'+goals.length+'</strong><span>active goals</span></div><div class="profile-stat"><strong>'+curStreak()+'</strong><span>current streak</span></div><div class="profile-stat"><strong>'+earnedCount+'</strong><span>awards earned</span></div><div class="profile-stat"><strong>'+balance()+'</strong><span>coins</span></div></div></div><div class="card"><h2>🌱 Nickname</h2><p class="note left">This is your local Habita profile. You can use Habita without creating an account.</p><div class="profile-stat" style="margin:10px 0"><strong>'+esc((state.profile&&state.profile.name)||'Not set')+'</strong><span>nickname</span></div><button class="primary wide" data-act="account" type="button">Edit profile</button></div><div class="card"><h2>☁️ Sync your progress</h2>'+(c.signedIn?'<p class="note left">Connected with <strong>'+esc(c.email||'your Google account')+'</strong>. Your progress can sync across devices.</p><button class="primary wide" data-act="account" type="button">Manage sync</button>':'<p class="note left">Keep using Habita locally, or sign in with Google to sync your progress across devices. This is optional.</p><button class="primary wide" data-act="account" type="button">Sign up to sync progress</button>')+'</div><div class="card"><h2>🏆 Awards</h2><p class="note left">Your trophy cabinet of meaningful milestones.</p><button class="primary wide" data-act="awards" type="button" style="margin-top:12px">View Awards</button></div>'}
+
+function accountHTML(){
+ var p=state.profile||{name:"",email:""},c=window.habitaCloud&&window.habitaCloud.status?window.habitaCloud.status():{configured:false,signedIn:false,email:""};
+ var connected=c.signedIn;
+ return '<div class="card"><button class="link" data-act="profileback" type="button">← Profile</button><div class="account-head" style="margin-top:12px"><div class="account-dot">☁️</div><div><h2 style="margin:0">Sync your progress</h2><p class="sub" style="margin:2px 0 0">Optional. Habita works without an account.</p></div></div></div>'+
+ '<div class="card"><span class="status '+(connected?'ok':c.configured?'warn':'')+'"><i></i>'+(connected?'Synced with Google':c.configured?'Firebase is ready — connect Google to sync':'Local-only mode')+'</span><p class="note left">'+(connected?'Your Habita progress is connected to your Google account and can sync across devices.': 'Your nickname and progress stay on this device until you choose to sign in. You can use Habita normally without Google.')+'</p></div>'+
+ '<div class="card"><h2>🌱 Your nickname</h2><label class="lbl" for="profName">Nickname</label><input id="profName" type="text" maxlength="80" value="'+esc(p.name||'')+'" placeholder="What should Habita call you?"><button class="primary wide" data-act="saveprofile" type="button" style="margin-top:12px">Save nickname</button></div>'+
+ '<div class="card"><h2>Continue with Google</h2><p class="note left">Use your Google/Gmail account to create or sign into your Habita sync account. Habita does not need Google when you first open the app.</p>'+(connected?'<p class="note left"><strong>'+esc(c.email||'Google account')+'</strong></p><button class="primary wide" data-act="fbsignout" type="button">Sign out of sync</button>':'<button class="primary wide" data-act="fbgoogle" type="button">Continue with Google</button>')+'</div>'+
+ (c.configured?'':'<div class="card muted-box"><h2>Developer setup</h2><p class="note left">Firebase must be connected to this Habita build before Google sync can work. This setup is only needed once for the app, not for each user.</p></div>')+
+ '<div class="card muted-box"><h2>Backups</h2><p class="note left">Keep an offline copy too. Cloud sync is not a replacement for backups.</p><button class="primary wide" data-act="export" type="button">Export Habita backup</button></div>'+
+ '<div class="card danger-box"><h2>Delete local data</h2><p class="note left">This removes Habita data stored on this device. A Google sync account is separate.</p><button class="del" data-act="deleteaccount" type="button" style="margin-top:10px">Delete my Habita data</button></div>';
+}
+function releaseHTML(){return '<div class="card"><h2>✨ Habita is taking shape</h2><p class="note left">A final product-readiness pass helps make the app dependable before you share it.</p><div class="release-list"><div class="release-item"><div>✓</div><div><b>Goals, stages & progress</b><span>Progress is derived from the pathway rather than arbitrary habit counts.</span></div></div><div class="release-item"><div>✓</div><div><b>Journal & Awards</b><span>Your meaningful moments can become permanent awards with a link back to the story.</span></div></div><div class="release-item"><div>✓</div><div><b>Backup & restore</b><span>Export and import your Habita data before changing devices or clearing storage.</span></div></div><div class="release-item"><div>✓</div><div><b>Offline-first foundation</b><span>The core app still works without an AI API or cloud connection.</span></div></div><div class="release-item"><div>✓</div><div><b>Cloud-ready</b><span>Optional Firebase account/sync can be configured from Account & Sync.</span></div></div></div></div><div class="card"><span class="pill">V17</span><h2 style="margin-top:8px">Release checklist</h2><p class="note left">Before publishing, test the app on a real Android phone, confirm Firebase rules, set your Play Store package/signing details, and verify privacy/backup flows.</p></div>'}
+function moreHTML(){if(state.profileView==='profile')return profileHTML();if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();if(state.profileView==='release')return releaseHTML();return'<div class="card"><h2>More</h2><p class="note left">Your profile, awards, preferences, and data.</p><button class="primary wide" data-act="profile" type="button" style="margin-top:12px">🌱 Open Profile</button></div><div class="card"><h2>☁️ Account & Sync</h2><p class="note left">Optional cloud account, cross-device sync, and backups.</p><button class="primary wide" data-act="account" type="button" style="margin-top:12px">Open Account & Sync</button></div><div class="card"><h2>✨ Release readiness</h2><p class="note left">See what is ready and what still needs to happen before publishing.</p><button class="primary wide" data-act="release" type="button" style="margin-top:12px">Open checklist</button></div>'+ '<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+ paletteCard()+'<div class="card"><span class="lbl" style="margin-top:0">A day counts as complete at</span><div class="chips">'+[70,75,79].map(function(v){return'<button type="button" data-act="thr" data-v="'+v+'" class="'+(Math.round(COMPLETE*100)==v?"sel":"")+'">'+v+'%</button>'}).join("")+'</div><p class="note left" style="margin:10px 0 0">Applies from today. Days already counted stay as they were.</p></div>'+ '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+ '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
+
 
 /* ---------- timer ---------- */
 var tm={end:0,mins:20,hid:null,iv:null,msg:"",pend:null};
@@ -513,7 +547,7 @@ function applyPlan(){var r=planner.result;if(!r)return;var P=planner;
    queue:it.queue.map(function(e){return{n:e.n,a:e.a,m:e.m,k:e.k,time:e.time,also:nid(e.also)}})})});
  state.start=state.start||key(daysBack(0));state.unlock={next:key(addDays(new Date(),7))};state.review={next:key(addDays(new Date(),7))};
  note("Your plan is set. You earn "+COINS+" coins for each day you complete "+Math.round(COMPLETE*100)+"% of your habits. Coins unlock your waiting goals.");
- planner=null;view="home";save();render()}
+ planner=null;view="journal";save();render()}
 
 
 /* ---------- day plan (Stage 1) ---------- */
@@ -535,7 +569,7 @@ function adaptWeek(){var a=state.adapt,t=key(daysBack(0));if(!a||!a.next||a.next
   else if(r<.5&&b>10){h.block=Math.max(10,b-15);note(h.base+" eases to "+h.block+" minutes this week. A smaller block is easier to keep.")}});
  a.next=key(addDays(new Date(),7));save()}
 function dayPlanHTML(){var hs=allHabits().filter(function(x){return x.h.p}).sort(function(a,b){return a.h.p-b.h.p}),tk=key(daysBack(0));
- if(!hs.length)return'<div class="card"><span class="lbl" style="margin-top:0">Stage 1</span><p class="note left" style="margin:0 0 10px">School prep first, then HTML. Both start small and grow as you keep up.</p><button class="primary wide" data-act="stage1" type="button">Set up Stage 1</button></div>';
+ if(!hs.length)return'<div class="card"><span class="lbl" style="margin-top:0">Build your first plan</span><p class="note left" style="margin:0 0 10px">Tell Habita what you are trying to accomplish and it will turn the goal into a manageable starting routine.</p><button class="primary wide" data-act="plan" type="button">Plan my goals</button></div>';
  var d=state.day[tk]||{t:"open"},T=[["open","Open day"],["half","Half day"],["break","Break only"]];
  var h='<div class="card"><span class="lbl" style="margin-top:0">What kind of day is it?</span><div class="chips">'+T.map(function(x){return'<button type="button" data-act="dtype" data-v="'+x[0]+'" class="'+(d.t==x[0]?"sel":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
  '<button class="link" data-act="light" type="button" style="margin-top:8px">'+(d.light?"Light day is on. Tap to turn off":"Make it a light day")+'</button>';
@@ -545,7 +579,7 @@ function dayPlanHTML(){var hs=allHabits().filter(function(x){return x.h.p}).sort
  return h+'</div>'}
 document.addEventListener("click",function(e){var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act,tk=key(daysBack(0));
  if(["stage1","dtype","light","logmin"].indexOf(a)<0)return;e.stopPropagation();
- if(a=="stage1")setupStage1();
+ if(a=="stage1")return;
  else if(a=="dtype"){state.day[tk]={t:t.dataset.v,light:(state.day[tk]||{}).light};save();render()}
  else if(a=="light"){var d=state.day[tk]||{t:"open"};state.day[tk]={t:d.t,light:!d.light};save();render()}
  else if(a=="logmin"){var x=findH(t.dataset.h),i=$("lm-"+t.dataset.h),v=i?parseInt(i.value,10):0;if(!x||!(v>0))return;
@@ -553,29 +587,75 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-act]
   if(x.h.log[tk]>=planMin(x.h,tk))x.h.done[tk]=1;save();render()}},true);
 
 /* ---------- render + events ---------- */
-function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme)}
-function render(){
+var PALETTES={
+ ocean:{n:"Ocean"},
+ forest:{n:"Forest",l:{"--accent":"#2f7d57","--bg":"#eef4ef","--line":"#d6e3da"},d:{"--accent":"#5fcf92","--bg":"#0e1a14","--surface":"#17261d","--line":"#26382d"}},
+ sunset:{n:"Sunset",l:{"--accent":"#d9582b","--bg":"#f8efe9","--line":"#ecdcd0"},d:{"--accent":"#ff8a5c","--bg":"#1a1210","--surface":"#261b17","--line":"#3a2a23"}},
+ grape:{n:"Grape",l:{"--accent":"#6d44d6","--bg":"#f1eefa","--line":"#ddd6f0"},d:{"--accent":"#a98bff","--bg":"#14101f","--surface":"#1e1830","--line":"#322a4a"}},
+ rose:{n:"Rose",l:{"--accent":"#d63f77","--bg":"#faeef2","--line":"#efd6de"},d:{"--accent":"#ff7aa6","--bg":"#1b1016","--surface":"#27181f","--line":"#3d2630"}},
+ graphite:{n:"Graphite",l:{"--accent":"#3b4658","--bg":"#eeeeef","--line":"#dcdcdf"},d:{"--accent":"#aab4c5","--bg":"#121212","--surface":"#1c1c1e","--line":"#2c2c2e"}}};
+var PVARS=["--accent","--bg","--surface","--line"];
+function isDark(){return state.theme=="dark"||(state.theme!="light"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)}
+function applyPalette(){var r=document.documentElement,p=PALETTES[state.palette]||PALETTES.ocean,dk=isDark(),v=dk?p.d:p.l;
+ PVARS.forEach(function(k){r.style.removeProperty(k)});
+ if(v)Object.keys(v).forEach(function(k){r.style.setProperty(k,v[k])});
+ var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",(v&&v["--bg"])||(dk?"#0f1624":"#eef2f7"))}
+function paletteCard(){var dk=isDark();return'<div class="card"><span class="lbl" style="margin-top:0">Color theme</span><div class="chips">'+Object.keys(PALETTES).map(function(k){var p=PALETTES[k],v=p&&(dk?p.d:p.l),c=v?v["--accent"]:(dk?"#7b9cff":"#2f5bea");
+ return'<button type="button" data-act="palette" data-v="'+k+'" class="'+((state.palette||"ocean")==k?"sel":"")+'"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+c+';margin-right:6px"></span>'+p.n+'</button>'}).join("")+'</div></div>'}
+try{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyPalette)}catch(e){}
+document.addEventListener("click",function(e){var t=e.target.closest('[data-act="palette"]');if(!t)return;e.stopPropagation();state.palette=t.dataset.v;applyPalette();save();render()},true);
+function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme);applyPalette()}
+function render(){window.state=state;applyPalette();
  refresh();
- var t={home:"Habita",habits:"Habits",goals:"Goals",journal:"Journal",more:"More"}[view],h='<h1>'+t+'</h1>';
- h+=view=="home"?homeHTML():view=="habits"?habitsHTML():view=="goals"?goalsHTML():view=="journal"?journalHTML():moreHTML();
+ var t={habits:"Habits",goals:"Goals",journal:"Journal",more:"More"}[view],h='<h1>'+t+'</h1>';
+ h+=view=="habits"?habitsHTML():view=="goals"?goalsHTML():view=="journal"?(state.yearlyView?yearlyHTML():journalHTML()):moreHTML();
  $("view").innerHTML=h;
  if(view=="habits")renderTimer();
  Array.prototype.forEach.call(document.querySelectorAll("nav button"),function(b){var on=b.dataset.v==view;b.className=on?"on":"";if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
 document.addEventListener("input",function(e){var t=e.target,id=t.id,v=t.value;
  if(id=="jText"){var tk=key(daysBack(0));if(v.trim())state.journal[tk]=v;else delete state.journal[tk];save();return}
+ if(id=="msType"||id=="msTitle"||id=="msNote"){state.milestoneDraft=state.milestoneDraft||{};if(id=="msType")state.milestoneDraft.type=v;else if(id=="msTitle")state.milestoneDraft.title=v;else state.milestoneDraft.text=v;save();return}
+ if(id=="moodNote"){var tk2=key(daysBack(0));state.moodNotes=state.moodNotes||{};if(v.trim())state.moodNotes[tk2]=v;else delete state.moodNotes[tk2];save();return}
+ if(id=="mref"&&state.monthlyView){state.monthly[state.monthlyView]=state.monthly[state.monthlyView]||{};state.monthly[state.monthlyView].reflection=v;save();return}
+ if(id=="t-learn"||id=="t-hard"||id=="t-proof"){var pk=testMonth()||previousMonth();state.tests[pk]=state.tests[pk]||{};state.tests[pk][id.slice(2)]=v;save();return}
+ if(id=="yref"){var yy=new Date().getFullYear();state.yearly=state.yearly||{};state.yearly[yy]=v;save();return}
  if(planner){if(t.dataset.pgoal!=null)planner.goals[+t.dataset.pgoal]=v;else if(t.dataset.pf)planner[t.dataset.pf]=v;return}
  if(!wiz)return;
  if(id=="wName")wiz.name=v;else if(id=="wWhy")wiz.why=v;else if(id=="wTitle")wiz.title=v;else if(id=="wTotal")wiz.total=v;else if(id=="wOwn")wiz.own=v});
 document.addEventListener("change",function(e){var t=e.target;
  if(wiz&&wiz.step==3&&t.dataset&&t.dataset.i!=null){wiz.picks[+t.dataset.i]=t.checked;return}
- if(t.dataset&&t.dataset.gs){var gg=goalById(t.dataset.gs);if(gg){gg.stage=Math.max(7,Math.min(365,parseInt(t.value,10)||21));save();render()}return}
+ if(t.id=="msType"||t.id=="msTitle"||t.id=="msNote"){state.milestoneDraft=state.milestoneDraft||{};if(t.id=="msType")state.milestoneDraft.type=t.value;else if(t.id=="msTitle")state.milestoneDraft.title=t.value;else state.milestoneDraft.text=t.value;save();return}
+if(t.dataset&&t.dataset.gs){var gg=goalById(t.dataset.gs);if(gg){gg.stage=Math.max(7,Math.min(365,parseInt(t.value,10)||21));save();render()}return}
  if(t.dataset&&t.dataset.gr){var gr=goalById(t.dataset.gr);if(gr){gr.reward=t.value;save()}return}
  if(t.dataset&&t.dataset.pc!=null&&state.proposal){state.proposal.changes[+t.dataset.pc].on=t.checked;save();return}
  if(t.dataset&&t.dataset.ht){var x=findH(t.dataset.ht);if(x){x.h.time=t.value;save()}return}
  if(t.id=="impFile"&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){try{var s=JSON.parse(fr.result);if(!s||!Array.isArray(s.goals))throw 0;if(confirm("Replace your current data with this backup?")){localStorage.setItem(KEY,JSON.stringify(s));state=load();applyTheme();render()}}catch(err){var m=$("impMsg");if(m)m.textContent="That file is not a Habita backup."}};fr.readAsText(t.files[0])}});
 document.addEventListener("click",function(e){
  var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act,d=t.dataset;
- if(a=="nav"){view=d.v;window.scrollTo(0,0);render();return}
+ if(a=="nav"){view=d.v;state.profileView=null;window.scrollTo(0,0);render();return}
+ if(a=="profile"){state.profileView='profile';render();return}
+ if(a=="account"){state.profileView="account";render();return}
+ if(a=="release"){state.profileView="release";render();return}
+ if(a=="saveprofile"){state.profile=state.profile||{};state.profile.name=$("profName").value.trim();state.profile.email=$("profEmail").value.trim();save();note("Profile saved.");render();return}
+ if(a=="fbconnect"){var raw=$("fbConfig").value.trim();if(!raw){note("Paste your Firebase config first.");return}try{var cfg=JSON.parse(raw);if(window.habitaCloud&&window.habitaCloud.configure){window.habitaCloud.configure(cfg);state.cloud={configured:true};save();render();}else note("Cloud module is not available in this browser.");}catch(err){note("That Firebase config is not valid JSON.");}return}
+ if(a=="fbsignout"){if(window.habitaCloud&&window.habitaCloud.signOut)window.habitaCloud.signOut().then(function(){render()});return}
+ if(a=="fbgoogle"){if(window.habitaCloud&&window.habitaCloud.googleLogin)window.habitaCloud.googleLogin().then(function(u){state.profile.email=u&&u.email||state.profile.email||"";save();render()}).catch(function(e){note(e&&e.message?e.message:"Google sign-in could not be completed.")});else note("Google sync is not available yet.");return}
+ if(a=="fbsync"){if(window.habitaCloud&&window.habitaCloud.syncNow)window.habitaCloud.syncNow(state).then(function(remote){if(remote){state=remote;save();render();note("Cloud data restored.")}else note("Nothing to restore from cloud yet.")});return}
+ if(a=="deleteaccount"){if(confirm("Delete all local Habita data? This cannot be undone.")){try{localStorage.removeItem(KEY)}catch(err){}state=load();render();}return}
+ if(a=="awards"){state.profileView='awards';state.awardView=null;render();return}
+ if(a=="awarddetail"){if(state.ach[d.award]){state.awardView=d.award;render();}return}
+ if(a=="closeaward"){state.awardView=null;render();return}
+ if(a=="profileback"){state.profileView=null;render();return}
+ if(a=="journalentry"){view='journal';state.profileView=null;state.journalJump=d.k;render();setTimeout(function(){var el=document.querySelector('[data-jdate="'+d.k+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},30);return}
+ if(a=="milestone"){var mk=d.k,txt=(state.journal[mk]||'').trim();if(!txt){note('Write something in the Journal first.');return}state.milestoneDraft={date:mk,text:txt,type:'milestone',title:''};render();return}
+ if(a=="cancelmilestone"){state.milestoneDraft=null;render();return}
+ if(a=="savemilestone"){var md=state.milestoneDraft||{},type=md.type||'milestone',title=(md.title||'').trim(),txt=(md.text||'').trim(),date=md.date||key(daysBack(0));if(!title){var defaults={'first-pitch':'First Pitch','first-client':'First Client','first-project':'First Project','income-10k':'First ₦10k','income-50k':'First ₦50k','income-100k':'First ₦100k','milestone':'First Milestone'};title=defaults[type]||'Personal Milestone'}var id=type==='milestone'?(state.ach['first-milestone']?'milestone-'+date+'-'+uid():'first-milestone'):type;var icon=type;award(id,title,{date:date,journalDate:date,note:txt,category:type});state.milestones=state.milestones||[];state.milestones.push({id:id,date:date,type:type,title:title,note:txt});state.milestoneDraft=null;save();render();return}
+ if(a=="mood"){var tk=key(daysBack(0));state.moods[tk]=d.v;save();render();return}
+ if(a=="monthly"){state.monthlyView=previousMonth();render();return}
+ if(a=="savemonth"){var k=d.k;state.monthly[k]=state.monthly[k]||{};state.monthly[k].reflection=$('mref')?$('mref').value.trim():state.monthly[k].reflection||'';state.monthly[k].opened=key(daysBack(0));state.monthlyView=null;save();render();return}
+ if(a=="savetest"){var pk=d.k;state.tests[pk]=state.tests[pk]||{};['learn','hard','proof'].forEach(function(x){var el=$('t-'+x);state.tests[pk][x]=el?el.value.trim():state.tests[pk][x]||''});state.tests[pk].done=key(daysBack(0));save();render();return}
+ if(a=="yearly"){state.yearlyView=true;render();return}
+ if(a=="saveyear"){var yy=d.y;state.yearly=state.yearly||{};state.yearly[yy]=$('yref')?$('yref').value.trim():state.yearly[yy]||'';state.yearlyView=false;save();render();return}
  if(a=="dismiss"){state.notices=state.notices.filter(function(n){return n.id!=d.id});save();render();return}
  if(a=="gotoplan"){view="goals";startPlanner();render();return}
  if(a=="edit"){editing=!editing;render();return}
@@ -596,7 +676,7 @@ document.addEventListener("click",function(e){
  if(a=="pcapply"){applyProposal();return}
  if(a=="pckeep"){state.proposal=null;if(state.review)state.review.next=key(addDays(new Date(),7));note("Kept your current plan.");save();render();return}
  if(a=="unlockg"){var gu=goalById(d.g),cu=gu?COINS*(gu.stage||21):0;
-  if(gu&&gu.locked&&balance()>=cu){state.spent=(state.spent||0)+cu;gu.locked=false;gu.activated=key(daysBack(0));gu.role="Supporting";var got=0;
+  if(gu&&gu.locked&&balance()>=cu){state.spent=(state.spent||0)+cu;gu.locked=false;gu.activated=key(daysBack(0));gu.stageStarted=gu.activated;gu.role="Supporting";var got=0;
    while(gu.queue.length&&got<2){var q=gu.queue.shift(),ex=q.k&&allHabits().find(function(z){return z.h.k==q.k});
     if(ex){if(ex.g.id!=gu.id&&ex.h.also.indexOf(gu.id)<0)ex.h.also.push(gu.id);continue}
     gu.habits.push(mkHabit(q,{also:q.also||[]}));got++}
@@ -620,12 +700,53 @@ document.addEventListener("click",function(e){
   if(!hs.length){wiz.err="Pick at least one habit, or add your own.";render();return}
   var tot=parseInt(wiz.total,10);
   state.start=state.start||key(daysBack(0));if(!state.review)state.review={next:key(addDays(new Date(),7))};
-  state.goals.push({id:uid(),name:wiz.name,why:wiz.why.trim(),mins:wiz.mins,role:"",queue:[],lib:wiz.lib!="custom"?wiz.lib:"",stage:21,reward:"",locked:false,activated:key(daysBack(0)),book:wiz.lib=="reading"&&tot>0?{title:wiz.title.trim(),total:tot,read:0}:null,habits:hs});
+  state.goals.push({id:uid(),name:wiz.name,why:wiz.why.trim(),mins:wiz.mins,role:"",queue:[],lib:wiz.lib!="custom"?wiz.lib:"",stage:21,stageIndex:0,stageStarted:key(daysBack(0)),reward:"",locked:false,activated:key(daysBack(0)),book:wiz.lib=="reading"&&tot>0?{title:wiz.title.trim(),total:tot,read:0}:null,habits:hs});
   wiz=null;save();render()}
 });
 document.addEventListener("visibilitychange",function(){if(!document.hidden)render()});
 applyTheme();render();
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script>
-</body>
+<script type="module">
+window.habitaCloud=(function(){
+  var app=null,auth=null,db=null,user=null,configured=false;
+  var cfgKey="habita-firebase-config";
+  // Habita's Firebase web-app configuration. This is safe to ship in a web app;
+  // access control is enforced by Firebase Authentication + Firestore Security Rules.
+  var DEFAULT_CONFIG={
+    apiKey:"AIzaSyDu-hd06dbpBZmDbVzqOagi5vGuqXtfRdI",
+    authDomain:"habita-2ccd9.firebaseapp.com",
+    projectId:"habita-2ccd9",
+    storageBucket:"habita-2ccd9.firebasestorage.app",
+    messagingSenderId:"188542030107",
+    appId:"1:188542030107:web:18a64413ae4e97e07ac3be"
+  };
+  async function ensure(){
+    if(app)return;
+    var cfg=DEFAULT_CONFIG;
+    try{cfg=JSON.parse(localStorage.getItem(cfgKey)||"null")||DEFAULT_CONFIG}catch(e){cfg=DEFAULT_CONFIG}
+    if(!cfg)throw new Error("Firebase is not configured yet.");
+    var f=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
+    var a=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js");
+    var d=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+    app=f.initializeApp(cfg);auth=a.getAuth(app);db=d.getFirestore(app);configured=true;
+    a.onAuthStateChanged(auth,function(u){user=u; if(window.render)window.render()});
+    window.habitaCloud._mods={auth:a,fire:d};
+  }
+  async function configure(cfg){localStorage.setItem(cfgKey,JSON.stringify(cfg));app=null;auth=null;db=null;configured=false;await ensure();return true}
+  async function googleLogin(){await ensure();var provider=new window.habitaCloud._mods.auth.GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});var r=await window.habitaCloud._mods.auth.signInWithPopup(auth,provider);user=r.user;var local=window.state,remote=await syncNow(local);
+    if(remote&&remote!==local){
+      window.state=remote;try{window.localStorage.setItem(window.KEY||"habita-v2",JSON.stringify(remote))}catch(e){}
+    }
+    if(window.render)window.render();
+    return user}
+  async function signOut(){await ensure();await window.habitaCloud._mods.auth.signOut();user=null}
+  async function syncNow(local){await ensure();if(!user)throw new Error("Sign in first.");var ref=window.habitaCloud._mods.fire.doc(db,"users",user.uid);var snap=await window.habitaCloud._mods.fire.getDoc(ref);if(snap.exists())return snap.data().state||null;await window.habitaCloud._mods.fire.setDoc(ref,{state:local||window.state,updatedAt:window.habitaCloud._mods.fire.serverTimestamp()});return local||window.state}
+  var timer=null;
+  async function queueSave(st){if(!user)return;clearTimeout(timer);timer=setTimeout(async function(){try{await ensure();if(!user)return;var ref=window.habitaCloud._mods.fire.doc(db,"users",user.uid);await window.habitaCloud._mods.fire.setDoc(ref,{state:st,updatedAt:window.habitaCloud._mods.fire.serverTimestamp()},{merge:true})}catch(e){console.warn("Habita cloud sync",e)}},900)}
+  function status(){return{configured:!!(configured||localStorage.getItem(cfgKey)||DEFAULT_CONFIG),signedIn:!!user,email:user?user.email:""}}
+  ensure().catch(function(){});
+  return{configure:configure,googleLogin:googleLogin,signOut:signOut,syncNow:syncNow,queueSave:queueSave,status:status};
+})();
+</script></body>
 </html>
