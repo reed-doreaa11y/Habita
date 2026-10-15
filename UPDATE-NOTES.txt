@@ -1,0 +1,10 @@
+Habita v51 — Calm, action-first UI redesign
+
+- Visual refresh across the app: calm warm-neutral surfaces, restrained green accent, quieter borders, more readable spacing and simpler controls.
+- Habits/Today is now the opening screen, so the user lands directly on the daily action list.
+- Bottom navigation order is now Today, Goals, Journal, Profile. Existing sections remain available.
+- Keeps existing goal planning, adaptive pathways/checkpoints, daily goals, routine-aware scheduling, time-of-day filters, focus timer, journal, awards, account/sync, theme controls, and data model.
+- Existing localStorage data keys are unchanged; no data migration or reset is introduced.
+- Updated service-worker cache version so installed clients can receive the new UI assets.
+
+Validation: checked inline JavaScript syntax and ZIP integrity. A full production build and live Firebase/device testing have not been run in this environment.

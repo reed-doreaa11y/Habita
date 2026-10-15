@@ -1,27 +1,30 @@
-# Habita v39 — npm/Vite foundation
+# Habita v41 — AI planning feature
 
-This version moves Firebase imports from CDN dynamic imports into a standard npm-managed Vite project. It preserves the existing single-page UI and PWA assets while making Firebase AI Logic available through `window.habitaAI.ask(prompt)`.
+This version builds on v40's Vite/npm setup and Firebase AI Logic helper. It adds an optional **Get AI planning advice** action to step 2 of the multi-goal planner. The request only uses the goals and schedule details the user entered in that planner. The regular rule-based plan remains available if AI fails.
 
-## Local development
+## Vercel setup
 
-1. Install Node.js 20.19+ or 22.12+.
-2. Run `npm install`.
-3. Run `npm run dev` and open the local URL printed by Vite.
-4. Run `npm run build` before deploying.
+- Framework preset: Vite
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variable: `VITE_RECAPTCHA_ENTERPRISE_SITE_KEY` = the **site key** for the reCAPTCHA Enterprise key you registered with Firebase App Check. This is a public site key, not a secret. Set it for Production (and Preview if you test there), then redeploy.
 
-## Vercel deployment
+## Firebase setup
 
-Import/push this project to GitHub. In Vercel, set Build Command to `npm run build` and Output Directory to `dist`. Framework preset can be Vite.
+- Firebase AI Logic should be configured with the Gemini Developer API provider.
+- App Check should be registered for the Habita Web app and configured to use the matching reCAPTCHA Enterprise site key.
+- Do not enable production enforcement until the deployed app can successfully obtain App Check tokens and make a test AI request; if the guided setup already enforced AI Logic, use the production provider configuration rather than disabling protection.
+- AI model availability and free-tier quotas vary. If the request fails, Habita's regular planner still works.
 
-## Firebase AI Logic status
+## Test
 
-- SDK package is included via the `firebase` npm dependency.
-- `window.habitaAI.ask(prompt)` is a minimal lazy AI helper using the Gemini Developer API backend and `gemini-2.5-flash`.
-- This is not yet wired to a visible planner/reflection control.
-- Complete App Check configuration in Firebase Console before production use. Do not add a localhost debug token to production.
-- Model availability/free quota can vary by project/region and provider policy. If AI fails, the existing planner remains available.
+1. Confirm the environment variable is set in Vercel and redeploy.
+2. Open the deployed app and open the multi-goal planner.
+3. Enter one or more goals and a weekly hour amount, then continue.
+4. On “About your day”, tap **Get AI planning advice**.
+5. Confirm a response appears. If it fails, use the exact error shown to troubleshoot.
+6. Tap **Build my plan** to confirm the regular planner still works.
 
-## Notes
+## Privacy note
 
-- Firebase web config is client configuration, not a secret; security must be enforced with Firebase Security Rules and App Check.
-- Existing service worker and manifest are retained. Verify PWA install/update behaviour after deployment because the app is now built into `dist`.
+The AI prompt includes the goals, deadline, available hours, schedule, energy selection and obstacle text entered into this planner. Do not submit information you don't want sent to the AI provider.
