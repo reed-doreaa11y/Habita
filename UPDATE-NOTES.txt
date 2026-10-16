@@ -1,3 +1,11 @@
+Habita v69 — Write tab Done fixed, Edit removed from Home, calendar footer trimmed
+
+- Write tab: Done (and the back arrow) did nothing because saving called a helper that was missing (autoMilestoneType). It is restored, and a failed award check can no longer block saving.
+- Home: the Edit button at the bottom is removed. Goal editing now lives behind a pencil icon next to the + on the Goals tab.
+- Calendar: the only text under the month is now "Ring shows habits completed that day".
+
+Validation: inline JavaScript syntax checked; in a headless browser Done saved the reflection and closed the page, Home had no Edit button, and the calendar footer showed only the ring line.
+
 Habita v68 (rebuilt) — package.json and public/sw.js were accidentally empty in v66 to v68 and are restored. Nothing else changed.
 
 Habita v68 — Monthly summaries save themselves
@@ -116,3 +124,14 @@ Habita v55 — Almanac and navigation update
 - Existing storage key and saved data format are preserved.
 
 Validation: inline JavaScript syntax checked and ZIP integrity checked. Full production build and live-device/Firebase behavior still require testing.
+
+
+Habita v71 — Goal list and dedicated learning-path screen
+
+- Goals now appear as a clean list of tappable cards with a simple icon, goal name, optional reason, progress bar, and learning-path status.
+- Tapping a goal opens a dedicated detail screen instead of showing every goal's full path inline.
+- The detail screen leads with the goal and its learning path, then shows related habits and existing stage/reading progress.
+- Added an “All goals” back control. Existing path generation, editing, checkpoints, and goal data remain connected to the same saved goal records.
+- Updated the service-worker cache name to avoid serving the previous screen after deployment.
+
+Validation: inline JavaScript syntax checked and ZIP integrity checked. Production build could not run because Vite dependencies are not installed in this environment; live-device interactions still need testing.
