@@ -135,3 +135,8 @@ Habita v71 — Goal list and dedicated learning-path screen
 - Updated the service-worker cache name to avoid serving the previous screen after deployment.
 
 Validation: inline JavaScript syntax checked and ZIP integrity checked. Production build could not run because Vite dependencies are not installed in this environment; live-device interactions still need testing.
+
+v78 — Delete goal placement correction
+- Removed the always-visible Delete goal controls from goal cards.
+- Delete goal remains in the goal's management/edit area, where the existing confirmation asks before deleting the goal and its linked habits.
+- This version does not yet include an Undo/restore feature.
