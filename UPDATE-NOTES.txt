@@ -1,3 +1,13 @@
+Habita v57 — Home tab redesign
+
+- Home date is larger.
+- Swipeable cards at the top of Home: Today (progress ring + Keep going) and Daily Reflection (opens the same Write composer used in Almanac; shows a preview of today's entry once written).
+- Habits sit below the cards, grouped by time of day (Morning / Afternoon / Evening chips with done/total counts). It opens on the current period.
+- Nothing about habits shows on Home until a habit has actually started: no Today card, period chips, "Add a goal" prompt or Upcoming list. Habits appear on their start day.
+- Only the Daily Reflection card shows on a brand-new Home.
+
+Validation: inline JavaScript syntax checked; Home builder smoke-tested with stub data. Live-device behaviour still needs testing.
+
 Habita v55 — Almanac and navigation update
 
 - Main navigation is now Home, Almanac, Goals, and Profile.
