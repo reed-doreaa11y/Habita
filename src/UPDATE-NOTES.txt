@@ -1,0 +1,23 @@
+Habita v57 — Home tab redesign
+
+- Home date is larger.
+- Swipeable cards at the top of Home: Today (progress ring + Keep going) and Daily Reflection (opens the same Write composer used in Almanac; shows a preview of today's entry once written).
+- Habits sit below the cards, grouped by time of day (Morning / Afternoon / Evening chips with done/total counts). It opens on the current period.
+- Nothing about habits shows on Home until a habit has actually started: no Today card, period chips, "Add a goal" prompt or Upcoming list. Habits appear on their start day.
+- Only the Daily Reflection card shows on a brand-new Home.
+
+Validation: inline JavaScript syntax checked; Home builder smoke-tested with stub data. Live-device behaviour still needs testing.
+
+Habita v55 — Almanac and navigation update
+
+- Main navigation is now Home, Almanac, Goals, and Profile.
+- Almanac opens its own five-item navigation: Journal, Calendar, Write, Progress, and Challenges.
+- Journal displays a Monthly summary section with the placeholder “Your monthly summary appears here.” Saved reflections appear below it with their dates.
+- Write opens the existing reflection composer; saving reflections keeps them in Journal.
+- Calendar includes a month grid, month navigation, and indicators for dates with reflections or completed habits.
+- Progress reuses existing yearly/monthly progress calculations. Challenges reuses the existing awards/challenges catalogue.
+- Goals no longer displays the explanatory heading/card copy or the separate “Today’s goals” card. It shows “What do you want to become or achieve?” with the add button at the top.
+- The floating plus remains restricted to Home and continues to open Add daily schedule.
+- Existing storage key and saved data format are preserved.
+
+Validation: inline JavaScript syntax checked and ZIP integrity checked. Full production build and live-device/Firebase behavior still require testing.
