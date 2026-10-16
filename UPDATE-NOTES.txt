@@ -1,3 +1,13 @@
+Habita v68 — Monthly summaries save themselves
+
+- When a month ends, Habita saves its summary automatically (tracked days, complete days, best streak, most common mood, badges), whether or not you open it.
+- Almanac > Journal > Monthly summary now lists every saved month, newest first (for example "October 2026 · 22 complete days · best streak 6"). Tap one to open the tap-through story for that month, any time. The reflection is the last card.
+- Home carousel: a "Your <month>" card appears first for last month's summary and stays until you open it. Opening it from the card or from the Journal clears the card, and the summary stays in the Journal.
+- The pop-up on the 1st still works as before.
+- The saved numbers are fixed when the month is first saved, so later changes to habits do not rewrite past months.
+
+Validation: inline JavaScript syntax checked; in a headless browser with a finished month of data, the summary saved, the card opened the story and disappeared, and the Journal list reopened it.
+
 Habita v67 — Time of day dropdown, and Add a goal in the plus button
 
 - The Morning / Afternoon / Evening chips are replaced by a small dropdown button under the carousel cards (Today and Daily reflection). The menu lists just the three times of day, with no counts. Pick one and Home shows the habits you planned for that time. It starts on the current time of day.
