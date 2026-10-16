@@ -1,32 +1,13 @@
-Habita v53 — quieter Home screen
+Habita v55 — Almanac and navigation update
 
-- Removed the generic Home heading and habit-count/progress descriptions from the top of Home. The full date sits on the left and the automatic 🌥️/🌞/🌛 period badge sits on the right.
-- Removed the “Morning/Evening habits” heading and secondary descriptions from habit rows for a cleaner screen.
-- When no habits are scheduled for the current period, Home shows a centered “What a breather.” message with an “Add a goal” action.
-- The floating plus button is now restricted to the Home tab. Its existing action opens Add daily schedule.
-- Daily schedule commitments remain separate from goals and habits and appear after the current Home content.
-- Kept the existing localStorage key (`habita-v2`) and blue/neutral palette; no data reset or migration is intended.
+- Main navigation is now Home, Almanac, Goals, and Profile.
+- Almanac opens its own five-item navigation: Journal, Calendar, Write, Progress, and Challenges.
+- Journal displays a Monthly summary section with the placeholder “Your monthly summary appears here.” Saved reflections appear below it with their dates.
+- Write opens the existing reflection composer; saving reflections keeps them in Journal.
+- Calendar includes a month grid, month navigation, and indicators for dates with reflections or completed habits.
+- Progress reuses existing yearly/monthly progress calculations. Challenges reuses the existing awards/challenges catalogue.
+- Goals no longer displays the explanatory heading/card copy or the separate “Today’s goals” card. It shows “What do you want to become or achieve?” with the add button at the top.
+- The floating plus remains restricted to Home and continues to open Add daily schedule.
+- Existing storage key and saved data format are preserved.
 
-Validation: extracted and checked inline JavaScript syntax with Node.js. A full Vite production build and live Firebase/device testing have not been run.
-
-Habita v52 — time-aware Home and daily schedule
-
-- Home shows the full date and a top-right period badge using 🌥️ Morning, 🌞 Afternoon, or 🌛 Evening. The period follows local time and updates automatically.
-- Removed the Morning/Afternoon/Evening/Flexible filter tabs. Home now displays only habits scheduled for the current period.
-- Removed the per-habit Flexible time option from Home. Legacy habits without a concrete time are assigned a routine-aware time when shown.
-- Replaced the plus menu options with Add daily schedule.
-- Added a separate daily schedule form for real-life commitments, with optional start/end times, a date, optional weekly recurrence/day selection, and an optional note. These entries are independent of goals and habits and appear on Home for the relevant day.
-- Existing local data key remains habita-v2; no storage reset or migration of saved goal/journal data is intended.
-
-Build note: JavaScript syntax checks are run on the inline app script and the Firebase module. A full Vite build could not be confirmed in this environment because dependency installation did not finish.
-
-Habita v51 — Calm, action-first UI redesign (previous colors restored)
-
-- Visual refresh across the app: previous blue/neutral palette restored; cleaner spacing, typography, cards, and simpler controls retained.
-- Habits/Today is now the opening screen, so the user lands directly on the daily action list.
-- Bottom navigation order is now Today, Goals, Journal, Profile. Existing sections remain available.
-- Keeps existing goal planning, adaptive pathways/checkpoints, daily goals, routine-aware scheduling, time-of-day filters, focus timer, journal, awards, account/sync, theme controls, and data model.
-- Existing localStorage data keys are unchanged; no data migration or reset is introduced.
-- Updated service-worker cache version so installed clients can receive the new UI assets.
-
-Validation: checked inline JavaScript syntax and ZIP integrity. A full production build and live Firebase/device testing have not been run in this environment.
+Validation: inline JavaScript syntax checked and ZIP integrity checked. Full production build and live-device/Firebase behavior still require testing.

@@ -194,21 +194,52 @@ nav button.on svg{background:color-mix(in srgb,var(--accent) 10%,transparent);bo
 @media(min-width:560px){main{padding-left:24px;padding-right:24px}.card{padding:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+
+/* Almanac world and simplified goals */
+.goals-head{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:54px;margin:0 0 12px;font-size:1.18rem;font-weight:750;line-height:1.25}.goals-head>div{max-width:78%}
+.goals-empty{min-height:54vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:1.35rem;font-weight:700;line-height:1.3}
+.almanac-world{margin:-10px -2px 0}
+.almanac-top{padding:8px 0 18px}
+.almanac-top h1{font-family:Georgia,serif;font-size:2rem;margin:10px 0 4px}
+.almanac-top p{font-family:Georgia,serif;font-style:italic;color:var(--muted);margin:0}
+.almanac-content{padding-bottom:18px}
+.monthly-summary{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0 20px}
+.monthly-summary h2{font-size:1rem;margin:0 0 8px}
+.monthly-summary p{color:var(--muted);margin:0;line-height:1.5}
+.almanac-empty{min-height:36vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:var(--muted);gap:12px}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin:14px 0 22px}
+.calendar-head h2{font-family:Georgia,serif;font-size:1.35rem;margin:0}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.calendar-weekday{text-align:center;color:var(--muted);font-size:.75rem;padding:8px 0}
+.calendar-day{min-height:45px;border:1px solid transparent;border-radius:12px;background:transparent;color:var(--text);font:inherit;position:relative;display:flex;align-items:center;justify-content:center}
+.calendar-day.has-entry{background:color-mix(in srgb,var(--accent) 17%,var(--surface));border-color:var(--line)}
+.calendar-day.today{border-color:var(--accent);font-weight:800}
+.calendar-day i,.calendar-legend i{width:5px;height:5px;background:var(--accent);border-radius:50%;position:absolute;bottom:5px}
+.calendar-day.blank{pointer-events:none}
+.calendar-legend{font-size:.75rem;color:var(--muted);padding:12px 0 4px}.calendar-legend span{display:flex;align-items:center;gap:10px}.calendar-legend i{position:static;display:inline-block}
+.almanac-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.stat-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 4px;text-align:center;min-width:0}.stat-tile strong{display:block;font-size:1.25rem}.stat-tile span{display:block;color:var(--muted);font-size:.62rem;letter-spacing:.07em;margin-top:5px}
+nav .write-tab{position:relative;transform:translateY(-13px);padding-top:0;gap:3px;color:var(--accent);font-weight:700}
+nav .write-orb{display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:var(--accent);color:white;box-shadow:0 5px 20px color-mix(in srgb,var(--accent) 35%,transparent)}
+nav .write-orb svg{width:25px;height:25px;stroke:white}
+nav button.on:not(.write-tab) svg{background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:12px;box-sizing:content-box;padding:3px 8px;width:20px;height:20px}
+@media(max-width:390px){nav button{font-size:.62rem}.almanac-stats{gap:5px}.stat-tile strong{font-size:1.05rem}}
+
 </style>
 </head>
 <body>
 <main><div id="view"></div></main>
-<nav aria-label="Main">
-<button type="button" data-act="nav" data-v="habits"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Home</button>
+<nav id="mainNav" aria-label="Main">
+<button type="button" data-act="nav" data-v="habits"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>Home</button>
+<button type="button" data-act="nav" data-v="almanac"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v18H7.5A3.5 3.5 0 0 1 4 16.5z"/><path d="M4 6h16M8 2v18"/></svg>Almanac</button>
 <button type="button" data-act="nav" data-v="goals"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
-<button type="button" data-act="nav" data-v="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5"/></svg>Journal</button>
 <button type="button" data-act="nav" data-v="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.2 4-6 8-6s7 1.8 8 6"/></svg>Profile</button>
 </nav>
 <button id="fab" type="button" data-act="plus" aria-label="Add">+</button>
 <div id="sheetwrap"></div>
 <script>
 var $=function(i){return document.getElementById(i)};
-var PPM=0.5,KEY="habita-v2",OLD="habit-tracker-v1",editing=false,wiz=null,planner=null,view="habits",plusOpen=false,reflectDate=null,streakPopup=null;
+var PPM=0.5,KEY="habita-v2",OLD="habit-tracker-v1",editing=false,wiz=null,planner=null,view="habits",plusOpen=false,reflectDate=null,streakPopup=null,almanacSection="journal",calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 
 /* ---------- starter library (k = shared habit that serves several goals) ---------- */
 var LIB={
@@ -493,10 +524,7 @@ function lockedHTML(g){var cost=COINS*(g.stage||21),bal=balance(),q=g.queue||[];
 function habitsHTML(){
  var now=new Date(),today=key(now),past=[],upcoming=[];
  allHabits().forEach(function(x){var h=x.h;if(!h)return;var first=h.created||state.start||today;var lastDone=Object.keys(h.done||{}).sort().pop();if(lastDone&&lastDone<today||first<=today){past.push(x)}else upcoming.push(x)});
- var groups={};past.forEach(function(x){var ks=Object.keys(x.h.done||{});ks.forEach(function(k){if(k<=today){var m=k.slice(0,7);if(!groups[m])groups[m]=[];groups[m].push({x:x,k:k})}})});
- var months=Object.keys(groups).sort().reverse(),h=todayHabitsHTML()+dailyScheduleHTML()+'<p class="sub" style="margin-top:22px">Your completed habit history, month by month.</p>';
- if(!months.length)h+='<div class="card empty">No completed habits yet. Your checked habits will appear here.</div>';
- months.forEach(function(m){h+='<h2 class="sect">'+esc(monthName(m))+'</h2><div class="card">';var seen={};groups[m].sort(function(a,b){return b.k.localeCompare(a.k)}).forEach(function(e){var id=e.x.h.id+'|'+e.k;if(seen[id])return;seen[id]=1;h+='<div class="trow"><span class="ttime">'+esc(new Date(e.k+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}))+'</span><span style="color:var(--done);font-weight:800">✓</span><div class="tmain"><div class="name">'+esc(e.x.h.name)+'</div><div class="streak">'+esc(e.x.g.name)+'</div></div></div>'});h+='</div>'});
+ var h=todayHabitsHTML()+dailyScheduleHTML();
  var future=allHabits().filter(function(x){return (x.h.created||today)>today});if(future.length){h+='<h2 class="sect">Upcoming</h2><div class="card">'+future.map(function(x){return'<div class="trow"><span class="ttime">'+esc(new Date(x.h.created+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}))+'</span><div class="tmain"><div class="name">'+esc(x.h.name)+'</div><div class="streak">'+esc(x.g.name)+'</div></div></div>'}).join('')+'</div>'}
  return h+'<div class="tools"><button class="link" data-act="edit" type="button">'+(editing?'Done editing':'Edit')+'</button></div>';}
 
@@ -518,9 +546,8 @@ function pathHTML(g){
 function goalsHTML(){
  var h="";
  if(planner)h+=plannerHTML();else if(wiz)h+=wizHTML();
- h+=dailyGoalsHTML();
  h+=rewardsHTML();
- if(!state.goals.length&&!wiz&&!planner)h+='<div class="card empty">No goals yet. Tap + to add something you want to become or achieve.</div>';
+ if(!state.goals.length&&!wiz&&!planner)h+='<div class="goals-empty"><div>What do you want to become or achieve?</div></div>';
  state.goals.forEach(function(g){
   var hs=goalHabits(g),pct=Math.round(goalProgress(g)*100),q=g.queue||[];
   if(g.locked){h+=lockedHTML(g);return}
@@ -568,15 +595,28 @@ function renderMonthlyPopup(){var k=monthlyPopupMonth(),ny=k?null:newYearPopupYe
 function savedReflectionsHTML(){var ks=Object.keys(state.monthly||{}).filter(function(k){return state.monthly[k]&&state.monthly[k].reflection}).sort().reverse();if(!ks.length)return'';return'<h2 class="sect">Monthly reflections</h2>'+ks.map(function(k){return'<div class="card"><div class="streak" style="margin-bottom:6px">🌱 '+esc(monthName(k))+' reflection</div><div style="white-space:pre-wrap">'+esc(state.monthly[k].reflection)+'</div></div>'}).join('')}
 function testMonth(){var now=new Date(),day=now.getDate(),last=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();return day>=Math.max(1,last-6)?monthKey(now):null}
 function testHTML(){var pm=testMonth(),t=pm?(state.tests[pm]||{}):{};if(!pm)return'';var active=state.goals.filter(function(g){return !g.locked&&g.activated&&!g.completed})[0],label=active?stageLabel(active):"your current focus",q=active?[['What did you learn or become better at during '+esc(label)+'?','learn'],['What part of '+esc(label)+' still feels difficult?','hard'],['Show your evidence: what can you now actually do, make, solve, explain, or demonstrate?','proof']]:[['What is one thing you learned or improved this month?','learn'],['What was the hardest part this month?','hard'],['What practical evidence shows your progress?','proof']];return'<div class="card"><h2>🧪 Monthly checkpoint</h2><p class="note left">This checkpoint looks at <strong>'+esc(label)+'</strong>. It is evidence for your pathway, not a pass/fail judgment.</p>'+q.map(function(x){return'<label class="lbl" for="t-'+x[1]+'">'+x[0]+'</label><textarea id="t-'+x[1]+'" rows="3" maxlength="800">'+esc(t[x[1]]||'')+'</textarea>'}).join('')+'<div class="btnrow"><button class="primary" data-act="savetest" data-k="'+pm+'" type="button">Complete checkpoint</button></div>'+(t.done?'<p class="note left ok">Checkpoint completed. Habita has your evidence for this month.</p>':'')+'</div>'}
-function journalEmpty(){return !hasGoal()&&!Object.keys(state.journal||{}).some(function(k){return state.journal[k]})}
+function journalEmpty(){return !Object.keys(state.journal||{}).some(function(k){return state.journal[k]})}
 function hasGoal(){return state.goals.some(function(g){return g.activated})}
 function todayLabel(){return new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}
-function journalEmptyHTML(){return'<div class="jempty"><div class="jdate">'+esc(todayLabel())+'</div><p>Your day, your progress, and the things worth remembering.</p></div>'}
-function dailyReflectionHTML(){var tk=key(daysBack(0)),t=(state.journal[tk]||"").trim();
-if(t)return'<div class="card" data-jdate="'+tk+'"><h2>Daily reflection</h2><div style="white-space:pre-wrap;margin-top:8px">'+esc(t)+'</div><div class="milestone-actions"><button class="link" data-act="editrefl" data-k="'+tk+'" type="button">✏️ Edit</button></div></div>';
-return'<div class="card" data-jdate="'+tk+'"><h2>Daily reflection</h2><button class="primary" data-act="plusrefl" type="button">Write today’s reflection</button></div>'}
-
-function journalHTML(){if(journalEmpty())return journalEmptyHTML();var h=dailyReflectionHTML();if(state.milestoneDraft)h=milestoneFormHTML()+h;return h}
+function journalHTML(){
+ var entries=Object.keys(state.journal||{}).filter(function(k){return String(state.journal[k]||'').trim()}).sort().reverse();
+ var current=monthKey(new Date()),summary=monthStats(previousMonth());
+ var h='<section class="almanac-journal"><div class="monthly-summary"><h2>Monthly summary</h2><p>Your monthly summary appears here.</p></div>';
+ if(entries.length){h+='<h2 class="sect">Your reflections</h2>'+entries.map(function(k){return '<article class="card"><div class="streak" style="margin-bottom:8px">'+esc(new Date(k+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"long",day:"numeric",year:"numeric"}))+'</div><div style="white-space:pre-wrap">'+esc(state.journal[k])+'</div><div class="milestone-actions"><button class="link" data-act="editrefl" data-k="'+esc(k)+'" type="button">Edit</button></div></article>'}).join('')}
+ else h+='<div class="almanac-empty"><p>Your saved reflections will appear here.</p><button class="primary" data-act="writeReflection" type="button">Write a reflection</button></div>';
+ return h+'</section>';
+}
+function almanacCalendarHTML(){
+ var d=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1),mk=monthKey(d),first=d.getDay(),days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+ var entries=Object.keys(state.journal||{}),monthEntries=entries.filter(function(k){return k.slice(0,7)===mk&&String(state.journal[k]||'').trim()});
+ var h='<div class="calendar-head"><button class="iconbtn" data-act="calprev" type="button" aria-label="Previous month">‹</button><h2>'+esc(d.toLocaleDateString(undefined,{month:"long",year:"numeric"}))+'</h2><button class="iconbtn" data-act="calnext" type="button" aria-label="Next month">›</button></div><div class="calendar-grid">'+['S','M','T','W','T','F','S'].map(function(x){return '<div class="calendar-weekday">'+x+'</div>'}).join('');
+ for(var i=0;i<first;i++)h+='<div class="calendar-day blank"></div>';
+ for(var day=1;day<=days;day++){var k=mk+'-'+String(day).padStart(2,'0'),has=!!(state.journal[k]&&String(state.journal[k]).trim()),done=allHabits().some(function(x){return x.h.done&&x.h.done[k]});h+='<button class="calendar-day'+(has?' has-entry':'')+(k===key(new Date())?' today':'')+'" data-act="calday" data-k="'+k+'" type="button"><span>'+day+'</span>'+(has||done?'<i></i>':'')+'</button>'}
+ h+='</div><div class="calendar-legend"><span><i></i> Days with reflections or completed habits</span></div><div class="monthly-summary"><h2>Monthly summary</h2><p>'+monthEntries.length+' reflection'+(monthEntries.length===1?'':'s')+' saved this month.</p></div>';
+ return h;
+}
+function almanacProgressHTML(){var m=monthStats(monthKey(new Date())),y=yearStats(new Date().getFullYear());return '<div class="almanac-stats"><div class="stat-tile"><strong>'+Object.keys(state.journal||{}).filter(function(k){return state.journal[k]}).length+'</strong><span>ENTRIES</span></div><div class="stat-tile"><strong>'+curStreak()+'</strong><span>STREAK</span></div><div class="stat-tile"><strong>'+m.longest+'</strong><span>BEST</span></div><div class="stat-tile"><strong>'+m.done+'</strong><span>HABITS DONE</span></div></div><div class="card"><h2>This month</h2><div class="two"><div><strong>'+m.completeDays+'</strong><span class="streak">completed days</span></div><div><strong>'+y.goals+'</strong><span class="streak">completed goals</span></div></div></div>'+yearlyHTML()}
+function almanacHTML(){var labels={journal:'Journal',calendar:'Calendar',progress:'Progress',challenges:'Challenges'};var h='<section class="almanac-world"><div class="almanac-top"><button class="link" data-act="leaveAlmanac" type="button">← Habita</button><div><h1>The Almanac</h1><p>A map of your written days.</p></div></div><div class="almanac-content">';if(almanacSection==='journal')h+=journalHTML();else if(almanacSection==='calendar')h+=almanacCalendarHTML();else if(almanacSection==='progress')h+=almanacProgressHTML();else if(almanacSection==='challenges')h+=awardsHTML();h+='</div></section>';return h}
 function yearlyHTML(){var y=new Date().getFullYear(),s=yearStats(y);return'<div class="card"><h2>🏆 Your '+y+' with Habita</h2><p class="note left">A year is more than perfect streaks. This is the record of what you actually built.</p><div class="two" style="margin-top:14px"><div><strong>'+s.completedDays+'</strong><span class="streak">complete days</span></div><div><strong>'+s.best+'</strong><span class="streak">best streak</span></div><div><strong>'+s.goals+'</strong><span class="streak">completed goals</span></div><div><strong>'+s.badges+'</strong><span class="streak">badges earned</span></div></div><label class="lbl" for="yref">What are you proud of this year?</label><textarea id="yref" rows="5" maxlength="1800">'+esc(state.yearly&&state.yearly[y]||'')+'</textarea><div class="btnrow"><button class="primary" data-act="saveyear" data-y="'+y+'" type="button">Save yearly reflection</button></div></div>'}
 function awardCatalog(){return[{id:'s7',icon:'🔥',title:'7-Day Streak',desc:'Show up for seven days.' ,cat:'Consistency'},{id:'s21',icon:'🔥',title:'21-Day Streak',desc:'Build a three-week streak.',cat:'Consistency'},{id:'s30',icon:'🔥',title:'30-Day Streak',desc:'Maintain a full month of consistency.',cat:'Consistency'},{id:'s60',icon:'🔥',title:'60-Day Streak',desc:'Keep showing up for two months.',cat:'Consistency'},{id:'s100',icon:'🔥',title:'100-Day Streak',desc:'A hundred days of consistency.',cat:'Consistency'},{id:'first-milestone',icon:'🌱',title:'First Milestone',desc:'Record your first meaningful personal milestone.',cat:'Growth'},{id:'first-pitch',icon:'✍️',title:'First Pitch',desc:'Send your first genuine pitch.',cat:'Work'},{id:'first-client',icon:'🤝',title:'First Client',desc:'Get your first paying client.',cat:'Work'},{id:'first-project',icon:'💻',title:'First Project',desc:'Complete your first practical project.',cat:'Building'},{id:'income-10k',icon:'💰',title:'First ₦10k',desc:'Record your first ₦10,000 of income.',cat:'Income'},{id:'income-50k',icon:'💰',title:'First ₦50k',desc:'Record your first ₦50,000 of income.',cat:'Income'},{id:'income-100k',icon:'💰',title:'First ₦100k',desc:'Record your first ₦100,000 of income.',cat:'Income'}]}
 function earnedAward(id){return state.ach&&state.ach[id]}
@@ -798,13 +838,17 @@ return b+'</div>'}
 function renderSheet(){var w=$("sheetwrap");if(w)w.innerHTML=sheetHTML();var f=$("fab");if(f)f.style.display=(view!=="habits"||wiz||planner||plusOpen)?"none":"flex";var r=$("rText");if(r)r.focus()}
 function render(){window.state=state;
  refresh();
- var t={habits:"Home",goals:"Goals",journal:"Journal",more:"Settings"}[view],h=view=="habits"?'':view=="journal"?(state.yearlyView||journalEmpty()?'':'<div class="jhead"><h1>'+esc(todayLabel())+'</h1><div class="jstreak'+(curStreak()?' on':'')+'" title="Current streak"><span class="'+(curStreak()?'fire-active':'fire-muted')+'">🔥</span> '+curStreak()+'</div></div>'):view=="profile"?'':view=="goals"?'<div class="jhead"><h1>Goals</h1>'+(state.goals.length&&!wiz&&!planner?'<button class="iconbtn'+(editing?' on':'')+'" data-act="edit" type="button" aria-label="'+(editing?'Done editing':'Edit goals')+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>':'')+'</div>':'<h1>'+t+'</h1>';
- h+=view=="habits"?habitsHTML():view=="goals"?goalsHTML():view=="journal"?(state.yearlyView?yearlyHTML():journalHTML()):view=="profile"?profileTabHTML():moreHTML();
+ var t={habits:"Home",goals:"Goals",profile:"Profile"}[view],h='';
+ if(view==="goals")h='<div class="goals-head"><div>What do you want to become or achieve?</div><button class="iconbtn" data-act="plusgoals" type="button" aria-label="Add a goal"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>';
+ else if(view==="profile")h='';
+ else if(view==="almanac")h='';
+ else if(view==="habits")h='';
+ h+=view==="habits"?habitsHTML():view==="goals"?goalsHTML():view==="almanac"?almanacHTML():view==="profile"?profileTabHTML():moreHTML();
  $("view").innerHTML=h;
  renderMonthlyPopup();renderSheet();
  var sp=document.getElementById("streakPopupLayer");if(sp)sp.remove();if(streakPopup){var layer=document.createElement("div");layer.id="streakPopupLayer";layer.className="streak-pop";layer.setAttribute("role","dialog");layer.setAttribute("aria-modal","true");layer.innerHTML='<div class="streak-pop-card"><div class="streak-pop-fire">🔥</div><h2>'+(streakPopup.days===1?"Your streak has started!":"Streak continued!")+'</h2><p>'+(streakPopup.days===1?"You completed enough of today’s habits to start your streak.":"You’ve reached "+streakPopup.days+" days in a row. Keep showing up for yourself!")+'</p><button class="primary" data-act="streakclose" type="button">'+(streakPopup.days===1?"Let’s keep it going":"Nice!")+'</button></div>';document.body.appendChild(layer)}
  if(view=="habits")renderTimer();
- Array.prototype.forEach.call(document.querySelectorAll("nav button"),function(b){var on=b.dataset.v==view;b.className=on?"on":"";if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
+ var inAlmanac=view==="almanac";var nav=document.getElementById("mainNav");if(nav){nav.innerHTML=inAlmanac?'<button type="button" data-act="almanacSection" data-v="journal" class="'+(almanacSection==="journal"?'on':'')+'"><svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v18H7.5A3.5 3.5 0 0 1 4 16.5z"/><path d="M4 6h16M8 2v18"/></svg>Journal</button><button type="button" data-act="almanacSection" data-v="calendar" class="'+(almanacSection==="calendar"?'on':'')+'"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Calendar</button><button type="button" data-act="writeReflection" class="write-tab"><span class="write-orb"><svg viewBox="0 0 24 24"><path d="m4 16-.8 4.8L8 20l11-11-4-4z"/><path d="m13.5 6.5 4 4"/></svg></span>Write</button><button type="button" data-act="almanacSection" data-v="progress" class="'+(almanacSection==="progress"?'on':'')+'"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/></svg>Progress</button><button type="button" data-act="almanacSection" data-v="challenges" class="'+(almanacSection==="challenges"?'on':'')+'"><svg viewBox="0 0 24 24"><path d="M7 3h10v5a5 5 0 0 1-10 0zM7 5H3v2a5 5 0 0 0 5 5M17 5h4v2a5 5 0 0 1-5 5M12 13v5M8 21h8M10 18h4"/></svg>Challenges</button>':'<button type="button" data-act="nav" data-v="habits" class="'+(view==="habits"?'on':'')+'"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>Home</button><button type="button" data-act="nav" data-v="almanac" class="'+(view==="almanac"?'on':'')+'"><svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v18H7.5A3.5 3.5 0 0 1 4 16.5z"/><path d="M4 6h16M8 2v18"/></svg>Almanac</button><button type="button" data-act="nav" data-v="goals" class="'+(view==="goals"?'on':'')+'"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button><button type="button" data-act="nav" data-v="profile" class="'+(view==="profile"?'on':'')+'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.2 4-6 8-6s7 1.8 8 6"/></svg>Profile</button>';Array.prototype.forEach.call(nav.querySelectorAll("button"),function(b){if(b.classList.contains("on"))b.setAttribute("aria-current","page")})}}
 document.addEventListener("input",function(e){var t=e.target,id=t.id,v=t.value;
  if(id=="jText"){var tk=key(daysBack(0));if(v.trim())state.journal[tk]=v;else delete state.journal[tk];save();return}
  if(id=="msType"||id=="msTitle"||id=="msNote"){state.milestoneDraft=state.milestoneDraft||{};if(id=="msType")state.milestoneDraft.type=v;else if(id=="msTitle")state.milestoneDraft.title=v;else state.milestoneDraft.text=v;save();return}
@@ -837,9 +881,15 @@ document.addEventListener("click",function(e){
  if(a=="plusrefl"){reflectDate=null;plusOpen="reflect";render();return}
  if(a=="pluspland"){plusOpen=false;view="goals";state.profileView=null;startPlanner();window.scrollTo(0,0);render();return}
  if(a=="plusone"){plusOpen=false;view="goals";state.profileView=null;wiz={step:1,lib:null,name:"",why:"",mins:10,obs:"",title:"",total:"",own:"",sug:[],picks:[],goalType:"learning",pathMode:"ai",pathDraft:"",err:""};window.scrollTo(0,0);render();return}
- if(a=="plussave"){var rt=$("rText")?$("rText").value.trim():"";if(reflectDate){if(rt){state.journal[reflectDate]=rt;autoAwardsFromReflection(rt,reflectDate)}else delete state.journal[reflectDate];save()}else if(rt){var rk=key(daysBack(0)),ex=(state.journal[rk]||"").trim();state.journal[rk]=ex?ex+"\n\n"+rt:rt;autoAwardsFromReflection(rt,rk);save();view="journal";state.profileView=null}plusOpen=false;reflectDate=null;render();return}
+ if(a=="plussave"){var rt=$("rText")?$("rText").value.trim():"";if(reflectDate){if(rt){state.journal[reflectDate]=rt;autoAwardsFromReflection(rt,reflectDate)}else delete state.journal[reflectDate];save()}else if(rt){var rk=key(daysBack(0)),ex=(state.journal[rk]||"").trim();state.journal[rk]=ex?ex+"\n\n"+rt:rt;autoAwardsFromReflection(rt,rk);save();if(view!=="almanac")view="almanac";almanacSection="journal";state.profileView=null}plusOpen=false;reflectDate=null;render();return}
  if(a=="editrefl"){reflectDate=d.k;plusOpen="reflect";render();return}
- if(a=="nav"){view=d.v;state.profileView=null;window.scrollTo(0,0);render();return}
+ if(a=="nav"){view=d.v;state.profileView=null;if(view==="almanac")almanacSection="journal";window.scrollTo(0,0);render();return}
+ if(a=="almanacSection"){almanacSection=d.v;render();return}
+ if(a=="leaveAlmanac"){view="habits";window.scrollTo(0,0);render();return}
+ if(a=="writeReflection"){reflectDate=null;plusOpen="reflect";render();return}
+ if(a=="calprev"){calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);render();return}
+ if(a=="calnext"){calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);render();return}
+ if(a=="calday"){var ck=d.k;if(state.journal[ck]){reflectDate=ck;plusOpen="reflect";render()}else{reflectDate=ck;plusOpen="reflect";render()}return}
  if(a=="profile"){state.profileView='profile';render();return}
  if(a=="account"){state.profileView="account";render();return}
  if(a=="release"){state.profileView="release";render();return}
