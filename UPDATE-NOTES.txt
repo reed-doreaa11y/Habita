@@ -1,3 +1,5 @@
+Habita v68 (rebuilt) — package.json and public/sw.js were accidentally empty in v66 to v68 and are restored. Nothing else changed.
+
 Habita v68 — Monthly summaries save themselves
 
 - When a month ends, Habita saves its summary automatically (tracked days, complete days, best streak, most common mood, badges), whether or not you open it.
