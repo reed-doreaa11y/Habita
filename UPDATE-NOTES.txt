@@ -1,3 +1,86 @@
+Habita v67 — Time of day dropdown, and Add a goal in the plus button
+
+- The Morning / Afternoon / Evening chips are replaced by a small dropdown button under the carousel cards (Today and Daily reflection). The menu lists just the three times of day, with no counts. Pick one and Home shows the habits you planned for that time. It starts on the current time of day.
+- The dropdown only appears once you have habits.
+- "Add a goal" is no longer a button on the empty Home screen (it just says "What a breather."). It is now the first option in the plus button menu on Home, above "Add daily schedule".
+- The time-of-day badge at the top right is the original: it just shows the current time of day.
+
+Validation: inline JavaScript syntax checked; in a headless browser the menu opened and filtered the list, the no-habits screen showed no dropdown, and plus > Add a goal opened the goal wizard.
+
+Habita v66 — Coin repairs, and the completion percentage is fixed at 70%
+
+- The completion percentage is now fixed at 70%. The picker is removed from Settings, and any percentage saved earlier is ignored. Days already counted stay as they were.
+- Repair a missed day: on the Calendar, a "Repair a missed day" card appears when yesterday or the day before had habits due and you finished below 70%. Repairing costs 30 coins.
+- Rules: one repair per week (the week starts on Sunday); only days that had habits due; only yesterday or the day before; you need 30 coins.
+- A repaired day keeps your streak (current streak, best streak and the monthly recap's best run) but earns no coins and does not count as a complete day. It shows highlighted with a dashed border on the Calendar.
+
+Validation: inline JavaScript syntax checked; a missed weekday dropped the streak to 1 and a repair restored it to 11 in a test. Layout of the repair card still needs a check on your phone.
+
+Habita v65 — Complete days on the Calendar, and fairer streaks
+
+- Calendar: a day is highlighted when you completed enough of your habits (your completion percentage, set in Habits). Days with nothing due, or below the percentage, stay plain. This is the same rule that earns coins.
+- The ring on each day still shows how much you did, and now takes the colour of that day's mood (green if no mood was set).
+- The small dot under the number now only means "reflection saved".
+- Month card: shows "complete days" next to "busiest day".
+- Streaks: a day with no habits due no longer breaks your streak (current streak, best streak, and the longest run in the monthly recap). It adds nothing and takes nothing. Only a day with habits due that you finished below your percentage breaks it. Coins are unchanged: rest days earn none.
+- Today never breaks your streak while it is still in progress.
+
+Validation: inline JavaScript syntax checked; streak rules tested with a weekday-only habit (weekends keep the streak, a missed weekday breaks it). Calendar look still needs a check on your phone.
+
+Habita v64 — Journal tab restored
+
+- The Almanac tabs are Journal, Calendar, Write, Progress, Challenges again. There is no separate Reflections tab.
+- Journal shows the Monthly summary block and, under it, "Reflections ☘️": saved daily reflections grouped Today, Yesterday, Previous 7 Days, Previous 30 Days, then by month. Tapping a card opens that day's note.
+- Stats stay in Progress. Calendar stays as v63 (month card with mood and busiest day, then the month grid).
+
+Validation: inline JavaScript syntax checked; tab labels and Journal page structure checked in a headless browser.
+
+Habita v63 — Calendar trimmed to what was asked
+
+- Calendar page is now just: the month card (month name, most common mood, busiest day) and the month grid.
+- Removed the stat tiles (reflections, streak, best, words), the THIS YEAR grid, and the reflections / words / habits-done counts from the month card.
+- Busiest day = the weekday with the most activity this month so far: habits completed + daily-schedule commitments + reflections written.
+- Reflections remains its own tab. Calendar cells unchanged (habit ring, mood-coloured dot, tint on reflection days).
+
+Validation: inline JavaScript syntax checked; calendar rendered and checked in a headless browser with stub data.
+
+Habita v62 — Reflections tab and a richer Calendar
+
+- The Almanac's Journal tab is now the Reflections tab (list only, grouped by recency). Page titles now follow the section: Reflections ☘️, Calendar, Progress, Challenges.
+- The old "Monthly summary" placeholder is removed from Reflections. Its job moves to the Calendar's month card.
+- Calendar page now has: stat tiles (REFLECTIONS, STREAK, BEST, WORDS), a THIS YEAR grid (reflections written per month; tap a month to jump to it), a month card (month, most common mood, reflections, habits done, busiest day), then the month grid.
+- WORDS = total words across your saved reflections. REFLECTIONS = number of days with a saved reflection.
+- Busiest day = the weekday with the most activity this month so far: habits you completed + commitments from your daily schedule + reflections written.
+- Calendar cells: ring (top right) shows habits completed that day, shown only up to today; a dot marks a saved reflection and takes your mood colour; days with a reflection have a soft tint.
+
+Validation: inline JavaScript syntax checked; calendar, year grid, month card, month jump and Reflections tab tested in a headless browser with stub data. Live-device behaviour still needs testing.
+
+Habita v61 — Journal is now a Reflections list
+
+- Almanac > Journal no longer has a "Write a reflection" button. Writing lives in the Write tab and the Home Daily Reflection card.
+- Journal now shows "Reflections ☘️": your saved daily reflections as cards (date, first line as the title, a short preview), grouped Today, Yesterday, Previous 7 Days, Previous 30 Days, then by month (and by month + year for earlier years), newest first.
+- Tapping a card opens that day's note in the full-page notepad to read or edit.
+- The Monthly summary placeholder at the top is unchanged.
+
+Validation: inline JavaScript syntax checked; grouping, empty state and tap-to-open tested in a headless browser with stub entries. Live-device behaviour still needs testing.
+
+Habita v60 — Home empty state restored
+
+- Home shows "What a breather." with the "Add a goal" button again whenever no habit is due yet (brand-new user, or habits that start tomorrow). The Daily Reflection card stays above it.
+- The + button menu stays as it was (Add daily schedule only); "Add a goal" lives on Home's empty state and the Goals tab.
+
+Validation: inline JavaScript syntax checked; Home builder smoke-tested with stub data.
+
+Habita v58 — Write is now a full-page notepad
+
+- Write (Almanac tab, Home reflection card, and tapping a calendar day) opens a full-page notepad instead of the bottom sheet.
+- The date is the page heading; the body is a borderless full-page text area ("Note something down") that autosaves as you type.
+- Mood emojis are tucked behind a single small emoji button in the top bar (tap to pick, it closes after you choose). Mood is optional and still feeds the monthly summary.
+- Done / back closes the note and stays on the screen you came from. Today's note is edited in place (it used to be appended, which could duplicate text).
+- Keyboard-aware height so the last line is never hidden behind the keyboard.
+
+Validation: inline JavaScript syntax checked; notepad markup and save logic smoke-tested with stub data. Live-device keyboard behaviour still needs testing.
+
 Habita v57 — Home tab redesign
 
 - Home date is larger.
