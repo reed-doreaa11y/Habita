@@ -38,36 +38,60 @@ window.habitaCloud=(function(){
   async function queueSave(st){if(!user)return;clearTimeout(timer);timer=setTimeout(async function(){try{await ensure();if(!user)return;var ref=window.habitaCloud._mods.fire.doc(db,"users",user.uid);await window.habitaCloud._mods.fire.setDoc(ref,{state:st,updatedAt:window.habitaCloud._mods.fire.serverTimestamp()},{merge:true})}catch(e){console.warn("Habita cloud sync",e)}},900)}
   function status(){return{configured:!!(configured||localStorage.getItem(cfgKey)||DEFAULT_CONFIG),signedIn:!!user,email:user?user.email:""}}
   ensure().catch(function(){});
-  return{configure:configure,googleLogin:googleLogin,signOut:signOut,syncNow:syncNow,queueSave:queueSave,status:status};
+  return{ready:ensure,configure:configure,googleLogin:googleLogin,signOut:signOut,syncNow:syncNow,queueSave:queueSave,status:status};
 })();
 
 // Firebase AI Logic is initialized lazily so the rest of Habita continues to work
 // if AI setup is incomplete or the free-tier quota is unavailable.
 window.habitaAI = (function(){
-  var model = null;
-  async function getModel(){
-    if(model) return model;
+  // Gemini 2.5 models are being retired (Oct 2026) and are limited to projects that used them before,
+  // so Habita tries newer models first and falls back through the list.
+  var MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash"];
+  var ai = null, models = {}, lastError = "", lastModel = "";
+  async function getAi(){
+    if(ai) return ai;
     var status = window.habitaCloud.status();
     if(!status.configured) throw new Error("Firebase is not configured yet.");
-    var cfg = JSON.parse(localStorage.getItem("habita-firebase-config") || "null") || null;
-    // Use the same Firebase app initialized by the cloud module.
-    var app = await (async function(){
-      // initializeApp returns the default app once the cloud module has initialized.
-      const { getApp } = await import("firebase/app");
-      return getApp();
-    })();
-    var ai = getAI(app, { backend: new GoogleAIBackend() });
-    model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
-    return model;
+    await window.habitaCloud.ready();
+    const { getApp } = await import("firebase/app");
+    ai = getAI(getApp(), { backend: new GoogleAIBackend() });
+    return ai;
+  }
+  function explain(e){
+    var msg = String((e && e.message) || e || "Unknown error");
+    if(/App Check|appcheck|token/i.test(msg)) return "Firebase App Check is blocking AI requests. Turn off enforcement for Firebase AI Logic in the Firebase console, or finish the App Check setup. (" + msg + ")";
+    if(/API has not been used|not enabled|SERVICE_DISABLED|firebasevertexai|generativelanguage/i.test(msg)) return "The AI API isn't enabled for this Firebase project yet. Open Firebase console > AI Logic > Get started and choose Gemini Developer API. (" + msg + ")";
+    if(/quota|429|RESOURCE_EXHAUSTED|rate/i.test(msg)) return "The free AI quota is used up for now. Try again later. (" + msg + ")";
+    if(/API key|API_KEY|403|permission|PERMISSION_DENIED|referer/i.test(msg)) return "Firebase rejected the request (permission/API key). Check the API key restrictions and that AI Logic is enabled. (" + msg + ")";
+    return msg;
   }
   async function ask(prompt){
     if(typeof prompt !== "string" || !prompt.trim()) throw new Error("Enter a prompt first.");
     if(prompt.length > 12000) throw new Error("This request is too long. Please shorten it.");
-    var m = await getModel();
-    var result = await m.generateContent(prompt);
-    return result.response.text();
+    var a = await getAi(), order = lastModel ? [lastModel].concat(MODELS.filter(function(x){return x !== lastModel})) : MODELS, err = null;
+    for(var i = 0; i < order.length; i++){
+      try{
+        var name = order[i];
+        var m = models[name] || (models[name] = getGenerativeModel(a, { model: name }));
+        var result = await m.generateContent(prompt);
+        lastModel = name; lastError = "";
+        return result.response.text();
+      }catch(e){
+        err = e; lastError = explain(e);
+        // Only move to the next model when this one looks unavailable; stop for quota/permission/App Check problems.
+        if(!/not found|404|no longer available|not supported|unavailable for|limited to projects|NOT_FOUND|deprecated/i.test(String((e && e.message) || e))) break;
+      }
+    }
+    throw new Error(lastError || explain(err));
   }
-  return { ask: ask };
+  // One tiny request so the UI can tell whether AI is really working.
+  var checking = null;
+  function check(force){
+    if(checking && !force) return checking;
+    checking = ask("Reply with the single word: ok").then(function(){ return {ok:true, model:lastModel}; }).catch(function(e){ return {ok:false, error:String(e && e.message || e)}; });
+    return checking;
+  }
+  return { ask: ask, check: check, lastError: function(){ return lastError; } };
 })();
 
 (function(){var y0=null;document.addEventListener("touchstart",function(e){var sh=e.target.closest&&e.target.closest(".sheet");y0=(sh&&e.target.tagName!=="TEXTAREA")?e.touches[0].clientY:null},{passive:true});document.addEventListener("touchend",function(e){if(y0===null||!plusOpen)return;var dy=e.changedTouches[0].clientY-y0;y0=null;if(dy>70){plusOpen=false;render()}},{passive:true})})();
