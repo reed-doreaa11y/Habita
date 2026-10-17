@@ -25,7 +25,7 @@ window.habitaCloud=(function(){
     app=initializeApp(cfg);
     // App Check must start before any Firebase AI Logic call. It stays off until a site key is set (see .env.example).
     var acKey=import.meta.env.VITE_RECAPTCHA_ENTERPRISE_SITE_KEY;
-    if(acKey){try{initializeAppCheck(app,{provider:new ReCaptchaEnterpriseProvider(acKey),isTokenAutoRefreshEnabled:true})}catch(e){console.warn("Habita App Check",e)}}
+    if(acKey){try{initializeAppCheck(app,{provider:new ReCaptchaEnterpriseProvider(acKey),isTokenAutoRefreshEnabled:true})}catch(e){console.warn("Habita App Check initialization failed",e)}}else{console.warn("Habita App Check site key is missing. If App Check is enforced for Firebase AI Logic, AI requests will be rejected. Set VITE_RECAPTCHA_ENTERPRISE_SITE_KEY in the deployment environment and redeploy.")}
     auth=authSdk.getAuth(app);db=firestoreSdk.getFirestore(app);configured=true;
     authSdk.onAuthStateChanged(auth,function(u){user=u; if(window.render)window.render()});
     window.habitaCloud._mods={auth:authSdk,fire:firestoreSdk};
@@ -44,9 +44,9 @@ window.habitaCloud=(function(){
 // Firebase AI Logic is initialized lazily so the rest of Habita continues to work
 // if AI setup is incomplete or the free-tier quota is unavailable.
 window.habitaAI = (function(){
-  // Gemini 2.5 models are being retired (Oct 2026) and are limited to projects that used them before,
-  // so Habita tries newer models first and falls back through the list.
-  var MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash"];
+  // Use currently supported Firebase AI Logic text models. Avoid Gemini 2.5 fallbacks because
+  // these are being retired and may be unavailable to this project.
+  var MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.1-flash-lite"];
   var ai = null, models = {}, lastError = "", lastModel = "";
   async function getAi(){
     if(ai) return ai;
@@ -62,7 +62,8 @@ window.habitaAI = (function(){
     if(/App Check|appcheck|token/i.test(msg)) return "Firebase App Check is blocking AI requests. Turn off enforcement for Firebase AI Logic in the Firebase console, or finish the App Check setup. (" + msg + ")";
     if(/API has not been used|not enabled|SERVICE_DISABLED|firebasevertexai|generativelanguage/i.test(msg)) return "The AI API isn't enabled for this Firebase project yet. Open Firebase console > AI Logic > Get started and choose Gemini Developer API. (" + msg + ")";
     if(/quota|429|RESOURCE_EXHAUSTED|rate/i.test(msg)) return "The free AI quota is used up for now. Try again later. (" + msg + ")";
-    if(/API key|API_KEY|403|permission|PERMISSION_DENIED|referer/i.test(msg)) return "Firebase rejected the request (permission/API key). Check the API key restrictions and that AI Logic is enabled. (" + msg + ")";
+    if(/API key|API_KEY|403|permission|PERMISSION_DENIED|referer|keyInvalid/i.test(msg)) return "Firebase rejected the request (permission/API key). Check that Firebase AI Logic is enabled and the API key is allowed to use the Firebase AI Logic API. (" + msg + ")";
+    if(/network|failed to fetch|fetch failed|ERR_INTERNET_DISCONNECTED|timeout/i.test(msg)) return "Habita could not reach Firebase AI. Check your internet connection, then retry. (" + msg + ")";
     return msg;
   }
   async function ask(prompt){
