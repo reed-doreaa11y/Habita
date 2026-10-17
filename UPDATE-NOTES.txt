@@ -1,3 +1,13 @@
+Habita v103 — Layout refresh (Home and Goals)
+
+- Navigation bars (main and Almanac) are unchanged.
+- Home: greeting above the date; the TODAY card is now a full-width card with a big "done / total" count and progress ring; the carousel keeps only the compact cards (month, checkpoint, award, Bita, reflection); the time-of-day dropdown is now a Morning / Afternoon / Evening switcher with a done count for each; habit rows show their goal and time; completed habits fade; the goals summary moved below the habits as a full-width card.
+- Goals: new summary card (active goals, average progress); compact goal cards with a progress ring, a Skill / Habit / Project tag and days left; lighter category headers.
+- Profile: slightly smaller avatar and stat tiles. Dark mode fixed for the time-of-day badge on Home.
+- No logic changes: every button keeps its action; styles are in one block (id "v103") near the end of <head>.
+
+Validation: inline JavaScript syntax checked; headless-browser test with a skill, a habit and a project goal confirmed the layout in light and dark mode, switching time of day, ticking a habit (hero updates), opening a goal from Home, Goals edit mode and collapsing categories, with no errors. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
 Habita v102 — Goal strip card on Home
 
 - New carousel card "YOUR GOALS" right after TODAY. One row per active goal (up to 3, then "+N more"), each with its own kind of progress:

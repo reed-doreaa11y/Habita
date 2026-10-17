@@ -377,6 +377,88 @@ svg.pc{width:100%;height:auto;display:block}.pc-grid{stroke:var(--line);stroke-d
 </style><style>
 .ai-kind{display:flex;gap:6px;margin:10px 0 4px}.ai-kind button{flex:1;padding:8px 6px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);font:inherit;font-size:.78rem;font-weight:650;cursor:pointer}
 .ai-kind button.on{background:color-mix(in srgb,var(--accent) 14%,var(--surface));border-color:var(--accent);color:var(--accent)}.ai-note{display:block;color:var(--muted);font-size:.76rem;margin:4px 0 8px;line-height:1.4}
+</style><style id="v103">
+/* ===== v103 layout refresh: Home, Goals, Profile. Navigation bars are intentionally untouched. ===== */
+.home-top{margin:4px 0 16px;align-items:center}
+.home-heading{min-width:0}
+.home-hello{font-size:.9rem;font-weight:650;color:var(--muted);margin:0 0 3px}
+.home-date{font-size:1.5rem;font-weight:800;letter-spacing:-.035em;line-height:1.1}
+.period-badge{background:color-mix(in srgb,var(--accent) 9%,var(--surface));color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 12px}
+
+.hero{display:grid;grid-template-columns:1fr auto;grid-template-areas:"main ring" "btn btn";gap:16px;align-items:center;padding:20px;margin-bottom:14px;border-radius:26px;color:var(--ink);background:linear-gradient(145deg,color-mix(in srgb,var(--done) 22%,var(--surface)),color-mix(in srgb,var(--accent) 8%,var(--surface)));border:1px solid color-mix(in srgb,var(--done) 30%,var(--line));box-shadow:0 10px 28px color-mix(in srgb,var(--done) 12%,transparent)}
+.hero-main{grid-area:main;min-width:0}
+.hero-eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.14em;color:color-mix(in srgb,var(--done) 75%,var(--ink))}
+.hero-big{font-size:2.7rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-top:6px}
+.hero-big span{font-size:1.3rem;font-weight:700;letter-spacing:-.02em;color:var(--muted)}
+.hero-sub{color:var(--muted);font-size:.92rem;margin-top:6px}
+.hero-ring{grid-area:ring;width:80px;height:80px}.hero-ring svg{width:80px;height:80px}.hero-ring span{font-size:.92rem}
+.hero-btn{grid-area:btn;width:100%;margin:0;align-self:stretch;text-align:center;padding:13px 18px;border-radius:15px}
+
+.hcards{gap:10px;margin:0 -18px 18px;padding:0 18px 4px}
+.hcard{flex:0 0 auto;width:min(300px,86%);max-width:none;min-height:0;padding:14px 16px;border-radius:20px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"ico title btn" "sub sub sub";align-items:center;column-gap:10px;row-gap:8px;align-content:start}
+.hcard .hc-ico{grid-area:ico;font-size:1.4rem}
+.hcard .hc-title{grid-area:title;margin:0;min-width:0;font-family:inherit;font-size:.7rem;font-weight:800;letter-spacing:.07em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hcard .hc-sub{grid-area:sub;margin:0;font-size:.9rem;line-height:1.35;color:var(--ink);-webkit-line-clamp:2}
+.hcard .hc-btn{grid-area:btn;margin:0;padding:7px 14px;border-radius:12px;font-size:.82rem;align-self:center}
+
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;margin:2px 0 12px;border-radius:16px;background:color-mix(in srgb,var(--ink) 6%,var(--surface))}
+.seg-btn{border:0;background:transparent;color:var(--muted);font:inherit;font-size:.82rem;font-weight:650;border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;transition:background .15s,color .15s}
+.seg-btn.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 6px rgba(20,30,50,.12)}
+.seg-n{font-size:.7rem;font-weight:700;opacity:.7;font-variant-numeric:tabular-nums}
+
+.home-habit-list{display:grid;gap:8px;margin:0}
+.home-habit-list .trow,.home-habit-list .trow:first-child{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;gap:12px;box-shadow:0 1px 2px rgba(20,30,50,.03)}
+.home-habit-list .check{width:32px;height:32px;border-width:2px;border-color:color-mix(in srgb,var(--muted) 45%,var(--line))}
+.home-habit-list .check.on{border-color:var(--done)}
+.home-habit-list .trow:has(.check.on) .name{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.hmeta{font-size:.76rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-habit-list .rmore{font-size:.78rem;font-weight:650;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.home-breather.empty{min-height:22vh}
+
+.home-goals{margin:18px 0 8px}
+.home-goals .hcard.hc-goals{display:block;width:100%;max-width:none;padding:16px;border-radius:22px}
+.hc-goals .hc-title{margin-bottom:6px}
+
+.gov{padding:20px;margin:2px 0 18px;border-radius:24px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface) 80%);border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line))}
+.gov-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.gov-eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.14em;color:var(--muted)}
+.gov-big{font-size:2.4rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-top:6px}
+.gov-big span{font-size:1rem;font-weight:650;letter-spacing:0;color:var(--muted)}
+.gov-avg{text-align:right}.gov-avg b{display:block;font-size:1.5rem;letter-spacing:-.03em;color:var(--accent)}.gov-avg small{color:var(--muted);font-size:.74rem}
+.gov-bar{height:8px;border-radius:99px;margin:16px 0 10px;overflow:hidden;background:color-mix(in srgb,var(--ink) 9%,transparent)}
+.gov-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.gov-sub{margin:0;color:var(--muted);font-size:.84rem}
+
+.goal-category{border:0;background:transparent;border-radius:0;overflow:visible;margin:0 0 6px}
+.goal-category-head{padding:10px 2px;gap:10px}
+.goal-category-icon{width:30px;height:30px;border-radius:9px;font-size:.95rem}
+.goal-category-title{display:flex;align-items:baseline;gap:8px;font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.goal-category-count{display:inline;margin:0;font-size:.78rem}
+.goal-category-items{padding:0}
+.goal-list-card.gl2{display:flex;align-items:center;gap:14px;padding:14px 14px 14px 12px;margin:0 0 10px;border-radius:20px;box-shadow:0 1px 2px rgba(20,30,50,.03)}
+.gl-ring{position:relative;width:52px;height:52px;flex:none;display:grid;place-items:center}
+.gl-ring svg{position:absolute;inset:0;width:100%;height:100%}
+.gl-bg{fill:none;stroke:var(--line);stroke-width:4.5}
+.gl-fg{fill:none;stroke:var(--accent);stroke-width:4.5;stroke-linecap:round}
+.gl-ring b{font-size:.78rem;font-weight:800;letter-spacing:-.02em}.gl-ring b small{font-size:.55rem;opacity:.7}
+.gl2 .goal-list-main{display:flex;flex-direction:column;gap:3px;min-width:0}
+.gl2 .goal-list-why{margin-top:0;-webkit-line-clamp:1}
+.gl-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:2px;font-size:.76rem;color:var(--muted)}
+.gl-kind{font-weight:700;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--accent) 10%,var(--surface));color:var(--accent)}
+.gl-habit{background:color-mix(in srgb,#e0a21b 16%,var(--surface));color:color-mix(in srgb,#b97d05 80%,var(--ink))}
+.gl-project{background:color-mix(in srgb,#9b6ad6 14%,var(--surface));color:color-mix(in srgb,#7a4cb8 80%,var(--ink))}
+.goal-edit-row .gl2{padding-right:78px}
+/* Compact home carousel cards: show the next card sooner and avoid tall, stretched tiles. */
+.hcards{gap:9px;scroll-padding-left:16px;padding-left:16px;padding-right:16px}
+.hcards>.hcard{flex:0 0 min(252px,78%);width:min(252px,78%);max-width:252px;min-height:0;align-self:start;padding:12px 13px;border-radius:18px;grid-template-columns:auto minmax(0,1fr) auto;column-gap:8px;row-gap:6px}
+.hcards>.hcard .hc-sub{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.3;min-width:0}
+.hcards>.hcard .hc-btn{padding:6px 10px;font-size:.78rem;white-space:nowrap}
+.hcards>.hcard.hc-goals{flex-basis:min(270px,82%);width:min(270px,82%);max-width:270px}
+/* Force mobile browsers to repaint the newly rendered tab immediately. */
+#view{min-width:0;backface-visibility:hidden}
+
+.pav{width:84px;height:84px;font-size:2.3rem}
+.ptile{padding:12px 14px}
 </style></head>
 <body>
 <main><div id="view"></div></main>
@@ -754,7 +836,7 @@ function pathHTML(g){
 }
 function goalGlyph(g){var x=(g.name||"").toLowerCase();if(/code|web|program|software|cyber|security|engineer|learn|study|skill/.test(x))return "✦";if(/money|income|business|client|career|job|work/.test(x))return "↗";if(/draw|art|design|crochet|craft|create/.test(x))return "✎";if(/health|fitness|weight|exercise|body/.test(x))return "♡";if(/communicat|confiden|speak|people/.test(x))return "◌";return "◎"}
 function goalCardEditHTML(g){return goalsEdit&&!g.locked?'<div class="goal-edit-row">'+goalCardHTML(g)+'<button type="button" class="goal-del" data-act="delg" data-g="'+esc(g.id)+'" aria-label="Delete '+esc(g.name)+'">Delete</button></div>':goalCardHTML(g)}
-function goalCardHTML(g){var pct=Math.round(goalProgress(g)*100),p=g.path,stage=p&&p.stages&&p.stages.length?Math.min((p.currentStage||0),p.stages.length-1):-1,status=g.completed?"Completed":p&&p.stages&&p.stages.length?(p.progress&&p.progress[stage]&&p.progress[stage].passed?"Checkpoint passed":"Learning path ready"):goalHabits(g).length?"Habits in progress":"Ready when you are";if(g.locked)return lockedHTML(g);return '<button type="button" data-act="opengoal" data-g="'+esc(g.id)+'" class="goal-list-card"><span class="goal-list-top"><span class="goal-glyph" aria-hidden="true">'+goalGlyph(g)+'</span><span class="goal-list-main"><span class="goal-list-name">'+esc(g.name)+'</span>'+(g.why?'<span class="goal-list-why">'+esc(g.why)+'</span>':'')+'</span><span class="goal-list-chevron" aria-hidden="true">›</span></span><span class="goal-list-meta"><span>'+(g.completed?'Pathway complete':p&&p.stages&&p.stages.length?'Learning path':'Goal progress')+'</span><strong>'+pct+'%</strong></span><span class="goal-list-bar"><i style="width:'+pct+'%"></i></span><span class="goal-list-footer"><span>'+esc(status)+'</span><span class="goal-path-status">'+(p&&p.stages&&p.stages.length?'Open learning path':'View goal')+' →</span></span></button>'}
+function goalCardHTML(g){if(g.locked)return lockedHTML(g);var pct=Math.round(goalProgress(g)*100),p=g.path,hasPath=p&&p.stages&&p.stages.length,stage=hasPath?Math.min((p.currentStage||0),p.stages.length-1):-1,kind=g.kind==="habit"||g.kind==="project"?g.kind:"skill",kl={skill:"🎓 Skill",habit:"⭐ Habit",project:"📌 Project"}[kind],status=g.completed?"Completed":hasPath?(p.progress&&p.progress[stage]&&p.progress[stage].passed?"Checkpoint passed":"Path in progress"):goalHabits(g).length?"In progress":"Ready when you are",dl="";if(!g.completed&&kind!=="habit"&&g.pace!=="relaxed"&&/^\d{4}-\d\d-\d\d$/.test(g.deadline||"")){var n=daysLeft(g.deadline);dl=n>0?n+(n===1?" day left":" days left"):"Date passed"}var C=113.1,off=(C*(1-pct/100)).toFixed(1);return '<button type="button" data-act="opengoal" data-g="'+esc(g.id)+'" class="goal-list-card gl2"><span class="gl-ring" aria-hidden="true"><svg viewBox="0 0 44 44"><circle class="gl-bg" cx="22" cy="22" r="18"/><circle class="gl-fg" cx="22" cy="22" r="18" transform="rotate(-90 22 22)" style="stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/></svg><b>'+pct+'<small>%</small></b></span><span class="goal-list-main"><span class="goal-list-name">'+esc(g.name)+'</span>'+(g.why?'<span class="goal-list-why">'+esc(g.why)+'</span>':'')+'<span class="gl-meta"><span class="gl-kind gl-'+kind+'">'+kl+'</span><span>'+esc(dl||status)+'</span></span></span><span class="goal-list-chevron" aria-hidden="true">›</span></button>'}
 function goalDays(g,n){var hs=goalHabits(g),out=[],act=g.activated||"";for(var i=n-1;i>=0;i--){var d=daysBack(i),k=key(d),t=0,dn=0;hs.forEach(function(h){if((h.created||state.start||k)<=k&&(!act||k>=act)&&sched(h,d)){t++;if(h.done&&h.done[k])dn++}});out.push({k:k,d:d,t:t,n:dn,r:t?dn/t:0,today:i===0})}return out}
 function goalDetailHTML(g){
  var hs=goalHabits(g),pct=Math.round(goalProgress(g)*100),q=g.queue||[],sc=stageCount(g),si=Math.min(g.stageIndex||0,Math.max(0,sc-1)),days=goalDays(g,14),tk=key(daysBack(0));
@@ -805,7 +887,7 @@ function goalDetailHTML(g){
 function categoryIcon(c){return c.glyph||'◇'}
 function categoryChoiceHTML(){return '<div class="category-choices">'+state.categories.filter(function(c){return c.id!=='uncategorised'}).map(function(c){return '<button type="button" class="category-choice '+(wiz.categoryId===c.id?'selected':'')+'" data-act="wizcategory" data-cid="'+esc(c.id)+'"><span class="goal-category-icon" style="background:'+esc(c.color)+'22;color:'+esc(c.color)+'">'+esc(categoryIcon(c))+'</span><strong>'+esc(c.name)+'</strong>'+(wiz.categoryId===c.id?'<span style="margin-left:auto">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="link" data-act="addcategory" style="padding:4px 0 12px">＋ Create a category</button>'}
 function categorySectionHTML(c,goals){var open=state.categoryOpen[c.id]!==false;return '<section class="goal-category"><button class="goal-category-head" type="button" data-act="togglecategory" data-cid="'+esc(c.id)+'" aria-expanded="'+open+'"><span class="goal-category-icon" style="background:'+esc(c.color)+'22;color:'+esc(c.color)+'">'+esc(categoryIcon(c))+'</span><span class="goal-category-title">'+esc(c.name)+'<span class="goal-category-count">'+goals.length+' '+(goals.length===1?'goal':'goals')+'</span></span><span aria-hidden="true">'+(open?'⌄':'›')+'</span></button>'+(open?'<div class="goal-category-items">'+goals.map(goalCardEditHTML).join('')+'</div>':'')+'</section>'}
-function goalsHTML(){var h="";if(aiChat)return aiChatHTML();if(planner)h+=plannerHTML();else if(wiz)h+=wizHTML();if(wiz||planner)return h;if(selectedGoalId){var selected=goalById(selectedGoalId);if(selected&&!selected.locked)return goalDetailHTML(selected);selectedGoalId=null}if(!state.goals.length)h+='<div class="goals-empty"><div>What do you want to achieve?</div></div>';else{h+='<div class="goal-list-intro"><p class="sub">Your goals, one step at a time.</p></div>'; state.categories.forEach(function(c){if(c.id==='uncategorised'&&!state.goals.some(function(g){return (g.categoryId||'uncategorised')==='uncategorised'}))return;var gs=state.goals.filter(function(g){return (g.categoryId||'uncategorised')===c.id});if(gs.length)h+=categorySectionHTML(c,gs)});state.goals.filter(function(g){return !state.categories.some(function(c){return c.id===g.categoryId})}).forEach(function(g){h+=goalCardEditHTML(g)})}return h}
+function goalsHTML(){var h="";if(aiChat)return aiChatHTML();if(planner)h+=plannerHTML();else if(wiz)h+=wizHTML();if(wiz||planner)return h;if(selectedGoalId){var selected=goalById(selectedGoalId);if(selected&&!selected.locked)return goalDetailHTML(selected);selectedGoalId=null}if(!state.goals.length)h+='<div class="goals-empty"><div>What do you want to achieve?</div></div>';else{h+=goalsOverviewHTML(); state.categories.forEach(function(c){if(c.id==='uncategorised'&&!state.goals.some(function(g){return (g.categoryId||'uncategorised')==='uncategorised'}))return;var gs=state.goals.filter(function(g){return (g.categoryId||'uncategorised')===c.id});if(gs.length)h+=categorySectionHTML(c,gs)});state.goals.filter(function(g){return !state.categories.some(function(c){return c.id===g.categoryId})}).forEach(function(g){h+=goalCardEditHTML(g)})}return h}
 
 function moodHTML(){return''}
 var scheduleDay=null;
@@ -862,11 +944,13 @@ function goalStripCardHTML(){
  return '<div class="hcard hc-goals"><div class="hc-title">YOUR GOALS</div>'+gs.slice(0,3).map(goalStripRow).join('')+(gs.length>3?'<p class="hg-more">+'+(gs.length-3)+' more</p>':'')+'<button class="hc-btn" data-act="nav" data-v="goals" type="button" style="margin-top:10px">Open goals</button></div>'}
 function homeExtraCardsHTML(){
  if(!(state.goals||[]).length&&!allHabits().length)return '';
- var h=goalStripCardHTML(),ck=readyCheckpoint(),aw=latestAwardChip();
+ var h='',ck=readyCheckpoint(),aw=latestAwardChip();
  if(ck)h+='<div class="hcard hc-check"><div class="hc-ico">🎯</div><div class="hc-title">CHECKPOINT READY</div><div class="hc-sub">'+esc(ck.g.name)+': Stage '+(ck.i+1)+', '+esc(ck.title)+'</div><button class="hc-btn" data-act="progopen" data-g="'+esc(ck.g.id)+'" type="button">Open goal</button></div>';
  if(aw)h+='<div class="hcard hc-award"><div class="hc-ico">'+aw.icon+'</div><div class="hc-title">NEW AWARD</div><div class="hc-sub">'+esc(aw.e.t)+'</div><button class="hc-btn" data-act="awardchip" data-award="'+esc(aw.id)+'" type="button">View</button></div>';
  h+='<div class="hcard hc-bita"><div class="hc-ico">💬</div><div class="hc-title">BITA</div><div class="hc-sub">'+esc(bitaLine())+'</div><button class="hc-btn" data-act="homeaddgoal" type="button">Chat</button></div>';
  return h}
+function fmtT(t){var m=/^(\d{2}):(\d{2})$/.exec(t||'');if(!m)return '';var h=+m[1],ap=h<12?'AM':'PM';h=h%12||12;return h+':'+m[2]+' '+ap}
+function goalsOverviewHTML(){var all=state.goals||[],act=all.filter(function(g){return !g.locked&&g.activated&&!g.completed}),dn=all.filter(function(g){return g.completed}).length,avg=act.length?Math.round(act.reduce(function(a,g){return a+goalProgress(g)},0)/act.length*100):0;return '<section class="gov"><div class="gov-top"><div><div class="gov-eyebrow">YOUR GOALS</div><div class="gov-big">'+act.length+'<span> active</span></div></div><div class="gov-avg"><b>'+avg+'%</b><small>average progress</small></div></div><div class="gov-bar" aria-hidden="true"><i style="width:'+avg+'%"></i></div><p class="gov-sub">'+(dn?dn+' completed \u00b7 ':'')+'One step at a time.</p></section>'}
 function todayHabitsHTML(){
  var tk=key(daysBack(0)),td=daysBack(0),all=allHabits().filter(function(x){return sched(x.h,td)&&(x.h.created||state.start||tk)<=tk});
  // Any legacy flexible/empty assignment is resolved to a concrete time using the existing routine-aware fallback.
@@ -876,7 +960,7 @@ function todayHabitsHTML(){
   C=163.4,off=(C*(1-pct/100)).toFixed(1),doy=Math.floor((td-new Date(td.getFullYear(),0,0))/864e5),
   menuHTML='',rt=String((state.journal&&state.journal[tk])||'').trim(),prev=rt.length>110?rt.slice(0,110)+'…':rt,cards='',body='';
  var aheadHtml=has?aheadCardHTML():'',aheadOffer=!!aheadHtml;
-  if(has)cards+='<div class="hcard hc-today"><div class="hc-top"><div class="hc-ico">✅</div><div class="hc-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="hr-bg" cx="32" cy="32" r="26"/><circle class="hr-fg" cx="32" cy="32" r="26" transform="rotate(-90 32 32)" style="stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/></svg><span>'+pct+'%</span></div></div><div class="hc-title">TODAY</div><div class="hc-sub">'+(aheadOffer?'All done. Want to get ahead?':done+' of '+total+' habit'+(total==1?'':'s')+' done')+'</div><button class="hc-btn" data-act="homegohabits" type="button"'+(done==total?' disabled':'')+'>'+(done==total?'All done 🎉':'Keep going')+'</button></div>';
+  var hero='';if(has)hero='<section class="hero"><div class="hero-main"><div class="hero-eyebrow">TODAY</div><div class="hero-big">'+done+'<span>/'+total+'</span></div><div class="hero-sub">'+(aheadOffer?'All done. Want to get ahead?':(total==1?'habit':'habits')+' done')+'</div></div><div class="hc-ring hero-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="hr-bg" cx="32" cy="32" r="26"/><circle class="hr-fg" cx="32" cy="32" r="26" transform="rotate(-90 32 32)" style="stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/></svg><span>'+pct+'%</span></div><button class="hc-btn hero-btn" data-act="homegohabits" type="button"'+(done==total?' disabled':'')+'>'+(done==total?'All done 🎉':'Keep going')+'</button></section>';
  var pmk=previousMonth(),pmm=state.monthly&&state.monthly[pmk];if(pmm&&pmm.snap&&!pmm.viewed&&!pmm.opened)cards='<div class="hcard hc-month"><div class="hc-ico">✉️</div><div class="hc-title">YOUR '+esc(monthOnly(pmk).toUpperCase())+'</div><div class="hc-sub">Your month is ready to look back on.</div><button class="hc-btn" data-act="openmonth" data-k="'+pmk+'" type="button">Open</button></div>'+cards;
  cards+=homeExtraCardsHTML();
  cards+='<div class="hcard hc-reflect"><div class="hc-ico">✍️</div><div class="hc-title">DAILY REFLECTION</div><div class="hc-sub">'+(rt?esc(prev):esc(reflectPrompts[doy%reflectPrompts.length]))+'</div><button class="hc-btn" data-act="writeReflection" type="button">'+(rt?'Edit':'Write')+'</button></div>';
@@ -884,9 +968,12 @@ function todayHabitsHTML(){
   var chips=["morning","afternoon","evening"].map(function(p){var l=all.filter(function(x){return periodOf(x.h)===p}),d2=l.filter(function(x){return x.h.done[tk]}).length,m=periodMeta(p);return '<button class="period-opt'+(p===sel?' on':'')+'" role="option" aria-selected="'+(p===sel)+'" data-act="homeperiod" data-p="'+p+'" type="button"><span>'+m.emoji+' '+m.label+'</span></button>'}).join(''),
    list=all.filter(function(x){return periodOf(x.h)===sel});
   menuHTML='<div class="period-menu" role="listbox" aria-label="Time of day">'+chips+'</div>';
-  body='<div id="homeHabits">'+(periodMenu?'<div class="period-backdrop" data-act="periodmenuclose"></div>':'')+'<div class="period-wrap"><button type="button" class="period-trigger" data-act="periodmenu" aria-haspopup="listbox" aria-expanded="'+periodMenu+'" aria-label="Time of day: '+sm.label+'. Tap to change"><span>'+sm.emoji+' '+sm.label+'</span><span class="pchev" aria-hidden="true">▾</span></button>'+(periodMenu?menuHTML:'')+'</div>'+(list.length?'<div class="home-habit-list">'+list.map(function(x){var on=x.h.done[tk],st=habitState(x.h,tk),sub='',more='';if(st==="skipped")sub='<div class="streak">Skipped · <button class="link" data-act="skip" data-h="'+x.h.id+'" data-k="'+tk+'" type="button">Undo</button></div>';else if(st==="carried")sub='<div class="streak">Moves to tomorrow · <button class="link" data-act="carry" data-h="'+x.h.id+'" data-k="'+tk+'" type="button">Undo</button></div>';else if(!on){more='<button class="mini rmore" data-act="skip" data-h="'+x.h.id+'" data-k="'+tk+'" type="button" aria-label="Skip '+esc(x.h.name)+' today">Skip</button>'}return '<div class="trow"'+(st==="skipped"||st==="carried"?' style="opacity:.65"':'')+'><button class="check'+(on?' on':'')+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" type="button" aria-label="'+(on?'Mark incomplete':'Complete')+' '+esc(x.h.name)+'">'+(on?'✓':'')+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div>'+sub+'</div>'+more+'</div>'}).join('')+'</div>':'<div class="home-breather slim"><div class="breather-line">What a breather.</div></div>')+carryBlockHTML()+'</div>'}
+  var segs=["morning","afternoon","evening"].map(function(p){var l=all.filter(function(x){return periodOf(x.h)===p}),d2=l.filter(function(x){return x.h.done[tk]}).length,m=periodMeta(p);return '<button class="seg-btn'+(p===sel?' on':'')+'" data-act="homeperiod" data-p="'+p+'" aria-pressed="'+(p===sel)+'" type="button"><span class="seg-lbl">'+m.emoji+' '+m.label+'</span><span class="seg-n">'+d2+'/'+l.length+'</span></button>'}).join('');
+  body='<div id="homeHabits">'+'<div class="seg" role="group" aria-label="Time of day">'+segs+'</div>'+(list.length?'<div class="home-habit-list">'+list.map(function(x){var on=x.h.done[tk],st=habitState(x.h,tk),sub='',more='';if(st==="skipped")sub='<div class="streak">Skipped · <button class="link" data-act="skip" data-h="'+x.h.id+'" data-k="'+tk+'" type="button">Undo</button></div>';else if(st==="carried")sub='<div class="streak">Moves to tomorrow · <button class="link" data-act="carry" data-h="'+x.h.id+'" data-k="'+tk+'" type="button">Undo</button></div>';else if(!on){more='<button class="mini rmore" data-act="skip" data-h="'+x.h.id+'" data-k="'+tk+'" type="button" aria-label="Skip '+esc(x.h.name)+' today">Skip</button>'}return '<div class="trow"'+(st==="skipped"||st==="carried"?' style="opacity:.65"':'')+'><button class="check'+(on?' on':'')+'" data-act="tog" data-h="'+x.h.id+'" data-k="'+tk+'" type="button" aria-label="'+(on?'Mark incomplete':'Complete')+' '+esc(x.h.name)+'">'+(on?'✓':'')+'</button><div class="tmain"><div class="name">'+esc(x.h.name)+'</div>'+(sub||'<div class="hmeta">'+esc(x.g.name)+(x.h.time?' · '+fmtT(x.h.time):'')+'</div>')+'</div>'+more+'</div>'}).join('')+'</div>':'<div class="home-breather slim"><div class="breather-line">What a breather.</div></div>')+carryBlockHTML()+'</div>'}
  else body='<div class="home-breather empty"><div class="breather-line">What a breather.</div></div>';
- return '<section class="home-top"><div class="home-date">'+esc(todayLabel())+'</div><div class="period-badge" aria-label="Current period: '+meta.label+'"><span class="period-emoji">'+meta.emoji+'</span><span class="period-label">'+meta.label+'</span></div></section><div class="hcards">'+cards+'</div>'+aheadHtml+body}
+ var gsHtml=((state.goals||[]).length||allHabits().length)?goalStripCardHTML():'',goalsSec=gsHtml?'<div class="home-goals">'+gsHtml+'</div>':'';
+ var nm=String((state.profile&&state.profile.name)||'').trim().split(/\s+/)[0],hello=(cur==='morning'?'Good morning':cur==='afternoon'?'Good afternoon':'Good evening')+(nm?', '+esc(nm):'');
+ return '<section class="home-top"><div class="home-heading"><div class="home-hello">'+hello+'</div><div class="home-date">'+esc(todayLabel())+'</div></div><div class="period-badge" aria-label="Current period: '+meta.label+'"><span class="period-emoji">'+meta.emoji+'</span><span class="period-label">'+meta.label+'</span></div></section>'+hero+(cards?'<div class="hcards">'+cards+'</div>':'')+aheadHtml+body+goalsSec}
 var popupIdx=0;
 function monthOnly(k){return new Date(k+"-01T12:00:00").toLocaleDateString(undefined,{month:"long"})}
 var summaryOpen=null;
@@ -1354,7 +1441,9 @@ function render(){window.state=state;saveMonthSnaps();
  else if(view==="almanac")h='';
  else if(view==="habits")h=topbar("");
  h+=view==="habits"?habitsHTML():view==="goals"?goalsHTML():view==="almanac"?almanacHTML():view==="schedule"?scheduleHTML():view==="profile"?profileTabHTML():moreHTML();
- $("view").innerHTML=h;
+ var viewEl=$("view");viewEl.innerHTML=h;
+ /* Some mobile WebViews defer repainting replaced content until the next touch. Flush layout here. */
+ viewEl.style.display="none";void viewEl.offsetHeight;viewEl.style.display="";
  renderMonthlyPopup();renderSheet();
  var sp=document.getElementById("streakPopupLayer");if(sp)sp.remove();if(streakPopup){var layer=document.createElement("div");layer.id="streakPopupLayer";layer.className="streak-pop";layer.setAttribute("role","dialog");layer.setAttribute("aria-modal","true");layer.setAttribute("aria-labelledby","streakPopupTitle");layer.innerHTML='<div class="streak-pop-card"><button class="streak-pop-close" data-act="streakclose" type="button" aria-label="Close popup">✕</button><div class="streak-pop-fire">🔥</div><h2 id="streakPopupTitle">Your streak lives on!</h2><p>You’ve completed at least '+Math.round((streakPopup.rate||COMPLETE)*100)+'% of the habits due today.</p><p class="streak-pop-progress">Your streak is already secured. Make it 100%?</p><div class="streak-pop-actions"><button class="primary" data-act="streakcontinue" type="button">Continue</button></div></div>';document.body.appendChild(layer)}
  if(view=="habits")renderTimer();
