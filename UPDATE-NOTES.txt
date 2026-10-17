@@ -1,20 +1,23 @@
-Habita v80 — Goal-first categories and safer planning
+Habita v81.1 — Packaging and release-metadata correction
 
-- Goal creation starts with the goal itself; category is suggested from its name and remains editable in the next step.
-- Preserved the six standard categories and their existing IDs, icons, and colours. Unknown goals use Knowledge as a quiet editable suggestion rather than exposing an Uncategorised bucket for new goals. Legacy uncategorised goals remain preserved.
-- Added the simple backup-path action when learning-path generation reports an error. The fallback is explicitly labelled as a starter path, not AI-generated curriculum.
-- Removed the weekly cap that placed unrelated goals in a waiting state; goals stay active alongside each other.
-- Kept existing app data, goals, habits, paths, and other files from the category-first v79 archive.
+Based on the v81 awards, general schedule, and Friends build.
 
-Validation: ZIP integrity and inline JavaScript syntax checked. Browser/device testing still required.
+Packaging corrections:
+- Removed the duplicate root-level main.js. index.html loads /src/main.js, which remains the single source of application JavaScript.
+- Updated the package version to 0.81.1.
+- Replaced stale v80-only release notes with notes for the contents of this archive.
 
-Habita v79 — Category-first goal creation
+Included features observed in the source:
+- Awards UI and award-related logic.
+- General schedule supports one-time commitments and weekly recurring commitments with selected weekdays.
+- Almanac includes Journal, Calendar, Progress, and Friends. Friends is explicitly a preview; friend invitations and shared goal tracking are not active in this build.
+- Goal-first categories and safer planning from v80 remain included.
 
-- Add a Goal now opens category selection first.
-- Added Health, Career, Finance, Personal, Creativity, and Knowledge as standard categories while preserving existing category IDs and saved goals.
-- Selecting a category advances to the existing goal-creation flow and carries the chosen category into the new goal.
-- Removed the Add category button from the Goals list screen; category creation is available during category selection in the Add a Goal flow.
-- Changed the Goals heading and empty-state prompt to “What do you want to achieve?”
-- Existing goals, habits, learning paths, progress, and other project files are preserved from the complete v78 archive.
+Validation performed for this package:
+- ZIP archive integrity checked.
+- Confirmed index.html references /src/main.js and that no duplicate root main.js is shipped.
+- JavaScript syntax check performed on the inline module source where supported.
 
-Validation: ZIP integrity checked and inline JavaScript syntax checked. Not yet device/browser-tested.
+Important limitations:
+- This is not a claim of full browser/device or Firebase integration testing. Review the app in a browser and test persistence and user flows before treating it as production-ready.
+- Existing user data is not included in the ZIP; the app's existing storage/cloud data should remain in its configured Firebase/browser storage when deploying the code update, but back up important data before replacing a deployed build.
