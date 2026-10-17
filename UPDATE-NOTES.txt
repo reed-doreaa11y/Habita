@@ -1,3 +1,20 @@
+Habita v106 — TODAY back in the carousel
+
+- Home: the TODAY card is the first card in the carousel row again (check icon, progress ring, TODAY, "x of y habits done", Keep going), same tall style as the others. It was a separate full-width block above the row.
+- Home header: the "Good evening" line is removed and the time-of-day badge is icon-only, so the date sits on one line.
+- Includes v105 (time-of-day dropdown, no coins/streak on Home).
+
+Validation: loaded Home in a headless browser with two seeded habits and checked the layout and the dropdown. Not tested on a device.
+
+Habita v105 — Home time-of-day dropdown, no coins/streak on Home
+
+- Home: the Morning / Afternoon / Evening switcher is replaced by the dropdown pill again (shows the current period with a small arrow; tap to open a list of the three periods, tap one to switch, tap outside to close).
+- Home: the streak and coin chips at the top are removed. Goals, Profile and Almanac are unchanged.
+- Home habit rows are flat (no card box) under the dropdown. Skip and the goal/time line are still there.
+- Styles are in the "v104" block in <head>; the old dropdown styles and handlers were still in the app, so no new logic.
+
+Validation: loaded Home in a headless browser with two seeded habits; confirmed the chips are gone, the menu opens with three options, picking one switches the period and closes the menu, and there are no script errors. Not tested on a device.
+
 Habita v104 — Tall Home carousel cards
 
 - Home carousel cards are tall again, like the reference: emoji on top-left, bold serif title, a short line of text and the action button at the bottom. All cards in the row share one height, and the next card peeks in so it is clear you can swipe.
