@@ -1,0 +1,16 @@
+Habita AI troubleshooting
+
+Code changes in this build:
+- Removed the Gemini 2.5 Flash fallback, which is being retired in October 2026.
+- Added current supported Firebase AI Logic fallback models.
+- Added clearer network/API-key diagnostics and a console warning when the App Check site key is missing.
+
+Important: a code change cannot create a reCAPTCHA Enterprise site key or enable Firebase AI Logic in your Firebase project. If AI still says unavailable after deployment:
+1. In Firebase Console, open AI Logic and complete setup with the Gemini Developer API provider.
+2. In Firebase Console > App Check, register the Habita web app with a reCAPTCHA Enterprise site key.
+3. Set VITE_RECAPTCHA_ENTERPRISE_SITE_KEY to that exact public site key in Vercel's environment variables for the deployed environment, then redeploy.
+4. Only enable App Check enforcement after token generation and a test AI request succeed.
+5. Open browser DevTools > Console/Network and read the actual Firebase error if it still fails. A missing site key only causes the failure when App Check is enforced; it is not proof by itself.
+
+Supported models reference:
+https://firebase.google.com/docs/ai-logic/models
