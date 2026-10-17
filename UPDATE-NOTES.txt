@@ -1,3 +1,138 @@
+Habita v102 — Goal strip card on Home
+
+- New carousel card "YOUR GOALS" right after TODAY. One row per active goal (up to 3, then "+N more"), each with its own kind of progress:
+  Skill: stage X of N and the stage name, with a progress bar and the days left to the deadline (or a percentage).
+  Habit: days in a row and the next milestone (7, 21 or 30 days), with a bar toward it.
+  Project: steps done of N and the next step, with a bar and the days left.
+  Tap a row to open that goal; "Open goals" goes to the Goals tab.
+- The new Home cards (goals, checkpoint, award, Bita) now only appear once you have a goal or a habit. A fresh app still shows just the daily reflection.
+
+Validation: inline JavaScript syntax checked; headless-browser test with a skill, a habit and a project goal confirmed the card, its rows opening the goal, and that a fresh app shows only the daily reflection. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v101 — Three new Home cards
+
+- Home carousel: new cards between TODAY and DAILY REFLECTION.
+  CHECKPOINT READY: appears when a learning-path stage has a checkpoint you can attempt (the stage's days are done, or an earlier checkpoint is still open). "Open goal" goes to that goal. Hidden when nothing is waiting.
+  NEW AWARD: shows your newest award for 3 days. "View" opens it on the Awards page and then the card moves on to the next new award, if any.
+  BITA: one short line, picked from your own data (a missed yesterday, a streak of 7+, progress today, time of day, or all done). It works offline and does not call AI. "Chat" opens Bita.
+- No separate "next up" card. The time-of-day dropdown already lists the habits for each part of the day.
+- Fix: goals created in the current session now start with an empty stage history, so the first stage change can no longer error before the app is reopened.
+
+Validation: inline JavaScript syntax checked; headless-browser test confirmed the cards appear and hide at the right times, "View" opens the award, "Open goal" opens the goal, and no errors. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v100 — Awards in five families
+
+- The Awards page is now grouped as: Goal achievement, Learning and skill, Consistency (your streak awards), Resilience, Reflection and self-awareness, Personal growth. Work, Building and Income awards stay at the end.
+- New awards are only given from real records, never from keywords or self-declaration:
+  Goal achievement: First Milestone (a stage completed), Foundation Builder, Goal Accomplished (a goal completed), Multi-Talented (two goals completed).
+  Learning and skill: Curious Mind (first habit ticked on a skill goal), Knowledge Seeker (20 practice days on skill goals), Putting It to Work (evidence submitted at a checkpoint), Theory to Practice (a checkpoint passed).
+  Resilience: Back on Track (a habit resumed after 7+ days), Adapt and Grow (you re-plan or accept a plan change, then complete 5 of the next 7 days), Kept Going (habits done on 4 of 7 days while 4+ of them had a low, tired, frustrated or stressed mood).
+  Reflection and self-awareness: First Reflection, Found My Rhythm (5+ days a week for 4 weeks in a row), Honest With Myself (a 40+ word reflection on a day you missed habits).
+  Personal growth: Growing in Different Directions (25% in two goals), Finding Balance (3+ active goals above 60% for 14 days), Independent Doer (a one-off project completed), Becoming (75% in two goals after 60+ days).
+- Not added: Pattern Finder. Habita cannot honestly tell from text that you found a pattern, so it needs a way for you to name one yourself.
+- Re-planning from today and accepting a plan change are now remembered (needed for Adapt and Grow).
+- Awards already earned are kept. Existing users may unlock several new awards at once.
+
+Validation: inline JavaScript syntax checked; headless-browser test with seeded data confirmed the groups, that each rule above fires from the right records, and that a fresh account earns nothing. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v99 — Goal type on the manual goal form
+
+- The manual "Aim with Bita" form (shown when Bita is offline) now asks "What kind of goal is this?": Skill or exam, Habit, or One-off project.
+- Habit: no deadline, experience-level or course-path questions. The goal page shows "Making it stick" and no learning path.
+- One-off project: no experience-level question; "Do you have steps in mind?" (one per line). The goal page shows a Steps section.
+- Skill or exam works as before.
+- Goals made by chatting with Bita already chose their own type and had the switch on the card; unchanged.
+
+Validation: inline JavaScript syntax checked; headless-browser test confirmed the form fields hide per type and that habit, project (with and without steps) and skill goals open without errors. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v98 — Yearly reflection removed
+
+- Removed the yearly reflection ("Your <year> with Habita" card, its save button, input handler and stored data field). It had no button leading to it in v97, so nothing visible changes.
+- The January 1 "new month" popup is a separate feature and was left alone.
+
+Validation: inline JavaScript syntax checked only. Not run in a browser or on a phone.
+
+Habita v91 — Get ahead
+
+- When every habit due today is ticked, the TODAY card says "All done. Want to get ahead?" and a "Get ahead" card lists up to 3 carried-over habits that were pushed to later days.
+- "Do it now" moves that habit to today's Carried over list (its own check circle) and frees the later day. "Not now" hides the offer for the rest of the day.
+- Doing a habit early does not count toward today's streak or coins, like any carried-over habit.
+- Skipped habits do not count as "all done", so the offer only appears once every due habit is actually ticked.
+
+Validation: inline JavaScript syntax checked; headless-browser test confirmed the offer is hidden until every habit is ticked, "Do it now" moves the item to today without changing streak or coins, "Not now" hides it and it stays hidden after a reload. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v90 — Automatic roll-over, skip, and a Missed habits chart
+
+- Roll-over is automatic. When the app opens on a new day, any habit that was due yesterday and was not ticked or skipped comes back in a "Carried over" list on Home. There is nothing to tap to make it happen.
+- Clashes: a carried habit lands on the first day with no clash. It clashes if the same habit is already due that day, or another habit or carried item is within 45 minutes of its time. If so it moves to the next free day. Tomorrow's own habits are never moved.
+- A daily habit clashes with itself every day, so it never carries over: its next normal occurrence is the make-up.
+- A carried item that is still not done the next day rolls on again, up to 3 times, then it is recorded as missed.
+- Each unfinished habit on Home has a "Skip" button (Undo on the row). A skipped habit is not carried over.
+- Carried items have their own check circle and "Drop" link (a dropped item is recorded as skipped). They never change yesterday, today's count, your streak or coins. The 70% rule is unchanged, and yesterday stays "not done".
+- Progress (all goals and each goal page): new "Missed habits" card with Done, Carried over, Skipped and No answer, how many carried habits were made up, and the three most often missed habits for the chosen range.
+- Old data loads fine.
+
+Validation: inline JavaScript syntax checked; headless-browser tests seeded habits and confirmed: a missed habit carries to today, a clashing one moves to tomorrow, daily, skipped and done habits do not carry, nothing is created twice after a reload, a pending item rolls and then expires after 3 rolls, and streak and coins are unaffected. Not tested: real Firebase sign-in, cloud sync, the real Vite build, or a phone.
+
+Habita v88 — Progress charts, per-goal progress, streak and coins top right
+
+- Progress (Almanac): average daily score with a line chart (7/30/90 days, change vs the previous period), summary tiles, a list of your goals (tap one to open it), weekly rhythm bars, a 15-week consistency heatmap and peak focus zones (morning/afternoon/evening, from habit times).
+- Each goal page now has a Progress section with the same charts for just that goal, plus completion per habit.
+- Streak and coins sit in the top right on Home, Goals, Progress and Profile. The old coins card on Home is gone.
+- No tab shows a title with its own name; the Goals page header is now just Edit and + on the left.
+
+Habita v87 — AI chat page
+
+- "Aim with AI" (+ menu and Goals +) now opens a chat page. Tap an area chip or type. The AI asks one question at a time: category, goal, date, experience level, course path, hours per week.
+- When it has everything it shows a "Create this goal" card. Tapping it creates the goal with habits and a path (your stages, or a 4-6 stage path the AI designs).
+- Chat history is kept (last 40 messages); "New chat" clears it.
+- If AI is offline the page says why, offers "Set up my goal manually" (the form from v84.1) and "Try AI again".
+
+Habita v86 — AI fix attempt and one Activities entry
+
+- + menu: one "Activities" entry (the page has its own + to add).
+- AI model: Habita used gemini-2.5-flash, which Google limits to projects that used it before and is retiring in Oct 2026. It now tries gemini-3.8-flash, then gemini-3.5-flash-lite, then gemini-2.5-flash.
+- Plain-language AI errors (App Check blocking, API not enabled, quota, permission) instead of raw messages.
+- Aim with AI checks AI automatically when you open page 2: shows "AI is ready" or the offline message with the reason. No code flag to flip any more.
+- If AI is ready and you answered "No" to the course path, the path is generated right after you create the goal.
+
+Habita v85 — Activities and goal delete button
+
+- "Tasks" and "Schedule" are now "Activities" everywhere: + menu ("Add an activity", "Activities"), the page title, the Home card, and the add/edit form.
+- Goals page: new Edit button next to +. It shows a red Delete button on every goal (with a confirmation); tap Done to leave edit mode.
+
+Habita v84.1 — One-step "Aim with AI"
+
+- No separate habits page: "Create goal" generates the habits itself and opens the new goal, where you can add, edit or remove habits.
+- Timeframe: 1 month / 3 months / 6 months / 1 year, or "Custom" to pick any date.
+
+Habita v84 — Aim with AI (offline-friendly goal setup)
+
+- "Add a goal" is now "Aim with AI". Page 1: tap a category. Page 2: what you want to achieve, when, your level (Beginner / Some experience / Experienced), whether you have a course path (Yes = paste stages, optional; No = AI builds one once it is online), and hours per week.
+- Weekly hours become daily minutes for the suggested habits; deadline, level and hours are saved on the goal and sent to the AI path prompt.
+- AI is switched off for now: AI_PLANNING_ONLINE=false in index.html (search for it). Set it to true when AI works again; the banner text changes.
+- Goals that asked for an AI path show "AI will generate a path once it's back online" and the Generate button is on the goal page.
+
+Habita v83 — Bigger category headers
+
+- Goals tab: collapsible category names (Art, Technology, ...) are larger and bolder so they stand apart from the goal titles beneath them. The chevron is slightly larger too.
+
+Validation: inline JavaScript syntax checked; screenshot of the Goals tab with two categories confirmed the headers are clearly larger than the goal titles.
+
+Habita v82 — A proper Schedule page
+
+Schedule items are now simple tasks that live on their own page and never touch your streak.
+
+- New Schedule page: open it from the + menu ("Open schedule") or "Open ›" on the Home card. It has a day strip (dots show days with tasks), tasks split into "At a time" and "Anytime", and a + to add more.
+- Tasks: tap the circle to mark done; ✕ cancels that day's occurrence (Undo brings it back). Tap a task to edit or delete it.
+- Add/edit form: title, optional time (start/end), date, repeat on chosen days, and "How many times?" to stop a repeating task after N occurrences (empty = keeps repeating), plus a note.
+- Home shows a compact "Today's schedule" card with the same check-off.
+- Tasks no longer count toward the monthly "best weekday" score, so they have nothing to do with streaks, rings, coins or awards.
+- Existing schedule items are kept and now support done/cancel and repeat limits.
+- Fixed: bottom sheets sat underneath the bottom bar, which could cover their last buttons. They now sit above it, and the task form's Save row stays visible while scrolling.
+
+Validation: inline JavaScript syntax checked; in a headless browser I created a timed repeating task with a 3-time limit and a one-off task, completed one, cancelled the other, confirmed the limit stops on day 4, confirmed streak and coins did not change, and confirmed Save is tappable.
+
 Habita v81.1 — Packaging and release-metadata correction
 
 Based on the v81 awards, general schedule, and Friends build.
