@@ -1,3 +1,14 @@
+Habita v114 — Whole-plan workload review and clearer Bita planning labels
+
+- Renamed visible “Aim with Bita” entry points to “Plan with Bita”.
+- Bita's coaching context now includes the active goal stack, each goal's weekly time estimate, habit duration/frequency, schedule times, known weekly capacity, and a local workload signal.
+- Added a workload warning after adding goals or applying the multi-goal plan when known weekly capacity is exceeded, multiple habit times collide, or several active goals coincide with low recent completion.
+- “Optimize with AI” sends the complete active goal/habit stack to Gemini and asks only for modest reductions in session length or frequency.
+- AI changes are previewed and require explicit approval. Applying them only adjusts the selected habit minutes/frequency; goals and progress history are preserved. If AI fails, the current plan remains unchanged.
+- Multi-goal plans now save the entered weekly availability and assign an estimated weekly-hours share to each active goal so future reviews can compare planned load with capacity.
+
+Validation: inline JavaScript syntax checked with Node.js. Full Vite build/browser interaction test could not be completed because npm dependency installation timed out in this environment. Firebase/Gemini live requests and deployed App Check were not tested.
+
 Habita v106 — TODAY back in the carousel
 
 - Home: the TODAY card is the first card in the carousel row again (check icon, progress ring, TODAY, "x of y habits done", Keep going), same tall style as the others. It was a separate full-width block above the row.
