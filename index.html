@@ -612,7 +612,80 @@ svg.pc{width:100%;height:auto;display:block}.pc-grid{stroke:var(--line);stroke-d
 </style><style id="v113">
 .bn-row{cursor:default}
 .bn-row .pt{flex:1;font-weight:500}
-</style></head>
+</style>
+<style id="v115">
+/* v115: softer and rounder. Navigation bars (#mainNav, which also holds the Almanac tabs) are intentionally not touched. */
+:root{--soft-r:26px;--soft-shadow:0 6px 24px rgba(31,49,80,.07),0 1px 3px rgba(31,49,80,.05);--line:color-mix(in srgb,var(--ink) 9%,var(--bg))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--soft-shadow:0 8px 28px rgba(0,0,0,.28),0 1px 3px rgba(0,0,0,.2);--line:color-mix(in srgb,var(--ink) 11%,var(--bg))}}
+:root[data-theme="dark"]{--soft-shadow:0 8px 28px rgba(0,0,0,.28),0 1px 3px rgba(0,0,0,.2);--line:color-mix(in srgb,var(--ink) 11%,var(--bg))}
+body{background:radial-gradient(120% 60% at 50% -10%,color-mix(in srgb,var(--accent) 7%,var(--bg)),var(--bg) 70%) fixed,var(--bg)}
+main{padding-left:18px;padding-right:18px}
+h1{font-weight:750;letter-spacing:-.025em}
+h2{font-weight:740}
+.card{border:0;border-radius:var(--soft-r);padding:20px;margin-bottom:16px;box-shadow:var(--soft-shadow)}
+.hcard{border:0;border-radius:30px;box-shadow:var(--soft-shadow)}
+.hc-btn{border-radius:999px}
+.hcards{padding-top:4px;padding-bottom:26px;margin-bottom:-6px}
+button.primary,.btn,.plus{border-radius:999px;padding:13px 22px;box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 28%,transparent)}
+button.primary:active{transform:scale(.97)}
+.chips button,.opts button,.chip{border-radius:999px;border-width:1.5px;padding:10px 16px}
+.opts button{border-radius:20px}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{border-radius:18px;border:1.5px solid var(--line);padding:14px 16px;background:color-mix(in srgb,var(--ink) 3%,var(--surface))}
+input[type=text]:focus,input[type=number]:focus,input[type=date]:focus,input[type=time]:focus,select:focus,textarea:focus{border-color:var(--accent);outline:0;box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+textarea{border-radius:20px}
+.bar,.gbar{height:10px;border-radius:99px;background:color-mix(in srgb,var(--ink) 8%,var(--surface))}
+.bar i,.gbar i{border-radius:99px}
+.dot{border-width:2px;box-shadow:inset 0 0 0 0 transparent;transition:transform .12s ease,background .15s}
+.dot:active{transform:scale(.9)}
+.seg{border-radius:999px}
+.seg-btn{border-radius:999px}
+.sheet{border-radius:32px 32px 0 0}
+.pop .story,.story{border-radius:32px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.pop .story .pill,.pill{border-radius:999px}
+.row{border-top-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.gov,.goal-detail-hero,.gd-hero,.journal-stats,.monthly-summary,.almanac-empty{border:0;border-radius:30px;box-shadow:var(--soft-shadow)}
+.goal-list-card,.msum,.plist,.gd-pace{border:0;border-radius:24px;box-shadow:var(--soft-shadow)}
+.iconbtn{border:0;box-shadow:var(--soft-shadow)}
+</style>
+<style id="v116">
+/* v116: bigger section headings. Same serif as the carousel card titles. Navigation untouched. */
+:root{--title-font:Georgia,"Times New Roman",serif}
+.goal-category-title,.goal-detail-section,.pr-h,h2.sect,h2.rhead{font-family:var(--title-font);font-size:1.32rem;font-weight:800;letter-spacing:-.01em;line-height:1.2;text-transform:none}
+.goal-category-title{font-size:1.4rem}
+.goal-category-title>*,.goal-category-title small{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.85rem;font-weight:600;letter-spacing:0}
+h2.rhead{margin-bottom:12px}
+.goal-detail-section{margin-bottom:10px}
+.pr-h{margin-bottom:10px}
+h2.sect{margin:22px 0 12px}
+.pr-sub{font-size:.8rem;letter-spacing:.06em}
+.hc-goals .hc-title{font-family:var(--title-font);font-size:1.1rem;font-weight:800;letter-spacing:0;margin-bottom:6px}
+.goal-detail-section.gd-fold-h{font-size:1.32rem}
+.almanac-title,main h2:not(.sect):not(.rhead){font-family:var(--title-font);font-size:1.5rem;letter-spacing:-.015em}
+</style>
+<style id="v117">
+/* v117: colour themes. Pick one in Profile > Settings. Works with Auto / Light / Dark. */
+:root[data-palette="forest"]{--bg:#edf4ee;--surface:#fff;--ink:#1d2f24;--muted:#66796d;--accent:#2b7a4b;--done:#2f9e5c;--done-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"])[data-palette="forest"]{--bg:#0d1711;--surface:#16231b;--ink:#e6f2ea;--muted:#8da396;--accent:#6fcf97;--done:#4cc77f;--done-ink:#0d1711}}
+:root[data-theme="dark"][data-palette="forest"]{--bg:#0d1711;--surface:#16231b;--ink:#e6f2ea;--muted:#8da396;--accent:#6fcf97;--done:#4cc77f;--done-ink:#0d1711}
+:root[data-palette="sunset"]{--bg:#fbf0e8;--surface:#fff;--ink:#3a2a22;--muted:#86705f;--accent:#df5f2c;--done:#d9822b;--done-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"])[data-palette="sunset"]{--bg:#19110f;--surface:#261a16;--ink:#f6e9e2;--muted:#b09889;--accent:#ff8a5c;--done:#ffb15c;--done-ink:#19110f}}
+:root[data-theme="dark"][data-palette="sunset"]{--bg:#19110f;--surface:#261a16;--ink:#f6e9e2;--muted:#b09889;--accent:#ff8a5c;--done:#ffb15c;--done-ink:#19110f}
+:root[data-palette="lavender"]{--bg:#f2eff9;--surface:#fff;--ink:#2a2440;--muted:#736d91;--accent:#6a4be0;--done:#7a5ce6;--done-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"])[data-palette="lavender"]{--bg:#120e1e;--surface:#1c1730;--ink:#ece8fa;--muted:#978fb6;--accent:#a58bff;--done:#8f7bff;--done-ink:#120e1e}}
+:root[data-theme="dark"][data-palette="lavender"]{--bg:#120e1e;--surface:#1c1730;--ink:#ece8fa;--muted:#978fb6;--accent:#a58bff;--done:#8f7bff;--done-ink:#120e1e}
+:root[data-palette="rose"]{--bg:#fbeef2;--surface:#fff;--ink:#3a2229;--muted:#886974;--accent:#d3326a;--done:#df4579;--done-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"])[data-palette="rose"]{--bg:#1b0f14;--surface:#2a1720;--ink:#fae8ee;--muted:#b6919d;--accent:#ff7aa5;--done:#ff6b97;--done-ink:#1b0f14}}
+:root[data-theme="dark"][data-palette="rose"]{--bg:#1b0f14;--surface:#2a1720;--ink:#fae8ee;--muted:#b6919d;--accent:#ff7aa5;--done:#ff6b97;--done-ink:#1b0f14}
+:root[data-palette="graphite"]{--bg:#f0f0f2;--surface:#fff;--ink:#1c1c1e;--muted:#75757c;--accent:#474c57;--done:#3a3f49;--done-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"])[data-palette="graphite"]{--bg:#0f0f11;--surface:#1b1b1e;--ink:#ececf0;--muted:#8c8c94;--accent:#c4c7d0;--done:#a6aab6;--done-ink:#0f0f11}}
+:root[data-theme="dark"][data-palette="graphite"]{--bg:#0f0f11;--surface:#1b1b1e;--ink:#ececf0;--muted:#8c8c94;--accent:#c4c7d0;--done:#a6aab6;--done-ink:#0f0f11}
+.pal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.pal-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px 12px;border-radius:22px;border:2px solid transparent;background:color-mix(in srgb,var(--ink) 4%,var(--surface));color:var(--ink);font:inherit;font-weight:650;font-size:.85rem;cursor:pointer;transition:transform .12s ease,border-color .15s}
+.pal-btn:active{transform:scale(.96)}
+.pal-btn.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.pal-sw{width:42px;height:42px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 2px 8px rgba(0,0,0,.15)}
+</style>
+</head>
 <body>
 <main><div id="view"></div></main>
 <nav id="mainNav" aria-label="Main">
@@ -1377,7 +1450,7 @@ var nm=((state.profile&&state.profile.name)||"").trim(),goals=state.goals.filter
 function row(act,col,ic,t,sub,extra){return'<button class="prow" data-act="'+act+'"'+(extra||'')+' type="button"><span class="sic '+col+'">'+ic+'</span><span class="pt">'+t+'<small>'+sub+'</small></span><span class="chev">›</span></button>'}
 return'<div class="phead"><div class="pav">'+(nm?esc(nm.charAt(0).toUpperCase()):'🌱')+'</div><div class="pinfo">'+(nm?'<button class="pname" data-act="account" type="button">'+esc(nm)+'</button>':'<button class="pname empty" data-act="account" type="button">Add your nickname</button>')+'<div class="psub">'+goals+' active goal'+(goals==1?'':'s')+' · '+earned+' award'+(earned==1?'':'s')+'</div></div><button class="iconbtn" data-act="account" type="button" aria-label="Edit profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div>'+
 '<div class="plist">'+row("awards","orange",'<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 20h8M10 17h4"/></svg>',"Awards",!hasGoal()?"Set goals to unlock rewards":(earned?earned+" earned":"Your trophy cabinet"))+row("account","blue",'<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9.5 4.3 4.3 0 0 1 17.5 18z"/></svg>',"Account & sync",c.signedIn?"Synced with Google":"Local only, optional")+row("bitanotes","purple",'<svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/></svg>',"What Bita remembers",(state.aiMemory&&state.aiMemory.length)?state.aiMemory.length+" saved":"Nothing yet")+row("export","teal",'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',"Export backup","Keep an offline copy")+row("nav","gray",'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>',"Settings","Theme, data and privacy",' data-v="more"')+'</div>'}
-function moreHTML(){if(state.profileView==='profile')return profileHTML();if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();if(state.profileView==='release')return releaseHTML();return'<div class="card"><h2>Settings</h2><p class="note left">Preferences, sync, and your data.</p></div><div class="card"><h2>☁️ Account & Sync</h2><p class="note left">Optional cloud account, cross-device sync, and backups.</p><button class="primary wide" data-act="account" type="button" style="margin-top:12px">Open Account & Sync</button></div><div class="card"><h2>✨ Release readiness</h2><p class="note left">See what is ready and what still needs to happen before publishing.</p><button class="primary wide" data-act="release" type="button" style="margin-top:12px">Open checklist</button></div>'+ '<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+  '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+ '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
+function moreHTML(){if(state.profileView==='profile')return profileHTML();if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();if(state.profileView==='release')return releaseHTML();return'<div class="card"><h2>Settings</h2><p class="note left">Preferences, sync, and your data.</p></div><div class="card"><h2>☁️ Account & Sync</h2><p class="note left">Optional cloud account, cross-device sync, and backups.</p><button class="primary wide" data-act="account" type="button" style="margin-top:12px">Open Account & Sync</button></div><div class="card"><h2>✨ Release readiness</h2><p class="note left">See what is ready and what still needs to happen before publishing.</p><button class="primary wide" data-act="release" type="button" style="margin-top:12px">Open checklist</button></div>'+ themeCardHTML()+  '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+ '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
 
 
 /* ---------- focus timer ---------- */
@@ -1676,7 +1749,9 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-act]
   if(x.h.log[tk]>=planMin(x.h,tk))x.h.done[tk]=1;save();render()}},true);
 
 /* ---------- render + events ---------- */
-function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme)}
+var PALETTES=[{id:"ocean",name:"Ocean",a:"#2f5bea",b:"#eef2f7"},{id:"forest",name:"Forest",a:"#2f9e5c",b:"#edf4ee"},{id:"sunset",name:"Sunset",a:"#df5f2c",b:"#fbf0e8"},{id:"lavender",name:"Lavender",a:"#7a5ce6",b:"#f2eff9"},{id:"rose",name:"Rose",a:"#df4579",b:"#fbeef2"},{id:"graphite",name:"Graphite",a:"#474c57",b:"#f0f0f2"}];
+function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme);var pid=state.palette||"ocean";if(pid==="ocean"||!PALETTES.some(function(p){return p.id===pid}))r.removeAttribute("data-palette");else r.setAttribute("data-palette",pid);try{var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",getComputedStyle(r).getPropertyValue("--bg").trim()||"#0f1624")}catch(e){}}
+function themeCardHTML(){var cur=state.palette||"ocean";return '<div class="card"><span class="lbl" style="margin-top:0">Appearance</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div><span class="lbl">Colour theme</span><div class="pal-grid">'+PALETTES.map(function(p){return'<button type="button" class="pal-btn '+(cur===p.id?"sel":"")+'" data-act="palette" data-v="'+p.id+'" aria-pressed="'+(cur===p.id)+'"><span class="pal-sw" style="background:linear-gradient(135deg,'+p.a+' 55%,'+p.b+' 55%)"></span>'+p.name+'</button>'}).join("")+'</div></div>'}
 function sheetHTML(){if(!plusOpen)return'';if(plusOpen=="reflect")return notepadHTML();var b='<div class="sbackdrop" data-act="plusclose"></div><div class="sheet" role="dialog" aria-modal="true"><div class="sgrab"></div>';
 if(plusOpen=="menu")b+='<button class="srow" data-act="homeaddgoal" type="button"><span class="sic teal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>Plan with Bita</button><button class="srow" data-act="schpage" type="button"><span class="sic purple"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span>Activities</button><p class="note left" style="padding:0 14px 8px">Activities never affect your streak.</p>';
 else if(plusOpen=="goals")b+='<button class="srow" data-act="plusone" type="button"><span class="sic teal"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span><strong>Plan with Bita</strong><small class="note left" style="display:block;margin:3px 0 0">Chat with Bita to set a goal and get a plan.</small></span></button>'+(state.goals.filter(function(g){return !g.locked}).length?'<button class="srow" data-act="editgoals" type="button"><span class="sic blue"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><span><strong>Edit your goal</strong><small class="note left" style="display:block;margin:3px 0 0">Manage your existing goals.</small></span></button>':'')+'<button class="link back" data-act="plusclose" type="button">Cancel</button>';
@@ -1829,7 +1904,7 @@ document.addEventListener("click",function(e){
  if(a=="pacetoggle"){var pg=goalById(d.g);if(pg){pg.pace=pg.pace==="relaxed"?"structured":"relaxed";if(pg.pace==="structured"&&!pg.stageStarted)pg.stageStarted=key(daysBack(0));if(pg.pace==="structured"&&pg.deadline)pg.stage=fitStage(pg,pg.stageIndex||0);save();render()}return}
  if(a=="stageready"){var rg=goalById(d.g);if(rg&&rg.pace==="relaxed"&&!rg.completed)markStageReady(rg);return}
  if(a=="goalsedit"){goalsEdit=!goalsEdit;render();return}
- if(a=="theme"){state.theme=d.v;applyTheme();save();render();return}
+ if(a=="theme"){state.theme=d.v;applyTheme();save();render();return} if(a=="palette"){state.palette=d.v;applyTheme();save();render();return}
  if(a=="export"){var b=new Blob([JSON.stringify(state)],{type:"application/json"}),l=document.createElement("a");l.href=URL.createObjectURL(b);l.download="habita-backup.json";document.body.appendChild(l);l.click();l.remove();return}
  if(a=="import"){$("impFile").click();return}
  if(a=="reset"){if(confirm("Delete all goals, habits, and journal entries? This cannot be undone.")){try{localStorage.removeItem(KEY);localStorage.removeItem(OLD)}catch(err){}state=load();wiz=null;planner=null;render()}return}

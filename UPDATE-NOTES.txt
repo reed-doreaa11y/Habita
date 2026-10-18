@@ -1,3 +1,34 @@
+Habita v117 — Colour themes
+
+- Profile > Settings > Appearance: Auto / Light / Dark as before, plus a new "Colour theme" picker with six themes: Ocean (the current look, still the default), Forest, Sunset, Lavender, Rose and Graphite.
+- Each theme has its own light and dark colours, so it works with Auto, Light and Dark. Accent, buttons, progress, cards and the browser/status bar colour follow the theme.
+- The choice is saved with your data (state.palette) and kept after a reload. Existing users stay on Ocean.
+- Styles are in the "v117" block in <head>; the picker is themeCardHTML() and the colours live in PALETTES.
+- Navigation bars keep their layout; only their colours follow the theme.
+
+Validation: inline JavaScript syntax checked; in a headless browser, picked Forest from Settings, confirmed it applied and survived a reload, then rendered Home in all six themes in light and dark. Not tested on a device. A few fixed colours (the gold award card and orange checkpoint card) do not change with the theme.
+
+Habita v116 — Bigger section headings
+
+- One style block (id "v116") after the v115 block. No logic changes.
+- Section headings now use the same serif as the carousel card titles, at about 21 to 22 px instead of 11 to 16 px: the collapsible category titles in Goals, the section titles on the goal page (Today, Your journey, Active habits, Learning path), the Progress page headings, the Awards group titles and "Your reflections" in the Journal.
+- Page titles inside pages (Monthly overview, the goal name, Awards) are larger too.
+- The "YOUR GOALS" Home card title now matches the other carousel card titles.
+- Small labels such as "BY DAY OF THE WEEK" are slightly bigger. The "2 goals" count next to a category stays small and in the regular font.
+- The bottom bar and Almanac tabs are untouched.
+
+Validation: inline JavaScript syntax checked; Goals, goal page, Progress, Awards, Almanac and Home rendered in a headless browser in dark mode with no horizontal overflow or script errors. Not tested in light mode on every page, or on a device.
+
+Habita v115 — Softer and rounder look
+
+- One style block (id "v115") at the end of <head>. No logic changes.
+- Cards, carousel cards, goal cards, summary cards, popups and sheets have larger corner radii, no hard outline and a soft shadow.
+- Buttons, chips and the segmented switcher are pill-shaped; text fields are rounder with a soft focus glow; progress bars are thicker and fully rounded; the page has a faint gradient wash.
+- The bottom navigation bar and the Almanac tabs (both live in #mainNav) are untouched. Their computed styles were compared before and after and are identical.
+- Fixed in testing: carousel card shadows were clipped, and goal rows inside the Goals card briefly became pill-shaped.
+
+Validation: inline JavaScript syntax checked; Home and Goals compared before and after in a headless browser in light and dark mode; nav style comparison as above. The Profile, Almanac and goal detail pages were restyled by class name but not screenshot-checked. Not tested on a device.
+
 Habita v114 — Whole-plan workload review and clearer Bita planning labels
 
 - Renamed visible “Aim with Bita” entry points to “Plan with Bita”.
