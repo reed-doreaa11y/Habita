@@ -1,3 +1,21 @@
+Habita v119 — Category titles back to sans-serif
+
+- The collapsible category titles in Goals (for example "Uncategorised") are bigger but use the regular app font again, not the serif. Other section headings keep the serif from v116.
+
+Validation: inline JavaScript syntax checked; Goals page rendered in a headless browser in dark mode. Not tested on a device.
+
+Habita v118 — Awards page redesign and award pop-up
+
+- Award cards are now just a badge and a title in a 3-column grid. The little description, date and "Locked" notes are gone from the cards.
+- Tap any award to open a pop-up. Earned: the badge, the title, the date and "Why you won it", plus the specific detail that was recorded (for example the goal) and a link to the Journal entry when there is one. Not earned yet: "How to earn it".
+- From Home, "View" on the new-award card opens the Awards page with that award's pop-up already open.
+- Earned awards from the catalog always show their catalog name (an earlier award showed the text "fits" as its title).
+- Locked awards are readable now: the titles were dark on dark. Earned badges are gold, locked ones are grey with a small lock.
+- New header with the count ("N of M earned") and a progress bar; each group shows how many you have, for example 1/4.
+- The pop-up sits above the bottom bar. The bottom bar and Almanac tabs are untouched.
+
+Validation: inline JavaScript syntax checked; in a headless browser with seeded awards confirmed the cards show no description or "Locked" text, an earned and a locked pop-up open and close (backdrop and X), and the Home card opens the pop-up. Not tested on a device or in light mode.
+
 Habita v117 — Colour themes
 
 - Profile > Settings > Appearance: Auto / Light / Dark as before, plus a new "Colour theme" picker with six themes: Ocean (the current look, still the default), Forest, Sunset, Lavender, Rose and Graphite.

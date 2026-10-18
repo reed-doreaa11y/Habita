@@ -651,7 +651,7 @@ textarea{border-radius:20px}
 /* v116: bigger section headings. Same serif as the carousel card titles. Navigation untouched. */
 :root{--title-font:Georgia,"Times New Roman",serif}
 .goal-category-title,.goal-detail-section,.pr-h,h2.sect,h2.rhead{font-family:var(--title-font);font-size:1.32rem;font-weight:800;letter-spacing:-.01em;line-height:1.2;text-transform:none}
-.goal-category-title{font-size:1.4rem}
+.goal-category-title{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.45rem;font-weight:800;letter-spacing:-.02em}
 .goal-category-title>*,.goal-category-title small{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:.85rem;font-weight:600;letter-spacing:0}
 h2.rhead{margin-bottom:12px}
 .goal-detail-section{margin-bottom:10px}
@@ -684,6 +684,43 @@ h2.sect{margin:22px 0 12px}
 .pal-btn:active{transform:scale(.96)}
 .pal-btn.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
 .pal-sw{width:42px;height:42px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 2px 8px rgba(0,0,0,.15)}
+</style>
+<style id="v118">
+/* v118: Awards page redesign. Navigation untouched. */
+.aw-head{padding-bottom:18px}
+.aw-title{font-family:var(--title-font,Georgia,serif);font-size:1.9rem;font-weight:800;margin:10px 0 6px}
+.aw-count{display:flex;align-items:baseline;gap:8px;margin:2px 0 12px}
+.aw-count strong{font-size:2.4rem;font-weight:800;line-height:1}
+.aw-count span{color:var(--muted);font-weight:600}
+.aw-sect{display:flex;align-items:baseline;justify-content:space-between;margin:26px 2px 12px}
+.aw-sect h2.sect{margin:0}
+.aw-sectn{color:var(--muted);font-weight:700;font-size:.9rem}
+.award-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:0}
+.aw-tile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 6px 14px;border:0;border-radius:26px;background:var(--surface);box-shadow:var(--soft-shadow);color:var(--ink);font:inherit;cursor:pointer;transition:transform .12s ease}
+.aw-tile:active{transform:scale(.96)}
+.aw-badge{position:relative;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;font-size:2rem;line-height:1}
+.aw-tile.earned .aw-badge{background:radial-gradient(circle at 30% 25%,color-mix(in srgb,#ffd36b 88%,var(--surface)),color-mix(in srgb,#f0a53a 55%,var(--surface)));box-shadow:0 6px 18px color-mix(in srgb,#e0b72b 35%,transparent),inset 0 0 0 2px rgba(255,255,255,.4)}
+.aw-tile.locked .aw-badge{background:color-mix(in srgb,var(--ink) 7%,var(--surface))}
+.aw-tile.locked .aw-badge{filter:grayscale(1);opacity:.55}
+.aw-lock{position:absolute;right:-4px;bottom:-4px;font-size:.9rem;font-style:normal;filter:none;background:var(--surface);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.aw-name{font-weight:700;font-size:.8rem;line-height:1.2;text-align:center;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.aw-tile.locked .aw-name{color:var(--muted)}
+.aw-pop{position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:0 0 env(safe-area-inset-bottom,0px)}
+.aw-back{position:absolute;inset:0;background:rgba(8,12,22,.55);backdrop-filter:blur(3px);animation:awfade .2s ease both}
+.aw-sheet{position:relative;width:100%;max-width:520px;max-height:88vh;overflow:auto;background:var(--surface);border-radius:32px 32px 0 0;padding:34px 24px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;box-shadow:0 -12px 50px rgba(0,0,0,.35);animation:awup .26s cubic-bezier(.2,.8,.2,1) both}
+.aw-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:0;background:color-mix(in srgb,var(--ink) 8%,var(--surface));color:var(--ink);font-size:1rem;cursor:pointer}
+.aw-big{width:104px;height:104px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3.4rem;background:radial-gradient(circle at 30% 25%,color-mix(in srgb,#ffd36b 88%,var(--surface)),color-mix(in srgb,#f0a53a 55%,var(--surface)));box-shadow:0 10px 30px color-mix(in srgb,#e0b72b 40%,transparent),inset 0 0 0 3px rgba(255,255,255,.45)}
+.aw-big.locked{background:color-mix(in srgb,var(--ink) 8%,var(--surface));box-shadow:none;filter:grayscale(1);opacity:.6}
+.aw-sheet h2{font-family:var(--title-font,Georgia,serif);font-size:1.7rem;margin:0 0 10px}
+.aw-pill{display:inline-block;padding:7px 16px;border-radius:999px;background:color-mix(in srgb,var(--done) 16%,var(--surface));color:var(--done);font-weight:700;font-size:.85rem}
+.aw-pill.off{background:color-mix(in srgb,var(--ink) 8%,var(--surface));color:var(--muted)}
+.aw-why{margin:20px 0 6px;padding:16px 18px;border-radius:22px;background:color-mix(in srgb,var(--ink) 5%,var(--surface));text-align:left}
+.aw-why strong{display:block;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.aw-why p{margin:0;font-size:1.02rem;line-height:1.45}
+.aw-why .aw-note{margin-top:10px;color:var(--muted);font-size:.92rem;white-space:pre-wrap}
+.aw-sheet .primary.wide{margin-top:12px}
+@keyframes awup{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes awfade{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -1749,6 +1786,22 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-act]
   if(x.h.log[tk]>=planMin(x.h,tk))x.h.done[tk]=1;save();render()}},true);
 
 /* ---------- render + events ---------- */
+
+/* ---------- v118: Awards page redesign. Cards show only the badge and title; details open in a pop-up. ---------- */
+var AWARD_WHY={"first-milestone":"You completed the first stage of a learning path.","foundation-builder":"You finished the foundational stage of a path.","goal-accomplished":"You completed a full goal pathway.","multi-talented":"You completed two or more different goal pathways.","curious-mind":"You completed your first learning session on a skill goal.","knowledge-seeker":"You kept up meaningful learning activity across your skill goals.","first-practical-project":"You recorded a practical project or exercise.","theory-to-practice":"You showed a skill by completing a practical task.","s7":"You showed up for seven days in a row.","s21":"You built a three-week streak.","s30":"You kept up a full month of consistency.","s60":"You kept showing up for two months.","s100":"You reached a hundred days of consistency.","back-on-track":"You picked a habit back up after a genuine break.","adapt-and-grow":"You revised a plan that was not realistic and then followed the new one.","kept-going":"You kept making progress through a difficult stretch.","first-reflection":"You saved your first daily reflection.","pattern-finder":"You spotted a recurring obstacle or helpful pattern in your reflections.","found-my-rhythm":"You found a routine that works and stuck with it.","honest-with-myself":"You wrote an honest reflection about what is and is not working."};
+function awardDateText(d){try{return new Date(d+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"})}catch(e){return d||""}}
+function awardCard(a){var e=earnedAward(a.id);return'<button type="button" class="aw-tile '+(e?'earned':'locked')+'" data-act="awarddetail" data-award="'+esc(a.id)+'" aria-label="'+esc(a.title)+(e?'':', not earned yet')+'"><span class="aw-badge" aria-hidden="true">'+a.icon+(e?'':'<i class="aw-lock">🔒</i>')+'</span><span class="aw-name">'+esc(a.title)+'</span></button>'}
+function awardPopupHTML(catalog,groups){var id=state.awardView;if(!id)return'';var a=null;Object.keys(groups).forEach(function(c){groups[c].forEach(function(x){if(x.id==id)a=x})});if(!a)return'';var e=state.ach&&state.ach[id],title=a.title||(e&&e.t)||"Award",journal=e&&e.journalDate&&state.journal&&state.journal[e.journalDate],why=AWARD_WHY[id]||(e?"You earned this by reaching it in Habita.":a.desc);
+ var body=e?'<span class="aw-pill">Earned '+esc(awardDateText(e.d))+'</span><div class="aw-why"><strong>Why you won it</strong><p>'+esc(why)+'</p>'+(e.note?'<p class="aw-note">'+esc(e.note)+'</p>':'')+'</div>'+(journal?'<button class="primary wide" data-act="journalentry" data-k="'+esc(e.journalDate)+'" type="button">Read the Journal entry</button>':''):'<span class="aw-pill off">Not earned yet</span><div class="aw-why"><strong>How to earn it</strong><p>'+esc(a.desc)+'</p></div>';
+ return'<div class="aw-pop"><div class="aw-back" data-act="closeaward"></div><div class="aw-sheet" role="dialog" aria-modal="true" aria-labelledby="awT"><button class="aw-x" data-act="closeaward" type="button" aria-label="Close">✕</button><div class="aw-big '+(e?'':'locked')+'">'+a.icon+'</div><h2 id="awT">'+esc(title)+'</h2>'+body+'</div></div>'}
+function awardsHTML(){if(!hasGoal())return'<div class="card"><button class="link" data-act="profile" type="button">← Back</button><h2 style="margin-top:10px">Awards</h2><p class="note left">Set goals to unlock rewards.</p><button class="primary wide" data-act="plusgoals" type="button" style="margin-top:12px">Add goals</button></div>';
+ var catalog=awardCatalog(),groups={};catalog.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});
+ var extra=Object.keys(state.ach||{}).filter(function(id){return !/^milestone-/.test(id)&&!catalog.some(function(a){return a.id==id})}).map(function(id){var e=state.ach[id],icon=/^g[wm]\d+-/.test(id)?'🔥':/stage-|goal-/.test(id)?'🧠':/month-/.test(id)?'📅':'🏅';return{id:id,icon:icon,title:e.t,desc:'A meaningful achievement recorded by Habita.',cat:/^g[wm]\d+-/.test(id)?'Resilience':/stage-|goal-/.test(id)?'Goal achievement':/month-/.test(id)?'Consistency':'Other'}});
+ extra.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});
+ var earned=0,total=0;Object.keys(groups).forEach(function(k){groups[k].forEach(function(a){total++;if(state.ach&&state.ach[a.id])earned++})});var pct=total?Math.round(earned/total*100):0;
+ var h='<div class="card aw-head"><button class="link" data-act="profile" type="button">← Back</button><h2 class="aw-title">Awards</h2><div class="aw-count"><strong>'+earned+'</strong><span>of '+total+' earned</span></div><div class="gbar"><i style="width:'+pct+'%"></i></div><p class="note left" style="margin:10px 0 0">Tap an award to see why you won it.</p></div>';
+ Object.keys(groups).forEach(function(cat){var got=groups[cat].filter(function(a){return state.ach&&state.ach[a.id]}).length;h+='<div class="aw-sect"><h2 class="sect">'+esc(cat)+'</h2><span class="aw-sectn">'+got+'/'+groups[cat].length+'</span></div><div class="award-grid">'+groups[cat].map(awardCard).join('')+'</div>'});
+ return h+awardPopupHTML(catalog,groups)}
 var PALETTES=[{id:"ocean",name:"Ocean",a:"#2f5bea",b:"#eef2f7"},{id:"forest",name:"Forest",a:"#2f9e5c",b:"#edf4ee"},{id:"sunset",name:"Sunset",a:"#df5f2c",b:"#fbf0e8"},{id:"lavender",name:"Lavender",a:"#7a5ce6",b:"#f2eff9"},{id:"rose",name:"Rose",a:"#df4579",b:"#fbeef2"},{id:"graphite",name:"Graphite",a:"#474c57",b:"#f0f0f2"}];
 function applyTheme(){var r=document.documentElement;if(state.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",state.theme);var pid=state.palette||"ocean";if(pid==="ocean"||!PALETTES.some(function(p){return p.id===pid}))r.removeAttribute("data-palette");else r.setAttribute("data-palette",pid);try{var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",getComputedStyle(r).getPropertyValue("--bg").trim()||"#0f1624")}catch(e){}}
 function themeCardHTML(){var cur=state.palette||"ocean";return '<div class="card"><span class="lbl" style="margin-top:0">Appearance</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div><span class="lbl">Colour theme</span><div class="pal-grid">'+PALETTES.map(function(p){return'<button type="button" class="pal-btn '+(cur===p.id?"sel":"")+'" data-act="palette" data-v="'+p.id+'" aria-pressed="'+(cur===p.id)+'"><span class="pal-sw" style="background:linear-gradient(135deg,'+p.a+' 55%,'+p.b+' 55%)"></span>'+p.name+'</button>'}).join("")+'</div></div>'}
@@ -1856,7 +1909,7 @@ document.addEventListener("click",function(e){
  if(a=="fbsync"){if(window.habitaCloud&&window.habitaCloud.syncNow)window.habitaCloud.syncNow(state).then(function(remote){if(remote){state=remote;save();render();note("Cloud data restored.")}else note("Nothing to restore from cloud yet.")});return}
  if(a=="deleteaccount"){if(confirm("Delete all local Habita data? This cannot be undone.")){try{localStorage.removeItem(KEY)}catch(err){}state=load();render();}return}
  if(a=="awards"){state.profileView='awards';state.awardView=null;render();return}  if(a=="awardchip"){state.awardChipSeen=d.award;view="profile";state.profileView="awards";state.awardView=state.ach[d.award]?d.award:null;save();window.scrollTo(0,0);render();return}
- if(a=="awarddetail"){if(state.ach[d.award]){state.awardView=d.award;render();}return}
+ if(a=="awarddetail"){state.awardView=d.award;render();return}
  if(a=="closeaward"){state.awardView=null;render();return}
  if(a=="profileback"){state.profileView=null;render();return}
  if(a=="journalentry"){view='journal';state.profileView=null;state.journalJump=d.k;render();setTimeout(function(){var el=document.querySelector('[data-jdate="'+d.k+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},30);return}
@@ -2017,7 +2070,7 @@ function checkGrowthAwards(){
  if(act.length>=3&&act.every(function(g){var t=0,n=0;(g.habits||[]).forEach(function(h){if(h.retired)return;for(var i=1;i<=14;i++){var d=daysBack(i);if(sched(h,d)){t++;if(h.done[key(d)])n++}}});return t>0&&n/t>=.6}))award("finding-balance","Finding Balance",{category:"Personal growth"});
 }
 var _checkAchBase=checkAch;checkAch=function(){_checkAchBase();try{checkGrowthAwards()}catch(e){}};
-applyTheme();render();
+state.awardView=null;applyTheme();render();
 var habitaDisplayedPeriod=currentPeriod();setInterval(function(){var p=currentPeriod();if(p!==habitaDisplayedPeriod){habitaDisplayedPeriod=p;render()}},60000);
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script>
