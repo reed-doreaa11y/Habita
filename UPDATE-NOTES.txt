@@ -1,3 +1,63 @@
+Habita v131 — Activities tab based on the wikiHow "Schedule Your Day" guide
+
+- Timetable: timed activities now sit on a timeline with the start time on the left, the length (for example "1h 30m · until 10:30") and a dashed "2h free" marker wherever there is a gap of 30 minutes or more. If two activities overlap, the later one shows a red warning naming the one it clashes with. The header also shows how much time is planned.
+- Priority: each activity can be High, Normal or Low. High and Low show a small badge, and anytime activities are listed with High first. Existing activities count as Normal.
+- Colour coding: an activity can be tied to one of your categories and shows that category's colour as a dot.
+- Anytime stays a separate list for things that do not need a slot.
+- Time estimate tip: the time fields remind you to add about 25% extra time.
+- Keeping to the schedule: after 5pm (or on a past day) a card offers "Move to tomorrow" for the one-off activities you did not finish; repeating ones are left alone. When everything is done there is an "All done" card. After 6pm a "Plan tomorrow" card shows how many activities tomorrow already has.
+- Activities still never affect your streak.
+
+Validation: inline JavaScript syntax checked; in a headless browser with six seeded activities confirmed the timeline, the overlap warning, the free-time marker, priority order, saving priority and category from the form, moving unfinished activities to tomorrow and the all-done card. Not tested on a device or in dark mode.
+
+Habita v130 — Nicer confirmation pop-ups
+
+- The plain browser pop-up ("habita-green.vercel.app says…") is replaced by an in-app dialog: a rounded card on a blurred backdrop, with a title, a short explanation, a Cancel button and a clear action button. Delete-type actions get a red button and a bin icon; the rest get the accent colour and a "Continue" button.
+- It covers every confirmation in the app: deleting a goal, a habit, a chat, a daily goal or a path, clearing what Bita remembers, deleting all data, replacing data from a backup, marking a habit or goal completed, moving to the next stage, and dropping a carried-over habit.
+- Tap outside the card, tap Cancel or swipe back to cancel. Nothing changes until you tap the action button.
+- The back swipe from v129 works with it: one swipe closes the dialog and keeps you on the page.
+
+Validation: inline JavaScript syntax checked; in a headless browser deleting a goal showed the new dialog and no browser pop-up, Cancel kept the goal, the back swipe closed only the dialog, and the action button deleted the goal. Not tested on a phone, and the other dialogs were not each opened.
+
+Habita v129 — Back swipe / back button steps back inside the app
+
+- Swiping back from the screen edge (or pressing the phone's back button) used to close Habita from any page, because the app never told the phone it had moved. Now each page or pop-up you open counts as a step, and back closes just the top one.
+- Order, top first: the workload pop-up, the plus sheet and reflection, an award pop-up, the learning path sheet, chat history, the Bita chat, the goal setup or planner, a goal page, Profile pages (Awards, Account and sync, What Bita remembers), then a tab such as Goals, Almanac or Profile, which goes back to Home.
+- From Home, back leaves the app as normal.
+- Buttons inside the app (All goals, Back, Close) still work and keep the phone's back history in step, so the next swipe does not skip or repeat a page.
+- If the app is reloaded while deep in a page, it comes back at Home and the leftover history entries are cleared.
+
+Validation: inline JavaScript syntax checked; in a headless browser stepping back from a goal's learning path sheet, from a goal page, from Account, and from the Bita chat history each closed exactly one layer, in-app Back buttons kept the history in step, and back from Home left the page. Not tested on a phone with a real edge swipe.
+
+Habita v128 — Bita chat history, simpler account page
+
+- Plan with Bita now keeps a history. Tap History at the top of the chat to see your past chats (title from your first message, date, message count), tap one to reopen it and carry on, or tap the cross to delete it. New chat saves the current one first, so nothing is lost. The last 30 chats are kept on this device.
+- Account and sync: the "Firebase is ready — connect Google to sync" message is gone. A "Synced with Google" card still shows once you are signed in.
+- The Backups card is gone from that page. Export backup is still in the Profile 3-dot menu.
+- Nothing else changed: the Profile 3-dot menu still has Account and sync, What Bita remembers, Export backup and Settings.
+
+Validation: inline JavaScript syntax checked; in a headless browser confirmed two chats appear in History, reopening one, history surviving a reload, deleting one, and that the account page no longer shows the Firebase message or the Backups card. Not tested on a device, and not tested against a live Bita connection.
+
+Habita v127 — Goal page: 3-dot menu, no Active habits, no pace switch
+
+- The Active habits section is gone from the goal page. Today already shows what is due, so the page now runs: hero, Today, Streak, Progress so far, Your journey, Completed habits, Plan & settings.
+- A 3-dot menu sits at the top right of the goal page (next to "All goals"). It holds Learning path (called Steps on project goals) and shows a dot and "Checkpoint ready" when a checkpoint is waiting. Tapping it opens the path in a bottom sheet. Habit goals have no learning path, so they show no menu.
+- The Structured / Relaxed pace card is removed from Plan & settings, and the pace no longer appears in that section's summary. Existing goals keep whatever pace they already had; only the switch is hidden.
+- Removed with Active habits: "Ask Bita for habit ideas", "Mark completed" on a habit, and the "Waiting to unlock" note.
+
+Validation: inline JavaScript syntax checked; in a headless browser with a seeded goal confirmed no Active habits or pace text, the menu opens, the path sheet opens and closes, and Plan & settings still shows Streak counts. Not tested on a device.
+
+Habita v126 — Goal page layout: collapsible sections, streak under its own cadence, progress so far
+
+- Goal page order is now: hero, Today, then collapsible sections: Streak, Progress so far, Your journey (or Making it stick), Active habits, Completed habits, Learning path (or Steps), Plan & settings. Each header shows a one-line summary, so you can see where things stand without opening it. Open or closed is remembered per goal.
+- Streak: shows only the goal's own streak, titled "Daily streak", "Weekly streak" or "Monthly streak", with the count and best in the header. There are no Daily / Weekly / Monthly tabs on the card any more. If a goal was saved with the wrong type, fix it under Plan & settings > "Streak counts".
+- Progress so far (new, per goal): check-ins, active days, overall completion since Day 1 and stage, then the goal's weekly rhythm, consistency map, missed habits and a per-habit breakdown.
+- Learning path opens by itself when a checkpoint is ready, and its header says "Checkpoint ready".
+- Day 1, the pace switch and "Streak counts" moved into Plan & settings.
+- The bottom navigation bars are unchanged. Home is unchanged. No change to how streaks are worked out.
+
+Validation: inline JavaScript syntax checked; in a headless browser with a monthly, a daily and a weekly goal confirmed the header titles, changing the streak type in Plan & settings (saved and still there after a reload over HTTP), no tabs on the streak card for a daily, weekly and monthly goal, open/closed state remembered, Progress section filled in, Learning path opening for a ready checkpoint, the Active habits fold, and light and dark mode at 360 and 390 px wide. Not tested on a device.
+
 Habita v125 — The "New award" card on Home goes away
 
 - Tap View on the card (or the X in its corner) and it leaves Home. It only comes back when you earn another award.
