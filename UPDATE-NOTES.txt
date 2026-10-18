@@ -1,3 +1,32 @@
+Habita v125 — The "New award" card on Home goes away
+
+- Tap View on the card (or the X in its corner) and it leaves Home. It only comes back when you earn another award.
+- If you ignore it, it disappears on its own 24 hours after it first showed up.
+- Only awards earned today or yesterday can show the card. Older ones no longer pop up (it used to be 3 days), and viewing or closing the card clears every award that was waiting, not just the one shown.
+- The Awards page is unchanged and keeps every award.
+
+Validation: inline JavaScript syntax checked; in a headless browser with seeded awards confirmed the card shows the newest recent award, X hides it (also after a reload), a new award brings it back, View opens that award on the Awards page and the card stays gone on Home, and an unviewed card is gone after 24 hours but still there at 23. Not tested on a device.
+
+Habita v124 — Day 1 highlighted on the calendar
+
+- In Almanac > Calendar, the day each goal starts (its Day 1) is highlighted in a soft gold tint, so it stands out from the blue completed days. If two goals start on the same day they share the highlight.
+- Tapping the day still opens that day's reflection as before. Screen readers and long-press read "Day 1 of <goal name>".
+- A small key under the calendar explains it ("Day 1 of a goal"). If you move a goal's Day 1 from its page, the highlight moves with it.
+- Locked goals are not highlighted until they are unlocked.
+
+Validation: inline JavaScript syntax checked; in a headless browser with four seeded goals (two starting the same day, one in the future) confirmed the right days are highlighted, the labels read correctly and the key shows. Not tested on a device or in dark mode.
+
+Habita v123 — Streak type follows how often you do a goal
+
+- A goal's streak type (Daily, Weekly, Monthly) is now worked out from its habits unless you picked one yourself. Habits on 5+ days a week give a daily streak. Habits on 1 to 4 days a week give a weekly streak that counts at the most days any habit is due (two days a week counts at 2, "Mon, Wed, Fri" counts at 3).
+- Bita already asks how often the habits should happen. She now also sends that answer ("frequency" and "perPeriod") with the goal, and her habit days match it.
+- The goal card in the Bita chat has a new "How often" switch (Every day / Weekly / Monthly) with a days stepper for weekly and monthly, so you can change it before creating the goal. Changing it changes the streak, not the habits' days.
+- Goals you already made that never had a type saved follow the same rule. A goal where you already tapped Daily, Weekly or Monthly on its page keeps your choice.
+- The Daily / Weekly / Monthly switch and the days stepper on the goal page still work. Using the stepper now saves the type that was showing.
+- Weekly and monthly streak awards now follow the type that is showing, so a goal that is weekly because of its habits can earn them.
+
+Validation: inline JavaScript syntax checked; in a headless browser with seeded goals confirmed daily, 2-day, 3-day, mixed, weekday and already-chosen goals get the right type and target, the goal page and stepper work, the Bita card switch works, and a goal created from the card keeps the choice. Not tested: real Bita replies, cloud sync, the real Vite build, or a phone.
+
 Habita v119 — Category titles back to sans-serif
 
 - The collapsible category titles in Goals (for example "Uncategorised") are bigger but use the regular app font again, not the serif. Other section headings keep the serif from v116.
@@ -320,3 +349,29 @@ Habita v113 — Bita for projects and deadlines, and Bita remembers and adjusts
 - Unchanged: the weekly plan-review proposals that you approve.
 
 Validation: tested with a stand-in AI that Bita's notes are saved and stripped from the reply, the per-goal numbers and new instructions reach the prompt, and the new Profile page and chip render. Not tested against the live AI or on a device.
+
+Habita v120 — New Profile page
+
+- Plain header (no box): avatar, nickname and "Growing since <month> · local only / synced". Tap the avatar or name to edit the nickname.
+- The three-dot menu at the top right holds Account and sync, What Bita remembers, Export backup and Settings.
+- Four stat tiles: streak, coins, active goals and awards (the Awards tile opens your awards).
+- This week: Monday to Sunday dots (full, part, today, missed, rest or upcoming) and the week's completion so far.
+- Notifications replace Latest awards: every update Habita shows you (awards, stage changes) is now also kept in a list with the date and an unread dot. Tap one to mark it read, or Clear all. Opening any other tab marks them read. The list keeps the latest 40 and is part of the backup export.
+
+Validation: rendered the page on sample data (stats, week dots, menu open, empty notifications). Not tested on a device.
+
+Habita v121 — Today card
+
+- Removed the tick icon from the Today card on the home carousel. The progress ring stays and now sits at the left.
+
+Validation: code check only. Not tested on a device.
+
+Habita v122 — Bita and overload
+
+- Bita now asks once how many hours a week you can give to all your goals together, and saves it (she saves it again if you tell her it changed). It is used for every new goal.
+- Before you create a goal, the goal card compares your other goals' weekly hours plus this one against your hours. If it doesn't fit, the card shows "This may be too much" with three choices: Make it lighter (lowers the hours and shortens the habits), Start in 2 weeks, or Ease my other goals (Bita reviews your whole plan right after the goal is created). Create this goal still works as before.
+- The workload popup ("A note from Bita") now actually triggers: the hours check works because your hours are saved. It also asks "Which goal matters most right now?" and Bita won't shorten that goal's habits. A goal with a deadline in the next 60 days is preselected; relaxed and no-deadline goals are lightened first. Nothing changes until you approve.
+- Goals tab: "Check my workload with Bita" appears with 2 or more active goals and opens the same review on demand.
+- The "Plan your goals" form had no button leading to it, so it was never reachable. It's left in the code but not used; goals are added one at a time with Bita.
+
+Validation: tested the hours maths, the card warning, saving the hours from Bita's reply, priority chips and the forced review on sample data. Not tested against the live AI or on a device.
