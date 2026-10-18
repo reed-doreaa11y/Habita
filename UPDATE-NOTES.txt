@@ -190,3 +190,73 @@ Validation performed for this package:
 Important limitations:
 - This is not a claim of full browser/device or Firebase integration testing. Review the app in a browser and test persistence and user flows before treating it as production-ready.
 - Existing user data is not included in the ZIP; the app's existing storage/cloud data should remain in its configured Firebase/browser storage when deploying the code update, but back up important data before replacing a deployed build.
+
+Habita v107 — Progress tab layout
+
+- Removed the "Your goals" list from the Progress tab; each goal already has its own progress inside it (Goals).
+- Score card now holds the four stats (Done, Strong, Active, Rate) in a single row instead of separate tiles.
+- Streak is its own small card with a bar toward the next streak award.
+- Order is now: score, streak, consistency heatmap, rhythm, missed habits.
+- Weekly rhythm and Peak focus zones are merged into one "Your rhythm" card (By day of the week, By time of day).
+- Styles are in the "v107" block at the end of <head>; the per-goal progress screen is unchanged.
+
+Validation: rendered the tab in a headless browser at phone width in light and dark mode with seeded data. Not tested on a device.
+
+Habita v108 — Streak/coin chips only on Progress, layout pass
+
+- The streak and coin chips now show only on the Progress tab (Goals, Profile, Journal, Calendar and Friends no longer have them; Profile still shows both numbers in its stat tiles).
+- Progress: removed the "Looking for one goal?" note.
+- Goals: page title "Goals" with Edit and + on the right.
+- Journal: smaller title, one joined stats card, quieter "Your reflections" label, dashed empty state.
+- Calendar: tidier legend spacing, repair card styled as a quiet dashed card.
+- Friends: new "coming soon" layout with three feature cards (same content as before, nothing active).
+- Home is unchanged. Styles are in the "v108" block at the end of <head>.
+
+Validation: rendered each tab in a headless browser at phone width with seeded data. Not tested on a device.
+
+Habita v109 — No tab titles, simpler Profile, one Edit on Goals
+
+- Removed tab titles: Journal ("Your journal", its subtitle and the top + Write button; Write stays in the bottom bar), Goals title, Friends heading, "YOUR GOALS" label, and the duplicate month name on Calendar.
+- Goals: the "Edit your goal" row is gone from the + menu. Edit (outside) is the only edit. The + now opens Aim with Bita directly.
+- Profile: new compact header (small avatar, nickname, active goals · awards, edit button) above the list. The four stat tiles are gone (streak and coins now live only on Progress).
+- Styles are in the "v109" block at the end of <head>.
+
+Validation: rendered each tab in a headless browser at phone width with seeded data. Not tested on a device.
+
+Habita v110 — Per-goal streak and a tidier goal page
+
+- Each goal page now has a streak card: switch between Daily, Weekly and Monthly (saved per goal). Shows the streak number, the last 7 days / 7 weeks / 6 months as check circles, and Success / Missed / Best cards.
+- Daily: a day counts when at least 70% of that goal's habits due are done (days with nothing due are skipped).
+- Weekly / Monthly: a week or month counts when you did any of the goal's habits on at least N days; N is set with the − / + under the circles (defaults 3 a week, 12 a month). The current week or month never breaks the streak until it ends below the target.
+- Goal page: compact header (icon, name, chips, progress ring), the old stats row and "Last 14 days" strip are replaced by the streak card, and "Mark completed" sits under each habit.
+- The overall streak (Progress tab), streak awards and coin repairs are unchanged and still daily.
+
+Validation: tested the streak math on seeded data in all three modes and rendered the goal page in light and dark at phone width. Not tested on a device.
+
+Habita v111 — Weekly and monthly goal streak awards
+
+- A goal set to Weekly earns "4-week", "8-week", "12-week" and "26-week streak" awards; a goal set to Monthly earns "3-month", "6-month" and "12-month streak" awards. They appear under Resilience in Awards.
+- Daily goals keep using the existing day-streak awards (7, 21, 30, 60, 100).
+- Awards are earned from the goal's best streak in its current mode, so switching a goal's mode can unlock the awards that mode has already earned.
+
+Validation: seeded two goals (weekly and monthly), confirmed the right awards unlock and show under Resilience. Not tested on a device.
+
+Habita v112 — Start date, and gentler first habits from Bita
+
+- Bita now asks when you want to start (today, tomorrow or a date) before it summarises the goal, and suggests tomorrow if it's already evening. The goal's habits and day 1 begin on that date; nothing shows or counts as missed before it. The goal card in chat shows "Starts <date>" when it isn't today.
+- Bita's instructions for stage 1 changed: for a beginner, 1 or 2 habits, the first one 10 to 15 minutes with no setup or prior knowledge, and no tool or hands-on practice until the basics are covered.
+- Goal page: a "Day 1: <date>" row with Change. You can move Day 1 to today, tomorrow or a date. Moving it clears carried-over items and missed days before the new start, so an existing goal can be reset to a fresh day 1.
+- Goals that haven't started show a "Starts <date>" chip.
+- Unchanged: skipping a habit still doesn't count as done toward the 70% rule.
+
+Validation: tested moving Day 1 on a goal that showed 1 missed day (missed went to 0, carry-over cleared) and an AI-made goal with a start date of tomorrow (nothing due today). Bita's wording changes were not tested against the live AI. Not tested on a device.
+
+Habita v113 — Bita for projects and deadlines, and Bita remembers and adjusts
+
+- Projects: Bita skips the beginner and course-path questions, asks what the project has to include and what's already done, and builds 3 to 6 steps from what's left (biggest or riskiest first, each with its own target date).
+- Several deadlines / "I'm behind": Bita talks it through first (items, due dates, what's done, hours per day), adds up work against time, says honestly if it won't fit, orders by due date, then creates the most urgent goal first and offers the next. For a close deadline it sizes sessions to the days left (longer or more frequent, not more habits) and starts with one concrete step today.
+- Learning: when you tell Bita something lasting (free hours, best time of day, what you struggle with), it saves a short note and uses it in later chats. See, remove or clear them in Profile > What Bita remembers. Notes stay on the device (and in the backup export).
+- Adjusting: Bita now sees each goal's last-7-day completion and deadline, and offers one adjustment (shorter or fewer sessions, a different time, a re-plan or a later date) when you're falling behind. It only suggests; it never changes habits itself. A new "Adjust my plan" chip starts that chat.
+- Unchanged: the weekly plan-review proposals that you approve.
+
+Validation: tested with a stand-in AI that Bita's notes are saved and stripped from the reply, the per-goal numbers and new instructions reach the prompt, and the new Profile page and chip render. Not tested against the live AI or on a device.

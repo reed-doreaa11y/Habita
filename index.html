@@ -497,6 +497,121 @@ svg.pc{width:100%;height:auto;display:block}.pc-grid{stroke:var(--line);stroke-d
 .almanac-content .pr-h{font-size:1.08rem;letter-spacing:-.015em;margin-bottom:14px}
 .almanac-content .pc-empty{padding:22px 12px;border-radius:14px;background:var(--surface-2);text-align:center}
 @media(min-width:600px){.almanac-content .almanac-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.almanac-content .card:has(>.pr-head){padding:24px}}
+</style><style id="v107">
+/* v107 Progress tab: one overview (no per-goal list), stats inside the score card, streak strip, rhythm merged */
+.almanac-content .pr-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.almanac-content .pr-strip>div{min-width:0;padding:0 4px;text-align:center}
+.almanac-content .pr-strip>div+div{border-left:1px solid var(--line)}
+.almanac-content .pr-strip strong{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.almanac-content .pr-strip span{display:block;margin-top:3px;color:var(--muted);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.almanac-content .pr-streak{padding:16px 18px}
+.almanac-content .pr-st-top{display:flex;align-items:center;gap:12px}
+.almanac-content .pr-st-ico{font-size:1.9rem;line-height:1}
+.almanac-content .pr-st-top strong{display:block;font-size:1.1rem;letter-spacing:-.01em}
+.almanac-content .pr-st-top small,.almanac-content .pr-st-note{color:var(--muted);font-size:.8rem}
+.almanac-content .pr-streak .hb-bar{margin:12px 0 6px}
+.almanac-content .pr-sub{margin:0 0 10px;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.almanac-content .pr-sub:not(:first-of-type){margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.almanac-content .pr-foot{margin:4px 4px 18px;text-align:center;font-size:.82rem}
+.almanac-content .card:has(>.pr-streak),.almanac-content .pr-streak{border-radius:22px}
+</style><style id="v108">
+/* v108 layout pass: page titles, journal, calendar, friends, profile */
+.pghead{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;margin:0 0 12px}
+.pg-title{margin:0;font-size:1.7rem;letter-spacing:-.03em}
+.pg-actions{display:flex;align-items:center;gap:10px}
+/* Journal */
+.almanac-journal .journal-hero{align-items:center}
+.almanac-journal .journal-hero h1{font-size:1.7rem;letter-spacing:-.03em;margin:0}
+.almanac-journal .journal-hero p{margin:4px 0 0;font-size:.9rem}
+.almanac-journal .journal-write{padding:10px 16px;font-size:.88rem;border-radius:999px;white-space:nowrap}
+.almanac-journal .journal-stats{display:grid;grid-template-columns:1fr 1fr;margin:14px 0;border:1px solid var(--line);border-radius:20px;background:var(--surface);overflow:hidden}
+.almanac-journal .journal-stat{border:0;border-radius:0;background:transparent;box-shadow:none;padding:14px 16px;margin:0}
+.almanac-journal .journal-stat+.journal-stat{border-left:1px solid var(--line)}
+.almanac-journal .journal-stat strong{font-size:1.5rem;letter-spacing:-.03em}
+.almanac-journal .journal-stat span{font-size:.78rem;color:var(--muted)}
+.almanac-journal .rhead{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 4px 10px}
+.almanac-journal .almanac-empty{padding:26px 18px;border:1.5px dashed var(--line);border-radius:20px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+/* Calendar */
+.mcard{padding:14px 18px}
+.mcard .mstats{margin-top:10px}
+.calendar-legend{display:flex;justify-content:center;margin:14px 0 16px;font-size:.8rem;color:var(--muted)}
+.repair-card{border-style:dashed;background:color-mix(in srgb,var(--surface) 80%,var(--accent) 6%)}
+.repair-card h2{font-size:1rem;margin:0}
+/* Friends */
+.fr{padding-bottom:20px}
+.fr-hero{text-align:center;padding:26px 20px 22px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface))}
+.fr-emoji{font-size:2.6rem;line-height:1}
+.fr-hero h1{margin:10px 0 6px;font-size:1.45rem;letter-spacing:-.02em}
+.fr-hero p{margin:0 auto 14px;max-width:30ch;color:var(--muted);line-height:1.45}
+.fr-badge{display:inline-block;padding:6px 14px;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.fr-h{margin:22px 4px 10px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fr-card{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;margin-bottom:10px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.fr-ico{flex:0 0 auto;display:grid;place-items:center;width:42px;height:42px;border-radius:14px;font-size:1.3rem;background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.fr-card strong{display:block;margin-bottom:2px}
+.fr-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.4}
+.fr-note{text-align:center;margin:14px 0 0;font-size:.82rem}
+</style><style id="v109">
+/* v109: no tab titles; simpler Profile; Goals actions */
+.pghead{justify-content:flex-end;min-height:44px}
+.phead{display:flex;align-items:center;gap:14px;padding:10px 2px 18px}
+.phead .pav{flex:0 0 auto;width:60px;height:60px;font-size:1.6rem;box-shadow:0 4px 14px rgba(47,91,234,.25)}
+.phead .pinfo{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.phead .pname{margin:0;font-size:1.25rem;text-align:left}
+.phead .pname.empty{font-size:1.05rem}
+.phead .psub{font-size:.84rem}
+.phead .iconbtn{flex:0 0 auto}
+.mcard .mrow:empty{display:none}
+.mcard .mrow{margin-bottom:0}
+.almanac-journal{padding-top:4px}
+.almanac-journal .journal-stats{margin-top:0}
+.fr-hero{padding-top:22px}
+</style><style id="v110">
+/* v110 goal page: compact hero + streak card */
+.gd-hero2{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.gd-hero2 .goal-glyph{flex:0 0 auto}
+.gd-hero2 .gd-hmain{flex:1;min-width:0}
+.gd-hero2 h2{margin:0;font-size:1.25rem;letter-spacing:-.02em}
+.gd-hero2 p{margin:3px 0 0;font-size:.86rem;color:var(--muted)}
+.gd-hero2 .gd-chips{margin-top:8px}
+.gd-hero2 .gd-ring{flex:0 0 auto;width:56px;height:56px}
+.sk{padding:14px 16px 16px;margin-top:12px}
+.sk-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:14px;background:color-mix(in srgb,var(--line) 45%,transparent)}
+.sk-seg button{font:inherit;font-weight:650;font-size:.86rem;padding:8px 0;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer}
+.sk-seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 6px #0000001a}
+.sk-hero{text-align:center;padding:14px 0 6px}
+.sk-flame{font-size:2.6rem;line-height:1;filter:drop-shadow(0 4px 10px rgba(244,128,42,.35))}
+.sk-flame.cold{filter:grayscale(1);opacity:.45}
+.sk-num{font-size:3.4rem;font-weight:850;line-height:1;letter-spacing:-.05em;margin-top:-4px;color:#f0732a}
+.sk-unit{font-weight:700;margin-top:4px}
+.sk-msg{margin:6px auto 0;max-width:30ch;font-size:.86rem;line-height:1.4;color:var(--muted)}
+.sk-row{display:flex;justify-content:space-between;gap:4px;margin:16px 0 4px}
+.sk-c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px}
+.sk-c i{display:grid;place-items:center;width:100%;max-width:34px;aspect-ratio:1;border-radius:50%;border:2px solid var(--line);font-style:normal;font-size:.72rem;font-weight:800;color:var(--muted)}
+.sk-c.full i{background:#f4802a;border-color:#f4802a;color:#fff;font-size:.95rem}
+.sk-c.part i{border-color:#f4802a;color:#f0732a}
+.sk-c.miss i{border-color:color-mix(in srgb,var(--muted) 55%,var(--line));background:color-mix(in srgb,var(--line) 50%,transparent)}
+.sk-c.off i,.sk-c.pad i{border-style:dashed;opacity:.5}
+.sk-c.pad i{opacity:.25}
+.sk-c.wait i{border-style:solid}
+.sk-c.now i{box-shadow:0 0 0 3px color-mix(in srgb,#f4802a 25%,transparent)}
+.sk-c small{font-size:.62rem;color:var(--muted);white-space:nowrap}
+.sk-note{margin:12px 0 0;text-align:center;font-size:.78rem;color:var(--muted)}
+.sk-target{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;font-size:.84rem;color:var(--muted)}
+.sk-target b{min-width:5.2em;text-align:center;color:var(--ink)}
+.sk-target button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:1.1rem;line-height:1;cursor:pointer}
+.sk-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 16px}
+.sk-stats>div{padding:12px 12px 10px;border:1px solid var(--line);border-radius:16px;background:var(--surface);min-width:0}
+.sk-stats small{display:block;font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.sk-stats b{display:block;margin-top:4px;font-size:1.05rem;letter-spacing:-.02em;white-space:nowrap}
+.gd-mini{display:block;margin-top:6px;padding:0}
+.sk-stats em{display:block;margin-top:2px;font-style:normal;font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style><style id="v112">
+.gd-start{display:flex;align-items:center;justify-content:space-between;margin:-6px 4px 14px;font-size:.84rem;color:var(--muted)}
+.gd-startp .logrow{display:flex;gap:8px}
+.gd-startp .logrow input{flex:1;min-width:0}
+</style><style id="v113">
+.bn-row{cursor:default}
+.bn-row .pt{flex:1;font-weight:500}
 </style></head>
 <body>
 <main><div id="view"></div></main>
@@ -774,7 +889,7 @@ function markStageReady(g){
  save();render()}
 function advanceStages(){var changed=false;state.goals.forEach(function(g){if(g.locked||!g.activated||g.completed||g.pace==="relaxed"||g.kind==="habit")return;var total=stageCount(g),need=g.stage||21,done=stageDone(g);while(done>=need && (g.stageIndex||0)<total-1){g.stageHistory.push({stage:g.stageIndex||0,label:stageLabel(g),completed:key(daysBack(0)),days:done});retireStageHabits(g,g.stageIndex||0);g.stageIndex=(g.stageIndex||0)+1;g.stageStarted=key(daysBack(0));done=0;changed=true;award("stage-"+g.id+"-"+(g.stageIndex-1),"Completed "+g.stageHistory[g.stageHistory.length-1].label);if((g.stageIndex||0)===1)award("foundation-builder","Foundation Builder",{category:"Learning",note:g.name});if((g.stageIndex||0)===1)award("foundation-builder","Foundation Builder",{category:"Learning",note:g.name});note("You advanced "+g.name+" to "+stageLabel(g)+".");}if((g.stageIndex||0)>=total-1&&done>=need&&!g.completed){g.stageHistory.push({stage:g.stageIndex,label:stageLabel(g),completed:key(daysBack(0)),days:done});g.completed=key(daysBack(0));g.role="Complete";retireAllHabits(g);changed=true;award("goal-"+g.id,"Goal complete: "+g.name);note("Big win! You completed the full pathway for "+g.name+"."+(g.reward?" Your reward: "+g.reward:""));}});return changed}
 function award(id,t,meta){if(state.ach[id])return false;meta=meta||{};state.ach[id]={t:t,d:meta.date||key(daysBack(0)),journalDate:meta.journalDate||null,note:meta.note||"",category:meta.category||""};note("Achievement unlocked: "+t);return true}
-function checkAch(){var b=bestStreak();[[7,"7-day streak"],[21,"21-day streak"],[30,"30-day streak"],[60,"60-day streak"],[100,"100-day streak"]].forEach(function(a){if(b>=a[0])award("s"+a[0],a[1])});var m=previousMonth(),ms=monthStats(m);if(ms.totalDays>=5&&ms.rate>=COMPLETE)award("month-"+m,"Monthly momentum: "+monthName(m));state.goals.forEach(function(g){var p=goalProgress(g);if(p>=.25)award("g25-"+g.id,"25% of the way: "+g.name);if(p>=.5)award("g50-"+g.id,"Halfway there: "+g.name);if(p>=.75)award("g75-"+g.id,"75% of the way: "+g.name)});advanceStages()}
+function checkAch(){var b=bestStreak();[[7,"7-day streak"],[21,"21-day streak"],[30,"30-day streak"],[60,"60-day streak"],[100,"100-day streak"]].forEach(function(a){if(b>=a[0])award("s"+a[0],a[1])});var m=previousMonth(),ms=monthStats(m);if(ms.totalDays>=5&&ms.rate>=COMPLETE)award("month-"+m,"Monthly momentum: "+monthName(m));state.goals.forEach(function(g){var p=goalProgress(g);if(p>=.25)award("g25-"+g.id,"25% of the way: "+g.name);if(p>=.5)award("g50-"+g.id,"Halfway there: "+g.name);if(p>=.75)award("g75-"+g.id,"75% of the way: "+g.name)});state.goals.forEach(function(g){if(g.locked||!g.activated||(g.streakMode!=="weekly"&&g.streakMode!=="monthly"))return;var wkm=g.streakMode==="weekly",si=goalStreakInfo(g);(wkm?[4,8,12,26]:[3,6,12]).forEach(function(n){if(si.best>=n)award((wkm?"gw":"gm")+n+"-"+g.id,n+"-"+(wkm?"week":"month")+" streak: "+g.name,{category:"Resilience"})})});advanceStages()}
 
 /* ---------- weekly plan review ---------- */
 function gInfo(g){return g.lib?{lib:g.lib,kind:g.lib}:planKeyword(g.name)}
@@ -876,6 +991,56 @@ function goalGlyph(g){var x=(g.name||"").toLowerCase();if(/code|web|program|soft
 function goalCardEditHTML(g){return goalsEdit&&!g.locked?'<div class="goal-edit-row">'+goalCardHTML(g)+'<button type="button" class="goal-del" data-act="delg" data-g="'+esc(g.id)+'" aria-label="Delete '+esc(g.name)+'">Delete</button></div>':goalCardHTML(g)}
 function goalCardHTML(g){if(g.locked)return lockedHTML(g);var pct=Math.round(goalProgress(g)*100),p=g.path,hasPath=p&&p.stages&&p.stages.length,stage=hasPath?Math.min((p.currentStage||0),p.stages.length-1):-1,kind=g.kind==="habit"||g.kind==="project"?g.kind:"skill",kl={skill:"🎓 Skill",habit:"⭐ Habit",project:"📌 Project"}[kind],status=g.completed?"Completed":hasPath?(p.progress&&p.progress[stage]&&p.progress[stage].passed?"Checkpoint passed":"Path in progress"):goalHabits(g).length?"In progress":"Ready when you are",dl="";if(!g.completed&&kind!=="habit"&&g.pace!=="relaxed"&&/^\d{4}-\d\d-\d\d$/.test(g.deadline||"")){var n=daysLeft(g.deadline);dl=n>0?n+(n===1?" day left":" days left"):"Date passed"}var C=113.1,off=(C*(1-pct/100)).toFixed(1);return '<button type="button" data-act="opengoal" data-g="'+esc(g.id)+'" class="goal-list-card gl2"><span class="gl-ring" aria-hidden="true"><svg viewBox="0 0 44 44"><circle class="gl-bg" cx="22" cy="22" r="18"/><circle class="gl-fg" cx="22" cy="22" r="18" transform="rotate(-90 22 22)" style="stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/></svg><b>'+pct+'<small>%</small></b></span><span class="goal-list-main"><span class="goal-list-name">'+esc(g.name)+'</span>'+(g.why?'<span class="goal-list-why">'+esc(g.why)+'</span>':'')+'<span class="gl-meta"><span class="gl-kind gl-'+kind+'">'+kl+'</span><span>'+esc(dl||status)+'</span></span></span><span class="goal-list-chevron" aria-hidden="true">›</span></button>'}
 function goalDays(g,n){var hs=goalHabits(g),out=[],act=g.activated||"";for(var i=n-1;i>=0;i--){var d=daysBack(i),k=key(d),t=0,dn=0;hs.forEach(function(h){if((h.created||state.start||k)<=k&&(!act||k>=act)&&sched(h,d)){t++;if(h.done&&h.done[k])dn++}});out.push({k:k,d:d,t:t,n:dn,r:t?dn/t:0,today:i===0})}return out}
+function goalStartHTML(g){
+ if(!g.activated)return'';var tk=key(daysBack(0)),gid=esc(g.id),fut=g.activated>tk,lab=(fut?'Starts ':'Day 1: ')+nice(new Date(g.activated+"T12:00:00"));
+ var h='<div class="gd-start"><span>'+esc(lab)+'</span><button class="link" data-act="startedit" data-g="'+gid+'" type="button">'+(g.startOpen?'Close':'Change')+'</button></div>';
+ if(g.startOpen)h+='<div class="card gd-startp"><p class="note left" style="margin:0 0 10px">Move Day 1. Days before the new start no longer count, so nothing shows as missed.</p><div class="chips"><button type="button" data-act="setstart" data-g="'+gid+'" data-v="today">Today</button><button type="button" data-act="setstart" data-g="'+gid+'" data-v="tomorrow">Tomorrow</button></div><div class="logrow" style="margin-top:10px"><input type="date" id="stDate-'+gid+'" min="'+tk+'" value="'+esc(fut?g.activated:tk)+'" aria-label="Start date"><button class="primary" data-act="setstart" data-g="'+gid+'" data-v="pick" type="button">Set date</button></div></div>';
+ return h}
+function setGoalStart(g,k){
+ var t=key(daysBack(0));if(!/^\d{4}-\d\d-\d\d$/.test(k||"")||k<t)k=t;
+ var old=g.activated||t,ids={};g.habits.forEach(function(h){ids[h.id]=1;h.created=k});
+ g.activated=k;g.stageStarted=k;g.startOpen=false;
+ Object.keys(state.carry||{}).forEach(function(id){var c=state.carry[id];if(c&&ids[c.h]&&c.from<k)delete state.carry[id]});
+ Object.keys(state.days||{}).forEach(function(dk){if(dk>=old&&dk<k)delete state.days[dk]});
+ note("Day 1 for “"+g.name+"” is "+(k===t?"today":nice(new Date(k+"T12:00:00")))+".");save();render()}
+function goalStreakInfo(g){
+ var hs=goalHabits(g),mode=g.streakMode==="weekly"||g.streakMode==="monthly"?g.streakMode:"daily",
+  wk=Math.max(1,Math.min(7,g.streakWk||3)),mo=Math.max(1,Math.min(31,g.streakMo||12)),
+  today=daysBack(0),tk=key(today),act=g.activated||state.start||tk,P=[],i,j,p;
+ function cell(d){var k=key(d),t=0,n=0;hs.forEach(function(h){if((h.created||state.start||k)<=k&&k>=act&&sched(h,d)){t++;if(h.done&&h.done[k])n++}});return{t:t,n:n}}
+ function active(d){var k=key(d);return k>=act&&k<=tk&&hs.some(function(h){return h.done&&h.done[k]})}
+ function at(y,m,dd){return new Date(y,m,dd,12)}
+ if(mode==="daily"){
+  for(i=0;i<400;i++){var d=daysBack(i),k=key(d);if(k<act)break;var c=cell(d);
+   P.push({k:k,lab:d.toLocaleDateString(undefined,{weekday:"short"}),ok:c.t?c.n/c.t>=COMPLETE:null,part:c.t>0&&c.n>0&&c.n/c.t<COMPLETE,cur:i===0})}
+ }else if(mode==="weekly"){
+  for(i=0;i<80;i++){var s0=at(today.getFullYear(),today.getMonth(),today.getDate()-today.getDay()-7*i),e0=at(s0.getFullYear(),s0.getMonth(),s0.getDate()+6);if(key(e0)<act)break;
+   var cn=0;for(j=0;j<7;j++)if(active(at(s0.getFullYear(),s0.getMonth(),s0.getDate()+j)))cn++;
+   P.push({lab:s0.toLocaleDateString(undefined,{month:"short",day:"numeric"}),ok:cn>=wk,cnt:cn,goal:wk,part:cn>0&&cn<wk,cur:i===0,first:key(s0)<=act})}
+ }else{
+  for(i=0;i<36;i++){var s1=at(today.getFullYear(),today.getMonth()-i,1),e1=at(s1.getFullYear(),s1.getMonth()+1,0);if(key(e1)<act)break;
+   var cm=0;for(j=1;j<=e1.getDate();j++)if(active(at(s1.getFullYear(),s1.getMonth(),j)))cm++;
+   P.push({lab:s1.toLocaleDateString(undefined,{month:"short"}),ok:cm>=mo,cnt:cm,goal:mo,part:cm>0&&cm<mo,cur:i===0,first:key(s1)<=act})}
+ }
+ P.forEach(function(q){if(q.first&&!q.ok&&!q.cur)q.ok=null});
+ var cur=0,best=0,run=0;
+ for(i=0;i<P.length;i++){p=P[i];if(p.ok){cur++;continue}if(p.cur||p.ok===null)continue;break}
+ for(i=P.length-1;i>=0;i--){p=P[i];if(p.ok){run++;if(run>best)best=run}else if(!(p.cur||p.ok===null))run=0}
+ var win=mode==="daily"?P.filter(function(q){return q.k.slice(0,7)===tk.slice(0,7)}):P.slice(0,mode==="weekly"?8:6),
+  succ=win.filter(function(q){return q.ok===true}).length,miss=win.filter(function(q){return q.ok===false&&!q.cur}).length,
+  N=mode==="monthly"?6:7,cells=P.slice(0,N).reverse();
+ while(cells.length<N)cells.unshift({pad:true,lab:"",ok:null});
+ return{mode:mode,cur:cur,best:best,succ:succ,miss:miss,cells:cells,wk:wk,mo:mo,
+  unit:{daily:["day","days"],weekly:["week","weeks"],monthly:["month","months"]}[mode],
+  win:{daily:"this month",weekly:"last 8 weeks",monthly:"last 6 months"}[mode]}}
+function goalStreakHTML(g){
+ var s=goalStreakInfo(g),gid=esc(g.id),u=function(n){return n===1?s.unit[0]:s.unit[1]},tgt=s.mode==="monthly"?s.mo:s.wk,per=s.mode==="monthly"?"month":"week";
+ var seg='<div class="sk-seg" role="group" aria-label="Streak type">'+[["daily","Daily"],["weekly","Weekly"],["monthly","Monthly"]].map(function(x){return'<button type="button" data-act="streakmode" data-g="'+gid+'" data-v="'+x[0]+'" class="'+(s.mode===x[0]?'on':'')+'" aria-pressed="'+(s.mode===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>';
+ var msg=s.cur?(s.mode==="daily"?s.cur+' '+u(s.cur)+' down. Keep it going.':s.cur+' '+u(s.cur)+' in a row with '+tgt+'+ active days a '+per+'.'):(s.mode==="daily"?'Finish this goal’s habits today to start a streak.':'Do something for this goal on '+tgt+' days a '+per+' to start a streak.');
+ var cells='<div class="sk-row">'+s.cells.map(function(c){var st=c.pad?'pad':c.ok?'full':(c.part?'part':(c.ok===false?(c.cur?'wait':'miss'):'off'));return'<div class="sk-c '+st+(c.cur?' now':'')+'"><i aria-hidden="true">'+(c.ok?'✓':(c.cur&&c.cnt!=null?c.cnt+'/'+c.goal:''))+'</i><small>'+esc(c.lab)+'</small></div>'}).join('')+'</div>';
+ var target=s.mode==="daily"?'<p class="sk-note">A day counts when you finish at least '+Math.round(COMPLETE*100)+'% of this goal’s habits.</p>':'<div class="sk-target"><span>A '+per+' counts at</span><button type="button" data-act="streaktarget" data-g="'+gid+'" data-d="-1" aria-label="Fewer days">−</button><b>'+tgt+' day'+(tgt===1?'':'s')+'</b><button type="button" data-act="streaktarget" data-g="'+gid+'" data-d="1" aria-label="More days">+</button></div>';
+ return'<div class="card sk">'+seg+'<div class="sk-hero"><div class="sk-flame'+(s.cur?'':' cold')+'" aria-hidden="true">🔥</div><div class="sk-num">'+s.cur+'</div><div class="sk-unit">'+s.unit[0]+' streak</div><p class="sk-msg">'+msg+'</p></div>'+cells+target+'</div>'
+  +'<div class="sk-stats"><div><small>✓ Success</small><b>'+s.succ+' '+u(s.succ)+'</b><em>'+s.win+'</em></div><div><small>✕ Missed</small><b>'+s.miss+' '+u(s.miss)+'</b><em>'+s.win+'</em></div><div><small>★ Best</small><b>'+s.best+' '+u(s.best)+'</b><em>all time</em></div></div>'}
 function goalDetailHTML(g){
  var hs=goalHabits(g),pct=Math.round(goalProgress(g)*100),q=g.queue||[],sc=stageCount(g),si=Math.min(g.stageIndex||0,Math.max(0,sc-1)),days=goalDays(g,14),tk=key(daysBack(0));
  var cat=state.categories.find(function(c){return c.id===g.categoryId}),catName=cat&&cat.id!=="uncategorised"?cat.name:"";
@@ -883,12 +1048,13 @@ function goalDetailHTML(g){
  var best=0;hs.forEach(function(h){try{best=Math.max(best,streak(h))}catch(e){}});
  var since=g.activated?Math.max(1,Math.round((new Date(tk+"T12:00:00")-new Date(g.activated+"T12:00:00"))/864e5)+1):0;
  var chips='';if(g.activated&&sc>1)chips+='<span class="gd-chip">Stage '+(si+1)+' of '+sc+'</span>';if(catName)chips+='<span class="gd-chip">'+esc(catName)+'</span>';
+ if(g.activated&&g.activated>tk)chips+='<span class="gd-chip">Starts '+nice(new Date(g.activated+"T12:00:00"))+'</span>';
  if(g.deadline){var dl=Math.round((new Date(g.deadline+"T12:00:00")-new Date(tk+"T12:00:00"))/864e5);chips+='<span class="gd-chip">'+(dl>=0?dl+' days left':'Past target date')+'</span>'}
  var h='<button type="button" class="goal-detail-back" data-act="goalback">‹ <span>All goals</span></button>';
  // Hero
- h+='<div class="goal-detail-hero gd-hero"><div class="gd-top"><span class="goal-glyph" aria-hidden="true">'+goalGlyph(g)+'</span><div class="gd-ring" style="--p:'+pct+'"><b>'+pct+'%</b></div></div><h2>'+esc(g.name)+'</h2>'+(g.why?'<p>'+esc(g.why)+'</p>':'')+(chips?'<div class="gd-chips">'+chips+'</div>':'')+'</div>';
+ h+='<div class="goal-detail-hero gd-hero gd-hero2"><span class="goal-glyph" aria-hidden="true">'+goalGlyph(g)+'</span><div class="gd-hmain"><h2>'+esc(g.name)+'</h2>'+(g.why?'<p>'+esc(g.why)+'</p>':'')+(chips?'<div class="gd-chips">'+chips+'</div>':'')+'</div><div class="gd-ring" style="--p:'+pct+'"><b>'+pct+'%</b></div></div>';
  // Stats
- h+='<div class="gd-stats"><div><strong>'+best+'</strong><span>🔥 best streak</span></div><div><strong>'+rate+'%</strong><span>last 14 days</span></div><div><strong>'+(since||'—')+'</strong><span>days in</span></div></div>';
+ h+=goalStreakHTML(g)+goalStartHTML(g);
  // Today
  var todayRows=hs.filter(function(hb){return (hb.created||state.start||tk)<=tk&&sched(hb,new Date())});
  var rel=g.pace==="relaxed";
@@ -902,8 +1068,6 @@ function goalDetailHTML(g){
   if(sc>1)h+='<ol class="gd-steps">'+list.map(function(lb,i){var st=g.completed||i<si||hist.indexOf(i)>=0?'done':(i===si?'now':'next');return'<li class="'+st+'"><i>'+(st==='done'?'✓':(i+1))+'</i><span>'+esc(String(lb))+'</span></li>'}).join('')+'</ol>';
   if(rel&&!g.completed)h+='<div class="path-actions"><button class="primary" data-act="stageready" data-g="'+esc(g.id)+'" type="button">'+(si>=sc-1?'I’ve finished this goal':'I’m ready for the next stage')+'</button></div>';
   h+=(g.completed?'<p class="note left ok">Full pathway complete'+(g.reward?'. Your reward: '+esc(g.reward):'')+'</p>':'')+'</div>'}
- // Last 14 days strip (this goal only)
- h+='<div class="goal-detail-section">Last 14 days</div><div class="card"><div class="gd-strip">'+days.map(function(x){var c=!x.t?'off':(x.r>=COMPLETE?'full':(x.n>0?'part':'miss'));return'<span class="gd-d '+c+(x.today?' today':'')+'" title="'+x.k+(x.t?': '+x.n+'/'+x.t:'')+'"><i></i><small>'+['S','M','T','W','T','F','S'][x.d.getDay()]+'</small></span>'}).join('')+'</div><p class="note left" style="margin:10px 0 0">Filled = a full day for this goal. Half = some habits. Empty = missed.</p></div>';
  // Habits: active + completed, collapsible
  var activeH=hs.filter(function(hb){return !hb.retired}),doneH=hs.filter(function(hb){return hb.retired}),gid=esc(g.id);
  function hrow(hb){var own=g.habits.indexOf(hb)>=0,s14=0,t14=0;days.forEach(function(x){if((hb.created||state.start||x.k)<=x.k&&(!g.activated||x.k>=g.activated)&&sched(hb,x.d)){t14++;if(hb.done&&hb.done[x.k])s14++}});var pc=t14?Math.round(100*s14/t14):0,sk=0;try{sk=streak(hb)}catch(e){}return'<div class="hb"><div class="hb-top"><span>'+esc(hb.name)+'</span><b>'+(sk?'🔥 '+sk:pc+'%')+'</b></div><div class="hb-bar"><i style="width:'+pc+'%"></i></div><small>'+(hb.anchor?esc(hb.anchor)+' · ':'')+(hb.time?esc(hb.time)+' · ':'')+(hb.days?esc(dayLabel(hb.days)):'Daily')+(own?'':' · shared')+' · '+s14+' of '+t14+' done lately</small>'+(own?'<button class="link gd-mini" data-act="habitdone" data-g="'+gid+'" data-h="'+esc(hb.id)+'" type="button">Mark completed</button>':'')+'</div>'}
@@ -988,7 +1152,7 @@ function homeExtraCardsHTML(){
  h+='<div class="hcard hc-bita"><div class="hc-ico">💬</div><div class="hc-title">BITA</div><div class="hc-sub">'+esc(bitaLine())+'</div><button class="hc-btn" data-act="homeaddgoal" type="button">Chat</button></div>';
  return h}
 function fmtT(t){var m=/^(\d{2}):(\d{2})$/.exec(t||'');if(!m)return '';var h=+m[1],ap=h<12?'AM':'PM';h=h%12||12;return h+':'+m[2]+' '+ap}
-function goalsOverviewHTML(){var all=state.goals||[],act=all.filter(function(g){return !g.locked&&g.activated&&!g.completed}),dn=all.filter(function(g){return g.completed}).length,avg=act.length?Math.round(act.reduce(function(a,g){return a+goalProgress(g)},0)/act.length*100):0;return '<section class="gov"><div class="gov-top"><div><div class="gov-eyebrow">YOUR GOALS</div><div class="gov-big">'+act.length+'<span> active</span></div></div><div class="gov-avg"><b>'+avg+'%</b><small>average progress</small></div></div><div class="gov-bar" aria-hidden="true"><i style="width:'+avg+'%"></i></div><p class="gov-sub">'+(dn?dn+' completed \u00b7 ':'')+'One step at a time.</p></section>'}
+function goalsOverviewHTML(){var all=state.goals||[],act=all.filter(function(g){return !g.locked&&g.activated&&!g.completed}),dn=all.filter(function(g){return g.completed}).length,avg=act.length?Math.round(act.reduce(function(a,g){return a+goalProgress(g)},0)/act.length*100):0;return '<section class="gov"><div class="gov-top"><div><div class="gov-big">'+act.length+'<span> active</span></div></div><div class="gov-avg"><b>'+avg+'%</b><small>average progress</small></div></div><div class="gov-bar" aria-hidden="true"><i style="width:'+avg+'%"></i></div><p class="gov-sub">'+(dn?dn+' completed \u00b7 ':'')+'One step at a time.</p></section>'}
 function todayHabitsHTML(){
  var tk=key(daysBack(0)),td=daysBack(0),all=allHabits().filter(function(x){return sched(x.h,td)&&(x.h.created||state.start||tk)<=tk});
  // Any legacy flexible/empty assignment is resolved to a concrete time using the existing routine-aware fallback.
@@ -1051,7 +1215,7 @@ function reflectionCard(k){var raw=String(state.journal[k]||"").trim(),lines=raw
 function journalHTML(){
  var entries=Object.keys(state.journal||{}).filter(function(k){return String(state.journal[k]||"").trim()}).sort().reverse();
  var words=entries.reduce(function(n,k){return n+wc(state.journal[k])},0),latest=entries.length?new Date(entries[0]+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}):"—";
- var h='<section class="almanac-journal"><div class="journal-hero"><div><h1>Your journal</h1><p>A little space to notice how life is going.</p></div><button class="journal-write" data-act="writeReflection" type="button">＋ Write</button></div><div class="journal-stats"><div class="journal-stat"><strong>'+entries.length+'</strong><span>Saved reflections</span></div><div class="journal-stat"><strong>'+fmtN(words)+'</strong><span>Words written</span></div></div><div class="monthly-summary"><h2>Monthly overview</h2>'+monthSummaryListHTML()+'</div><h2 class="rhead">Your reflections</h2>';
+ var h='<section class="almanac-journal"><div class="journal-stats"><div class="journal-stat"><strong>'+entries.length+'</strong><span>Saved reflections</span></div><div class="journal-stat"><strong>'+fmtN(words)+'</strong><span>Words written</span></div></div><div class="monthly-summary"><h2>Monthly overview</h2>'+monthSummaryListHTML()+'</div><h2 class="rhead">Your reflections</h2>';
  if(!entries.length)return h+'<div class="almanac-empty" style="min-height:24vh"><p>Your first entry does not need to be profound. Start with how today felt.</p><button class="primary" data-act="writeReflection" type="button">Write your first entry</button></div></section>';
  var last="";entries.forEach(function(k){var g=reflGroup(k);if(g!==last){h+='<h3 class="rgroup">'+esc(g)+'</h3>';last=g}h+=reflectionCard(k)});
  return h+'</section>'}
@@ -1075,7 +1239,7 @@ function repairHTML(){var c=repairCandidates();if(!c.length)return'';var used=re
 function almanacCalendarHTML(){
  var d=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1),mk=monthKey(d),yr=d.getFullYear(),first=d.getDay(),days=new Date(yr,d.getMonth()+1,0).getDate(),nowKey=key(new Date()),curYear=new Date().getFullYear(),curMonth=new Date().getMonth();
  var all=Object.keys(state.journal||{}).filter(hasRefl),words=all.reduce(function(n,k){return n+wc(state.journal[k])},0),monthEntries=all.filter(function(k){return k.slice(0,7)===mk}),act=monthActivity(mk),mm=monthMood(mk);
- var h='<div class="mcard"><div class="mrow"><span class="mname">'+esc(d.toLocaleDateString(undefined,{month:'long'}).toUpperCase())+'</span>'+(mm?'<span class="mmood"><i style="background:'+MOODS[mm][2]+'"></i>'+MOODS[mm][1]+'</span>':'')+'</div><div class="mstats two"><div><b>'+monthStats(mk).completeDays+'</b><small>complete days</small></div><div><b>'+(act.busiest||'—')+'</b><small>busiest day</small></div></div></div>';
+ var h='<div class="mcard"><div class="mrow">'+(mm?'<span class="mmood"><i style="background:'+MOODS[mm][2]+'"></i>'+MOODS[mm][1]+'</span>':'')+'</div><div class="mstats two"><div><b>'+monthStats(mk).completeDays+'</b><small>complete days</small></div><div><b>'+(act.busiest||'—')+'</b><small>busiest day</small></div></div></div>';
  h+='<div class="calendar-head"><button class="iconbtn" data-act="calprev" type="button" aria-label="Previous month">‹</button><h2>'+esc(d.toLocaleDateString(undefined,{month:'long',year:'numeric'}))+'</h2><button class="iconbtn" data-act="calnext" type="button" aria-label="Next month">›</button></div><div class="calendar-grid">'+['S','M','T','W','T','F','S'].map(function(x){return'<div class="calendar-weekday">'+x+'</div>'}).join('');
  for(var i=0;i<first;i++)h+='<div class="calendar-day blank"></div>';
  for(var day=1;day<=days;day++){
@@ -1086,7 +1250,7 @@ function almanacCalendarHTML(){
  h+='</div><div class="calendar-legend"><span><svg class="calendar-ring" viewBox="0 0 24 24" aria-hidden="true"><circle class="ring-track" cx="12" cy="12" r="9.5"/><circle class="ring-value" cx="12" cy="12" r="9.5" stroke-dasharray="41.78 59.69"/></svg> Ring shows habits completed that day</span></div>'+repairHTML();
  return h}
 /* ---------- top bar + progress charts ---------- */
-function topbar(left){var st=curStreak();return'<div class="topbar"><div class="tb-left">'+(left||'')+'</div><div class="tb-stats"><span class="ts" aria-label="'+st+' day streak">🔥 '+st+'</span><span class="ts" aria-label="'+balance()+' coins">🪙 '+balance()+'</span></div></div>'}
+function topbar(left,showStats){var st=curStreak();return'<div class="topbar"><div class="tb-left">'+(left||'')+'</div>'+(showStats?'<div class="tb-stats"><span class="ts" aria-label="'+st+' day streak">🔥 '+st+'</span><span class="ts" aria-label="'+balance()+' coins">🪙 '+balance()+'</span></div>':'')+'</div>'}
 var progRange=30;
 function pHabits(g){return g?goalHabits(g):allHabits().map(function(x){return x.h})}
 function pDay(hs,k){var d=new Date(k+"T12:00:00"),t=0,n=0;hs.forEach(function(h){if((h.created||state.start||k)<=k&&sched(h,d)){t++;if(h.done&&h.done[k])n++}});return t?{r:n/t,n:n,t:t}:null}
@@ -1142,15 +1306,29 @@ function goalProgressHTML(g){
  var rows=hs.map(function(h){var s=pSeries([h],progRange),sch=s.reduce(function(a,x){return a+x.t},0),dn=s.reduce(function(a,x){return a+x.n},0);return{h:h,p:sch?dn/sch:0,dn:dn,sch:sch}});
  return scoreHeroHTML(hs,'Completion for this goal')+'<div class="card"><h3 class="pr-h">Weekly rhythm</h3>'+weekdayBarsHTML(hs)+'</div>'+missedCardHTML(hs)+'<div class="card"><h3 class="pr-h">Consistency</h3>'+heatmapHTML(hs,15)+'</div><div class="card"><h3 class="pr-h">By habit</h3>'+rows.map(function(r){return'<div class="hb"><div class="hb-top"><span>'+esc(r.h.name)+'</span><b>'+Math.round(r.p*100)+'%</b></div><div class="hb-bar"><i style="width:'+Math.round(r.p*100)+'%"></i></div><small>'+r.dn+' of '+r.sch+' done</small></div>'}).join('')+'</div>'}
 function almanacProgressHTML(){
- var hs=pHabits(null),goals=state.goals.filter(function(g){return !g.locked&&g.activated});
+ var hs=pHabits(null);
  if(!hs.length)return'<div class="card empty">Your progress will show up here once you have a goal.<div style="margin-top:12px"><button class="primary" data-act="plusone" type="button">Aim with Bita</button></div></div>';
- var s=curStreak(),nx=[7,21,30,60,100].find(function(x){return s<x});
- var h=scoreHeroHTML(hs,'Average daily score')+(nx?'<p class="note left" style="margin:-4px 2px 14px">Next consistency award: '+nx+' days ('+s+'/'+nx+'). Best streak: '+bestStreak()+'.</p>':'');
- h+='<div class="card"><h3 class="pr-h">Your goals</h3>'+(goals.length?goals.map(function(g){var gs=pSeries(pHabits(g),progRange),a=pAvg(gs),pp=Math.round(goalProgress(g)*100);return'<button type="button" class="pg" data-act="progopen" data-g="'+esc(g.id)+'"><span class="pg-top"><span class="pg-name">'+esc(g.name)+'</span><span class="pg-chev">›</span></span><span class="hb-bar"><i style="width:'+pp+'%"></i></span><small>'+pp+'% of the way · '+pct(a)+' habit completion</small></button>'}).join(''):'<p class="note left">No active goals yet.</p>')+'</div>';
- h+='<div class="card"><h3 class="pr-h">Weekly rhythm</h3>'+weekdayBarsHTML(hs)+'</div>'+missedCardHTML(hs)+'<div class="card"><h3 class="pr-h">Consistency</h3>'+heatmapHTML(hs,15)+'</div><div class="card"><h3 class="pr-h">Peak focus zones</h3>'+focusZonesHTML(hs)+'</div>';
- return h}
-function friendsHTML(){return '<div class="card"><h2>Goals with friends</h2><p class="note left">Work towards a goal together, encourage each other, or compare progress in a friendly race. Friend invitations and shared goal tracking need a connected account and are not active in this build yet.</p><div class="milestone-box"><strong>Coming together</strong><p class="note left">The plan is to let you invite a friend to the same goal, choose “together” or “friendly race,” and track each person’s progress without changing either person’s private habits or reflections.</p></div></div>'; }
-function almanacHTML(){var labels={journal:'Journal',calendar:'Calendar',progress:'Progress',friends:'Friends'};var h='<section class="almanac-world">'+topbar('<button class="link" data-act="leaveAlmanac" type="button">← Habita</button>')+'<div class="almanac-content">';if(almanacSection==='journal')h+=journalHTML();else if(almanacSection==='calendar')h+=almanacCalendarHTML();else if(almanacSection==='progress')h+=almanacProgressHTML();else if(almanacSection==='friends')h+=friendsHTML();h+='</div></section>';return h}
+ var s=curStreak(),bs=bestStreak(),nx=[7,21,30,60,100].find(function(x){return s<x});
+ var ser=pSeries(hs,progRange),prv=pSeries(hs,progRange,progRange),a=pAvg(ser),p=pAvg(prv),delta=a!=null&&p!=null?Math.round((a-p)*100):null;
+ var strong=ser.filter(function(x){return x.r!=null&&x.r>=COMPLETE}).length,done=ser.reduce(function(t,x){return t+x.n},0),sch=ser.reduce(function(t,x){return t+x.t},0),active=ser.filter(function(x){return x.n>0}).length;
+ var st=function(v,l){return'<div><strong>'+v+'</strong><span>'+l+'</span></div>'};
+ var h='<div class="card pr-hero"><div class="pr-head"><span class="lbl" style="margin:0">Average daily score</span></div><div class="pr-big"><strong>'+pct(a)+'</strong>'+(delta!=null&&delta!==0?'<span class="pr-delta '+(delta>0?'up':'down')+'">'+(delta>0?'▲ ':'▼ ')+Math.abs(delta)+' pts</span>':'')+'</div>'+rangeChipsHTML()+lineChartHTML(ser,progRange>30?7:1)
+  +'<div class="pr-strip">'+st(done,'Done')+st(strong,'Strong')+st(active,'Active')+st((sch?Math.round(done/sch*100):0)+'%','Rate')+'</div></div>';
+ h+='<div class="card pr-streak"><div class="pr-st-top"><span class="pr-st-ico" aria-hidden="true">🔥</span><div><strong>'+s+'-day streak</strong><small>Best: '+bs+' day'+(bs==1?'':'s')+'</small></div></div>'
+  +(nx?'<span class="hb-bar"><i style="width:'+Math.min(100,Math.round(s/nx*100))+'%"></i></span><small class="pr-st-note">'+(nx-s)+' more day'+(nx-s==1?'':'s')+' to the '+nx+'-day award</small>':'<small class="pr-st-note">You have earned every streak award. Keep it going.</small>')+'</div>';
+ h+='<div class="card"><h3 class="pr-h">Consistency</h3>'+heatmapHTML(hs,15)+'</div>';
+ h+='<div class="card"><h3 class="pr-h">Your rhythm</h3><h4 class="pr-sub">By day of the week</h4>'+weekdayBarsHTML(hs)+'<h4 class="pr-sub">By time of day</h4>'+focusZonesHTML(hs)+'</div>';
+ h+=missedCardHTML(hs);
+  return h}
+function friendsHTML(){
+ var f=function(ic,t,d){return'<div class="fr-card"><span class="fr-ico" aria-hidden="true">'+ic+'</span><div><strong>'+t+'</strong><p>'+d+'</p></div></div>'};
+ return'<section class="fr"><div class="fr-hero"><div class="fr-emoji" aria-hidden="true">🤝</div><p>Work towards a goal together, cheer each other on, or turn it into a friendly race.</p><span class="fr-badge">Coming soon</span></div>'
+  +'<h3 class="fr-h">What it will do</h3>'
+  +f('👥','Invite a friend','Share a goal with someone and see how you are both doing.')
+  +f('🏁','Together or a friendly race','Pick whether you are working side by side or competing.')
+  +f('🔒','Your private stuff stays private','Habits and reflections stay yours. Only goal progress is shared.')
+  +'<p class="note fr-note">Needs a connected account, so it is not active in this build yet.</p></section>'}
+function almanacHTML(){var labels={journal:'Journal',calendar:'Calendar',progress:'Progress',friends:'Friends'};var h='<section class="almanac-world">'+topbar('<button class="link" data-act="leaveAlmanac" type="button">← Habita</button>',almanacSection==='progress')+'<div class="almanac-content">';if(almanacSection==='journal')h+=journalHTML();else if(almanacSection==='calendar')h+=almanacCalendarHTML();else if(almanacSection==='progress')h+=almanacProgressHTML();else if(almanacSection==='friends')h+=friendsHTML();h+='</div></section>';return h}
 function awardCatalog(){return[
 {id:'first-milestone',icon:'🎯',title:'First Milestone',desc:'Complete the first milestone in a learning path.',cat:'Goal achievement'},
 {id:'foundation-builder',icon:'🧱',title:'Foundation Builder',desc:'Complete the foundational stage of a path.',cat:'Goal achievement'},
@@ -1179,7 +1357,7 @@ function realAwards(){return Object.keys(state.ach||{}).filter(function(id){retu
 function autoMilestoneType(t){var x=String(t||"").toLowerCase();if(/first\s+(paying\s+)?pitch/.test(x))return'first-pitch';if(/first\s+(paying\s+)?client/.test(x))return'first-client';if(/first\s+project/.test(x))return'first-project';if(/first[^.]*(100k|100,000)/.test(x))return'income-100k';if(/first[^.]*(50k|50,000)/.test(x))return'income-50k';if(/first[^.]*(10k|10,000)/.test(x))return'income-10k';return'milestone'}
 function autoAwardsFromReflection(text,date){var t=(text||"").trim();if(!t)return;var entries=Object.keys(state.journal||{}).filter(function(k){return !!String(state.journal[k]||"").trim()});if(entries.length<=1)award("first-reflection","First Reflection",{date:date,journalDate:date,note:t,category:"Reflection"});}
 
-function awardsHTML(){if(!hasGoal())return'<div class="card"><button class="link" data-act="profile" type="button">← Back</button><h2 style="margin-top:10px">🏆 Awards</h2><p class="note left">Set goals to unlock rewards.</p><button class="primary wide" data-act="plusgoals" type="button" style="margin-top:12px">Add goals</button></div>';var catalog=awardCatalog(),groups={};catalog.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var extra=Object.keys(state.ach||{}).filter(function(id){return !/^milestone-/.test(id)&&!catalog.some(function(a){return a.id==id})}).map(function(id){var e=state.ach[id],icon=/stage-|goal-/.test(id)?'🧠':/month-/.test(id)?'📅':'🏅';return{id:id,icon:icon,title:e.t,desc:'A meaningful achievement recorded by Habita.',cat:/stage-|goal-/.test(id)?'Goal achievement':/month-/.test(id)?'Consistency':'Other'}});extra.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var earnedCount=realAwards().length,total=Object.keys(groups).reduce(function(n,k){return n+groups[k].length},0);var h='<div class="card"><button class="link" data-act="profile" type="button">← Back</button><h2 style="margin-top:10px">🏆 Awards</h2><p class="note left">A record of what you actually accomplished. Your Journal keeps the story behind the award.</p><div class="profile-stat" style="margin-top:12px"><strong>'+earnedCount+' / '+total+'</strong><span>awards earned</span></div></div>';Object.keys(groups).forEach(function(cat){h+='<h2 class="sect">'+esc(cat)+'</h2><div class="award-grid">'+groups[cat].map(awardCard).join('')+'</div>'});if(state.awardView){var e=state.ach[state.awardView],a=catalog.find(function(x){return x.id==state.awardView});if(e){var journal=e.journalDate&&state.journal[e.journalDate];h+='<div class="card milestone-box" style="margin-top:18px"><button class="link" data-act="closeaward" type="button">← Back to awards</button><h2 style="margin-top:12px">'+(a?a.icon:'🏆')+' '+esc(e.t)+'</h2><p class="note left">Earned '+esc(e.d)+'.</p>'+(e.note?'<div class="card" style="margin:12px 0 0"><strong>What happened</strong><p class="note left" style="white-space:pre-wrap">'+esc(e.note)+'</p></div>':'')+(journal?'<div class="milestone-actions"><button class="primary" data-act="journalentry" data-k="'+esc(e.journalDate)+'" type="button">Read Journal entry →</button></div>':'')+'</div>'}else{state.awardView=null}}return h}
+function awardsHTML(){if(!hasGoal())return'<div class="card"><button class="link" data-act="profile" type="button">← Back</button><h2 style="margin-top:10px">🏆 Awards</h2><p class="note left">Set goals to unlock rewards.</p><button class="primary wide" data-act="plusgoals" type="button" style="margin-top:12px">Add goals</button></div>';var catalog=awardCatalog(),groups={};catalog.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var extra=Object.keys(state.ach||{}).filter(function(id){return !/^milestone-/.test(id)&&!catalog.some(function(a){return a.id==id})}).map(function(id){var e=state.ach[id],icon=/^g[wm]\d+-/.test(id)?'🔥':/stage-|goal-/.test(id)?'🧠':/month-/.test(id)?'📅':'🏅';return{id:id,icon:icon,title:e.t,desc:'A meaningful achievement recorded by Habita.',cat:/^g[wm]\d+-/.test(id)?'Resilience':/stage-|goal-/.test(id)?'Goal achievement':/month-/.test(id)?'Consistency':'Other'}});extra.forEach(function(a){(groups[a.cat]||(groups[a.cat]=[])).push(a)});var earnedCount=realAwards().length,total=Object.keys(groups).reduce(function(n,k){return n+groups[k].length},0);var h='<div class="card"><button class="link" data-act="profile" type="button">← Back</button><h2 style="margin-top:10px">🏆 Awards</h2><p class="note left">A record of what you actually accomplished. Your Journal keeps the story behind the award.</p><div class="profile-stat" style="margin-top:12px"><strong>'+earnedCount+' / '+total+'</strong><span>awards earned</span></div></div>';Object.keys(groups).forEach(function(cat){h+='<h2 class="sect">'+esc(cat)+'</h2><div class="award-grid">'+groups[cat].map(awardCard).join('')+'</div>'});if(state.awardView){var e=state.ach[state.awardView],a=catalog.find(function(x){return x.id==state.awardView});if(e){var journal=e.journalDate&&state.journal[e.journalDate];h+='<div class="card milestone-box" style="margin-top:18px"><button class="link" data-act="closeaward" type="button">← Back to awards</button><h2 style="margin-top:12px">'+(a?a.icon:'🏆')+' '+esc(e.t)+'</h2><p class="note left">Earned '+esc(e.d)+'.</p>'+(e.note?'<div class="card" style="margin:12px 0 0"><strong>What happened</strong><p class="note left" style="white-space:pre-wrap">'+esc(e.note)+'</p></div>':'')+(journal?'<div class="milestone-actions"><button class="primary" data-act="journalentry" data-k="'+esc(e.journalDate)+'" type="button">Read Journal entry →</button></div>':'')+'</div>'}else{state.awardView=null}}return h}
 function profileHTML(){var goals=state.goals.filter(function(g){return !g.locked}),earnedCount=Object.keys(state.ach||{}).length,c=window.habitaCloud&&window.habitaCloud.status?window.habitaCloud.status():{configured:false,signedIn:false,email:""};return'<div class="card"><button class="link" data-act="profileback" type="button">← Profile</button><div class="profile-hero" style="margin-top:10px"><div class="profile-avatar">🌱</div><div><h2 style="margin:0">Your Habita profile</h2><p class="sub" style="margin:2px 0 0">Your progress, memories, and achievements.</p></div></div><div class="two" style="margin-top:14px"><div class="profile-stat"><strong>'+goals.length+'</strong><span>active goals</span></div><div class="profile-stat"><strong>'+curStreak()+'</strong><span>current streak</span></div><div class="profile-stat"><strong>'+earnedCount+'</strong><span>awards earned</span></div><div class="profile-stat"><strong>'+balance()+'</strong><span>coins</span></div></div></div><div class="card"><h2>🌱 Nickname</h2><p class="note left">This is your local Habita profile. You can use Habita without creating an account.</p><div class="profile-stat" style="margin:10px 0"><strong>'+esc((state.profile&&state.profile.name)||'Not set')+'</strong><span>nickname</span></div><button class="primary wide" data-act="account" type="button">Edit profile</button></div><div class="card"><h2>☁️ Sync your progress</h2>'+(c.signedIn?'<p class="note left">Connected with <strong>'+esc(c.email||'your Google account')+'</strong>. Your progress can sync across devices.</p><button class="primary wide" data-act="account" type="button">Manage sync</button>':'<p class="note left">Keep using Habita locally, or sign in with Google to sync your progress across devices. This is optional.</p><button class="primary wide" data-act="account" type="button">Sign up to sync progress</button>')+'</div><div class="card"><h2>🏆 Awards</h2><p class="note left">Your trophy cabinet of meaningful milestones.</p><button class="primary wide" data-act="awards" type="button" style="margin-top:12px">View Awards</button></div>'}
 
 function accountHTML(){
@@ -1194,12 +1372,11 @@ function accountHTML(){
  '<div class="card danger-box"><h2>Delete local data</h2><p class="note left">This removes Habita data stored on this device. A Google sync account is separate.</p><button class="del" data-act="deleteaccount" type="button" style="margin-top:10px">Delete my Habita data</button></div>';
 }
 function releaseHTML(){return '<div class="card"><h2>✨ Habita is taking shape</h2><p class="note left">A final product-readiness pass helps make the app dependable before you share it.</p><div class="release-list"><div class="release-item"><div>✓</div><div><b>Goals, stages & progress</b><span>Progress is derived from the pathway rather than arbitrary habit counts.</span></div></div><div class="release-item"><div>✓</div><div><b>Journal & Awards</b><span>Your meaningful moments can become permanent awards with a link back to the story.</span></div></div><div class="release-item"><div>✓</div><div><b>Backup & restore</b><span>Export and import your Habita data before changing devices or clearing storage.</span></div></div><div class="release-item"><div>✓</div><div><b>Offline-first foundation</b><span>The core app still works without an AI API or cloud connection.</span></div></div><div class="release-item"><div>✓</div><div><b>Cloud-ready</b><span>Optional Firebase account/sync can be configured from Account & Sync.</span></div></div></div></div><div class="card"><span class="pill">V17</span><h2 style="margin-top:8px">Release checklist</h2><p class="note left">Before publishing, test the app on a real Android phone, confirm Firebase rules, set your Play Store package/signing details, and verify privacy/backup flows.</p></div>'}
-function profileTabHTML(){if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();
+function profileTabHTML(){if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();if(state.profileView==='bita')return bitaNotesHTML();
 var nm=((state.profile&&state.profile.name)||"").trim(),goals=state.goals.filter(function(g){return !g.locked&&g.activated}).length,earned=realAwards().length,c=window.habitaCloud&&window.habitaCloud.status?window.habitaCloud.status():{signedIn:false};
 function row(act,col,ic,t,sub,extra){return'<button class="prow" data-act="'+act+'"'+(extra||'')+' type="button"><span class="sic '+col+'">'+ic+'</span><span class="pt">'+t+'<small>'+sub+'</small></span><span class="chev">›</span></button>'}
-return'<div class="phero"><button class="iconbtn" data-act="account" type="button" aria-label="Edit profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button><div class="pav">'+(nm?esc(nm.charAt(0).toUpperCase()):'🌱')+'</div>'+(nm?'<button class="pname" data-act="account" type="button">'+esc(nm)+'</button>':'<button class="pname empty" data-act="account" type="button">Add your nickname</button>')+'<div class="psub">Building habits, one day at a time</div></div>'+
-'<div class="pstats"><div class="ptile"><span class="em">🔥</span><div><b>'+curStreak()+'</b><small>day streak</small></div></div><div class="ptile"><span class="em">🎯</span><div><b>'+goals+'</b><small>active goals</small></div></div><div class="ptile"><span class="em">🏆</span><div><b>'+earned+'</b><small>awards</small></div></div><div class="ptile"><span class="em">🪙</span><div><b>'+balance()+'</b><small>coins</small></div></div></div>'+
-'<div class="plist">'+row("awards","orange",'<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 20h8M10 17h4"/></svg>',"Awards",!hasGoal()?"Set goals to unlock rewards":(earned?earned+" earned":"Your trophy cabinet"))+row("account","blue",'<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9.5 4.3 4.3 0 0 1 17.5 18z"/></svg>',"Account & sync",c.signedIn?"Synced with Google":"Local only, optional")+row("export","teal",'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',"Export backup","Keep an offline copy")+row("nav","gray",'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>',"Settings","Theme, data and privacy",' data-v="more"')+'</div>'}
+return'<div class="phead"><div class="pav">'+(nm?esc(nm.charAt(0).toUpperCase()):'🌱')+'</div><div class="pinfo">'+(nm?'<button class="pname" data-act="account" type="button">'+esc(nm)+'</button>':'<button class="pname empty" data-act="account" type="button">Add your nickname</button>')+'<div class="psub">'+goals+' active goal'+(goals==1?'':'s')+' · '+earned+' award'+(earned==1?'':'s')+'</div></div><button class="iconbtn" data-act="account" type="button" aria-label="Edit profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div>'+
+'<div class="plist">'+row("awards","orange",'<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 20h8M10 17h4"/></svg>',"Awards",!hasGoal()?"Set goals to unlock rewards":(earned?earned+" earned":"Your trophy cabinet"))+row("account","blue",'<svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9.5 4.3 4.3 0 0 1 17.5 18z"/></svg>',"Account & sync",c.signedIn?"Synced with Google":"Local only, optional")+row("bitanotes","purple",'<svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/></svg>',"What Bita remembers",(state.aiMemory&&state.aiMemory.length)?state.aiMemory.length+" saved":"Nothing yet")+row("export","teal",'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',"Export backup","Keep an offline copy")+row("nav","gray",'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>',"Settings","Theme, data and privacy",' data-v="more"')+'</div>'}
 function moreHTML(){if(state.profileView==='profile')return profileHTML();if(state.profileView==='awards')return awardsHTML();if(state.profileView==='account')return accountHTML();if(state.profileView==='release')return releaseHTML();return'<div class="card"><h2>Settings</h2><p class="note left">Preferences, sync, and your data.</p></div><div class="card"><h2>☁️ Account & Sync</h2><p class="note left">Optional cloud account, cross-device sync, and backups.</p><button class="primary wide" data-act="account" type="button" style="margin-top:12px">Open Account & Sync</button></div><div class="card"><h2>✨ Release readiness</h2><p class="note left">See what is ready and what still needs to happen before publishing.</p><button class="primary wide" data-act="release" type="button" style="margin-top:12px">Open checklist</button></div>'+ '<div class="card"><span class="lbl" style="margin-top:0">Theme</span><div class="chips">'+["auto","light","dark"].map(function(t){return'<button type="button" data-act="theme" data-v="'+t+'" class="'+(state.theme==t?"sel":"")+'">'+t[0].toUpperCase()+t.slice(1)+'</button>'}).join("")+'</div></div>'+  '<div class="card"><span class="lbl" style="margin-top:0">Your data</span><p class="note left" style="margin:0 0 10px">Everything is stored in this browser. Export a backup before clearing browser data.</p><div class="chips"><button type="button" data-act="export">Export backup</button><button type="button" data-act="import">Import backup</button></div><input type="file" id="impFile" accept="application/json" hidden><p class="note left err" id="impMsg"></p></div>'+ '<div class="card"><button class="del" data-act="reset" type="button">Delete all data</button></div>'}
 
 
@@ -1252,21 +1429,23 @@ function wizHTML(){
   '<div class="btnrow"><button class="primary" data-act="create" type="button">Create goal</button><button class="link" data-act="back" type="button">Back</button></div>'}
  return h+'</div>'}
 
-function createWizGoal(){
+function createWizGoal(){var sd=wiz.start||key(daysBack(0));
 
-  var hs=wiz.sug.filter(function(s,i){return wiz.picks[i]}).map(function(s){return mkHabit(s,Object.assign({created:key(daysBack(0))},s.ai?{days:s.days||null,stageIdx:0,bita:true}:{}))});
-  if(wiz.own.trim())hs.push(mkHabit({n:wiz.own.trim(),a:""},{created:key(daysBack(0))}));
+  var hs=wiz.sug.filter(function(s,i){return wiz.picks[i]}).map(function(s){return mkHabit(s,Object.assign({created:sd},s.ai?{days:s.days||null,stageIdx:0,bita:true}:{}))});
+  if(wiz.own.trim())hs.push(mkHabit({n:wiz.own.trim(),a:""},{created:sd}));
   if(!hs.length){wiz.err="Couldn’t generate habits for this goal. Try a more specific name.";wiz.step=2;render();return}
-  state.start=state.start||key(daysBack(0));if(!state.review)state.review={next:key(addDays(new Date(),7))};
+  state.start=state.start||sd;if(!state.review)state.review={next:key(addDays(new Date(),7))};
   var ownStages=wiz.hasPath==="yes"&&wiz.kind!=="habit"?wiz.pathText.split(/\r?\n/).map(function(x){return x.trim()}).filter(Boolean).map(function(line){var parts=line.split(/\s+—\s+/),left=parts[0],ix=left.indexOf(":");return{title:(ix>=0?left.slice(0,ix):left).trim(),outcome:ix>=0?left.slice(ix+1).trim():"",checkpoint:parts.slice(1).join(" — ").trim()}}):[];
   var hasOwn=ownStages.length>0,wantsAI=!hasOwn&&wiz.hasPath==="no";
-  state.goals.push({id:uid(),name:wiz.name,categoryId:wiz.categoryId||"uncategorised",why:"",goalType:"learning",pathMode:hasOwn?(wiz.pathAI?"ai":"own"):(wantsAI?"ai":"later"),path:hasOwn?{mode:wiz.pathAI?"ai":"own",progress:{},stages:ownStages}:null,aiPlanPending:wantsAI&&!AI_PLANNING_ONLINE,deadline:(wiz.pace==="relaxed"||wiz.kind==="habit")?"":(wiz.deadline||""),pace:wiz.pace||"structured",kind:wiz.kind||"skill",level:wiz.level,weeklyHours:wiz.weekHours,mins:wiz.mins,role:"",queue:[],lib:wiz.lib||"",stage:21,stageIndex:0,stageHistory:[],stageStarted:key(daysBack(0)),reward:"",locked:false,activated:key(daysBack(0)),book:null,habits:hs});
+  state.goals.push({id:uid(),name:wiz.name,categoryId:wiz.categoryId||"uncategorised",why:"",goalType:"learning",pathMode:hasOwn?(wiz.pathAI?"ai":"own"):(wantsAI?"ai":"later"),path:hasOwn?{mode:wiz.pathAI?"ai":"own",progress:{},stages:ownStages}:null,aiPlanPending:wantsAI&&!AI_PLANNING_ONLINE,deadline:(wiz.pace==="relaxed"||wiz.kind==="habit")?"":(wiz.deadline||""),pace:wiz.pace||"structured",kind:wiz.kind||"skill",level:wiz.level,weeklyHours:wiz.weekHours,mins:wiz.mins,role:"",queue:[],lib:wiz.lib||"",stage:21,stageIndex:0,stageHistory:[],stageStarted:sd,reward:"",locked:false,activated:sd,book:null,habits:hs});
   var ng_=state.goals[state.goals.length-1];ng_.stage=fitStage(ng_,0);var newId=ng_.id;note("Habits generated for “"+wiz.name+"”: "+hs.length+" added. You can change them on the goal page.");wiz=null;selectedGoalId=newId;editing=false;window.scrollTo(0,0);save();render();if(wantsAI&&AI_PLANNING_ONLINE){setTimeout(function(){var b=document.createElement("button");b.dataset.act="pathai";b.dataset.g=newId;b.hidden=true;document.body.appendChild(b);b.click();b.remove()},50)}
 }
 
 /* ---------- AI chat page ---------- */
 var AI_WELCOME="Hi! I’m Bita. Ask me anything, tell me how your habits are going, or let’s aim at a new goal. Tap an area below to start one, or just say hi.";
 function openAiChat(){aiCheckState==="idle"||(!AI_PLANNING_ONLINE&&aiCheckState==="done"&&checkAI(true));aiChat={msgs:(state.aiChat||[]).slice(),draft:"",busy:false,err:""};wiz=null;planner=null;selectedGoalId=null;view="goals";plusOpen=false;state.profileView=null;window.scrollTo(0,0);render()}
+function addAiNote(n){n=String(n||"").replace(/\s+/g," ").trim().slice(0,120);if(!n)return;state.aiMemory=(state.aiMemory||[]).filter(function(x){return String(x).toLowerCase()!==n.toLowerCase()});state.aiMemory.unshift(n);state.aiMemory=state.aiMemory.slice(0,20)}
+function bitaNotesHTML(){var ns=state.aiMemory||[];return'<div class="card"><button class="link" data-act="profileback" type="button">← Back</button><h2 style="margin-top:10px">What Bita remembers</h2><p class="note left">Short notes from your chats, like your free hours, so Bita can plan for you. They stay on this device. Remove any you don’t want.</p></div>'+(ns.length?'<div class="plist">'+ns.map(function(x,i){return'<div class="prow bn-row"><span class="pt">'+esc(x)+'</span><button class="link" data-act="bitanotedel" data-i="'+i+'" type="button" aria-label="Remove note">Remove</button></div>'}).join('')+'</div><button class="link" data-act="bitanotesclear" type="button" style="margin:12px 4px">Clear all</button>':'<div class="card"><p class="note left" style="margin:0">Nothing yet. When you tell Bita something lasting, it will show up here.</p></div>')}
 function aiPersist(){if(aiChat){state.aiChat=aiChat.msgs.slice(-40);save()}}
 function aiFmt(t){return esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>")}
 function aiChatHTML(){
@@ -1274,10 +1453,10 @@ function aiChatHTML(){
  var online=AI_PLANNING_ONLINE,h='<div class="ai-page"><div class="ai-top"><button class="link" data-act="aiback" type="button">‹ Goals</button><b>Aim with Bita</b>'+(aiChat.msgs.length?'<button class="link" data-act="ainew" type="button">New chat</button>':'<span></span>')+'</div>';
  if(!online)h+='<div class="ai-banner">'+(aiCheckState==="running"?'Waking Bita up…':'Bita isn’t available right now.'+(aiLastError?' <small style="display:block;margin-top:4px;opacity:.8">Reason: '+esc(aiLastError)+'</small>':''))+(aiCheckState==="running"?'':'<div class="ai-actions"><button class="primary" data-act="aimanual" type="button">Set up my goal manually</button><button class="link" data-act="airetry" type="button">Try Bita again</button></div>')+'</div>';
  h+='<div class="ai-msgs"><div class="ai-b bot">'+esc(AI_WELCOME)+'</div>';
- if(!aiChat.msgs.length)h+='<div class="chips ai-chips">'+state.categories.filter(function(c){return c.id!=="uncategorised"}).map(function(c){return'<button type="button" data-act="aichip" data-t="'+esc(c.name)+'">'+esc(c.name)+'</button>'}).join("")+'</div>';
+ if(!aiChat.msgs.length)h+='<div class="chips ai-chips">'+(state.goals.some(function(g){return !g.locked&&g.activated&&!g.completed})?'<button type="button" data-act="aichip" data-t="How am I doing? Can we adjust my plan?">Adjust my plan</button>':'')+state.categories.filter(function(c){return c.id!=="uncategorised"}).map(function(c){return'<button type="button" data-act="aichip" data-t="'+esc(c.name)+'">'+esc(c.name)+'</button>'}).join("")+'</div>';
  aiChat.msgs.forEach(function(m,i){
   h+='<div class="ai-b '+(m.r==="u"?"me":"bot")+'">'+aiFmt(m.t)+'</div>';
-  if(m.goal)h+='<div class="ai-goal"><b>'+esc(m.goal.name)+'</b><small>'+(m.goal.deadline?'By '+esc(m.goal.deadline)+' · ':'')+esc(String(m.goal.weeklyHours||"?"))+' hrs/week · '+esc(m.goal.level||"beginner")+'</small>'+(m.goal.habits&&m.goal.habits.length?'<small style="display:block;margin-top:4px">Habits: '+esc(cleanBitaHabits(m.goal.habits).map(function(x){return x.n}).join(" · "))+'</small>':'')+(planLine(m.goal)?'<small style="display:block;margin-top:4px">'+esc(planLine(m.goal))+'</small>':'')+aiCardExtras(m,i)+'<button class="primary" data-act="aimake" data-i="'+i+'" type="button">Create this goal</button></div>'});
+  if(m.goal)h+='<div class="ai-goal"><b>'+esc(m.goal.name)+'</b><small>'+(m.goal.start&&m.goal.start>key(daysBack(0))?'Starts '+esc(m.goal.start)+' · ':'')+(m.goal.deadline?'By '+esc(m.goal.deadline)+' · ':'')+esc(String(m.goal.weeklyHours||"?"))+' hrs/week · '+esc(m.goal.level||"beginner")+'</small>'+(m.goal.habits&&m.goal.habits.length?'<small style="display:block;margin-top:4px">Habits: '+esc(cleanBitaHabits(m.goal.habits).map(function(x){return x.n}).join(" · "))+'</small>':'')+(planLine(m.goal)?'<small style="display:block;margin-top:4px">'+esc(planLine(m.goal))+'</small>':'')+aiCardExtras(m,i)+'<button class="primary" data-act="aimake" data-i="'+i+'" type="button">Create this goal</button></div>'});
  if(aiChat.busy)h+='<div class="ai-b bot ai-typing"><i></i><i></i><i></i></div>';
  if(aiChat.err)h+='<div class="ai-b bot err">'+esc(aiChat.err)+'</div>';
  h+='</div><div class="ai-input"><textarea id="aiInput" rows="1" maxlength="800" placeholder="'+(online?'Message Bita…':'Bita is offline')+'" '+(online?'':'disabled')+'>'+esc(aiChat.draft)+'</textarea><button class="primary" data-act="aisend" type="button" '+(online&&!aiChat.busy?'':'disabled')+' aria-label="Send">➤</button></div></div>';
@@ -1295,20 +1474,21 @@ function aiUserContext(){
  var mk=Object.keys(missed).sort(function(a,b){return missed[b]-missed[a]}).slice(0,3).map(function(n){return n+" ("+missed[n]+" missed)"});
  out.push("Last "+days+" days: "+(sched_?Math.round(100*done/sched_)+"% of scheduled habits done ("+done+"/"+sched_+")":"no habits scheduled yet")+(mk.length?"; most skipped: "+mk.join(", "):""));
  try{var tk=key(daysBack(0)),td=0,tn=0;hs.forEach(function(h){if((h.created||state.start||tk)<=tk&&sched(h,new Date())){tn++;if(h.done&&h.done[tk])td++}});out.push("Today so far: "+td+" of "+tn+" scheduled habits done")}catch(e){}
+ try{var pg=state.goals.filter(function(g){return !g.locked&&g.activated&&!g.completed&&g.activated<=key(daysBack(0))}).slice(0,6).map(function(g){var ds=goalDays(g,7),t=ds.reduce(function(a,x){return a+x.t},0),n=ds.reduce(function(a,x){return a+x.n},0),dl=/^\d{4}-\d\d-\d\d$/.test(g.deadline||"")?", due "+g.deadline+" ("+daysLeft(g.deadline)+" days left)":"";return g.name+": "+(t?Math.round(100*n/t)+"% of habits done in the last 7 days ("+n+"/"+t+")":"nothing scheduled yet")+dl});if(pg.length)out.push("Per goal: "+pg.join("; "))}catch(e){}
  try{out.push("Best streak: "+bestStreak()+" days")}catch(e){}
  var mem=(state.aiMemory||[]).slice(0,20);if(mem.length)out.push("Things they told you before: "+mem.join("; "));
  return out.join("\n")}
 function aiPrompt(){
  var cats=state.categories.filter(function(c){return c.id!=="uncategorised"}).map(function(c){return c.id+" ("+c.name+")"}).join(", ");
  var hist=aiChat.msgs.slice(-20).map(function(m){return(m.r==="u"?"User: ":"Habita: ")+String(m.t).slice(0,500)}).join("\n");
- return "You are Bita, the friendly coach inside the Habita habit-tracking app. Talk like a warm, real person. Use the user's nickname sometimes, not every message. Keep replies short (under 70 words) and ask at most ONE question at a time.\n\nYou may chat freely: answer questions about habits, motivation, learning or their progress, ask your own questions to understand them, and give honest, realistic encouragement. Answer questions about their own progress from the context below (it is this user's own data and nobody else's). Use it to relate to them (celebrate wins, notice skipped habits kindly), but never invent facts that aren't in it. Never guarantee results. If they just want to talk, just talk; don't push goal setup.\n\nOnly when the user wants to start a NEW goal, gather these one at a time: (1) category, one of: "+cats+"; (2) what they want to achieve; (3) a target date, but only if the goal needs one. If they give a date, sanity-check it: each stage needs roughly 10 to 14 days of real practice, more if they have under 3 hours a week. If the date is too close for the path, say so kindly and offer a later date or fewer stages before moving on. For a casual or hobby goal with no real deadline, don't press for a date and leave it empty; (4) beginner, some experience, or experienced; (5) whether they already have a course path or plan (if yes, ask them to list the stages); (6) how much time they can set aside, phrased naturally as hours per week or per day and converted consistently; do not confuse study time with habit frequency; (7) ask how often they want the recurring habits to happen: daily, selected days / a number of times per week, or monthly where appropriate. Explain that goal duration and habit frequency are different (a 3-month goal can involve studying 4 days a week). If unsure, recommend a realistic frequency based on available time and let the user approve or change it. Do not ask questions already answered. Do not ask for anything else for the goal. Also decide the goal's pace yourself (don't ask): \"relaxed\" for hobbies, crafts and casual curiosity with no real deadline (then deadline must be empty), or \"structured\" for exams, careers, income, or anything with a deadline or high stakes. The user can flip it on the goal card. Also decide the goal's type yourself (don't ask): \"skill\" for things to learn or exams (stages with checkpoints), \"habit\" for routines to build, like drinking water, sleeping earlier or walking daily (no stages: set stages to [] and skip questions 4 and 5), or \"project\" for one-off outcomes like planning a trip or finishing a portfolio (3 to 6 simple steps as stages, each with a short outcome, and no checkpoint needed). When you have everything, give a one-sentence summary and then on a new line output exactly: <<GOAL>>{\"name\":string,\"category\":categoryId,\"deadline\":\"YYYY-MM-DD\" or \"\",\"pace\":\"relaxed\"|\"structured\",\"kind\":\"skill\"|\"habit\"|\"project\",\"habits\":[{\"n\":string,\"a\":string,\"m\":number,\"days\":[0-6] or null}],\"level\":\"beginner\"|\"some\"|\"experienced\",\"weeklyHours\":number,\"stages\":[{\"title\":string,\"outcome\":string,\"checkpoint\":string}]}<<END>> where stages is the user's own path, or if they have none, a realistic 4-6 stage path you design for their level (checkpoints must test ability, not time spent). Also include \"habits\": 2 or 3 small, specific, repeatable actions for stage 1 (never one-off tasks or lessons), each with n (the action), a (a daily cue like \"After lunch\"), m (minutes, realistic for their weekly hours) and days (array of weekdays 0-6 with 0=Sunday, or null for every day). Never output that marker before you have everything, and never in ordinary chat. Do not change or promise changes to their existing habits; only suggest.\n\nToday is "+key(daysBack(0))+".\n\nAbout this user:\n"+aiUserContext()+"\n\nConversation so far:\n"+hist+"\nHabita:"}
+ return "You are Bita, the friendly coach inside the Habita habit-tracking app. Talk like a warm, real person. Use the user's nickname sometimes, not every message. Keep replies short (under 70 words) and ask at most ONE question at a time.\n\nYou may chat freely: answer questions about habits, motivation, learning or their progress, ask your own questions to understand them, and give honest, realistic encouragement. Answer questions about their own progress from the context below (it is this user's own data and nobody else's). Use it to relate to them (celebrate wins, notice skipped habits kindly), but never invent facts that aren't in it. Never guarantee results. If they just want to talk, just talk; don't push goal setup.\n\nOnly when the user wants to start a NEW goal, gather these one at a time: (1) category, one of: "+cats+"; (2) what they want to achieve; (3) a target date, but only if the goal needs one. If they give a date, sanity-check it: each stage needs roughly 10 to 14 days of real practice, more if they have under 3 hours a week. If the date is too close for the path, say so kindly and offer a later date or fewer stages before moving on. For a casual or hobby goal with no real deadline, don't press for a date and leave it empty; (4) beginner, some experience, or experienced (skip this for habits and projects and set level to \"some\"); (5) whether they already have a course path or plan (if yes, ask them to list the stages; skip this for habits and projects). For a PROJECT (a school assignment, a portfolio, a trip) ask instead what it has to include and how it will be judged, and what is already done, then design the 3 to 6 steps from what is left, with the biggest or riskiest remaining step first and each step\'s own target date inside its outcome; (6) how much time they can set aside, phrased naturally as hours per week or per day and converted consistently; do not confuse study time with habit frequency; (7) ask how often they want the recurring habits to happen: daily, selected days / a number of times per week, or monthly where appropriate. Explain that goal duration and habit frequency are different (a 3-month goal can involve studying 4 days a week). If unsure, recommend a realistic frequency based on available time and let the user approve or change it. (8) when they want to start: today, tomorrow or a specific date. Ask this last, before the summary. If they are unsure, suggest tomorrow when it is already evening so day 1 is not half gone, otherwise today. The start date can never be in the past. Do not ask questions already answered. Do not ask for anything else for the goal. Also decide the goal's pace yourself (don't ask): \"relaxed\" for hobbies, crafts and casual curiosity with no real deadline (then deadline must be empty), or \"structured\" for exams, careers, income, or anything with a deadline or high stakes. The user can flip it on the goal card. Also decide the goal's type yourself (don't ask): \"skill\" for things to learn or exams (stages with checkpoints), \"habit\" for routines to build, like drinking water, sleeping earlier or walking daily (no stages: set stages to [] and skip questions 4 and 5), or \"project\" for one-off outcomes like planning a trip or finishing a portfolio (3 to 6 simple steps as stages, each with a short outcome, and no checkpoint needed). When you have everything, give a one-sentence summary and then on a new line output exactly: <<GOAL>>{\"name\":string,\"category\":categoryId,\"deadline\":\"YYYY-MM-DD\" or \"\",\"pace\":\"relaxed\"|\"structured\",\"kind\":\"skill\"|\"habit\"|\"project\",\"habits\":[{\"n\":string,\"a\":string,\"m\":number,\"days\":[0-6] or null}],\"level\":\"beginner\"|\"some\"|\"experienced\",\"weeklyHours\":number,\"start\":\"YYYY-MM-DD\",\"stages\":[{\"title\":string,\"outcome\":string,\"checkpoint\":string}]}<<END>> where stages is the user's own path, or if they have none, a realistic 4-6 stage path you design for their level (checkpoints must test ability, not time spent). Also include \"habits\": 1 or 2 (for a beginner) or 2 or 3 (otherwise) small, specific, repeatable actions for stage 1, chosen as the gentlest on-ramp for their level: for a beginner the first habit takes 10 to 15 minutes and needs no setup, installs or prior knowledge, nothing that needs a tool or hands-on lab appears until the basics behind it are covered, and any habit that is a big step up from the first is left out for a later stage (never one-off tasks or lessons), each with n (the action), a (a daily cue like \"After lunch\"), m (minutes, realistic for their weekly hours) and days (array of weekdays 0-6 with 0=Sunday, or null for every day). Never output that marker before you have everything, and never in ordinary chat. Do not change or promise changes to their existing habits; only suggest.\n\nDeadlines: if they mention more than one deadline, say they are behind, or say they do not know where to start, talk it through before creating anything. Get each item with its due date and what is already done, and how many hours a day they can really give. Add up the work against the time and say honestly if it will not all fit (suggest cutting scope or asking for more time). Order by due date and stakes. Then create the most urgent one first with the marker (its weeklyHours is its share of their time, not their total) and offer the next one after it is created. For a close deadline, size the sessions to the days left (longer or more frequent sessions, not more habits), the gentle-start rule does not apply, and start with one concrete step today.\n\nRemembering: when the user tells you something lasting that will help you plan for them (free hours, best time of day, what they struggle with, an upcoming deadline, what they enjoy), add on its own line <<NOTE>>a short plain fact<<END>> (at most one per reply, under 100 characters, never health, money or private details about other people). Adjusting: use the context below. If a goal\'s recent completion is low or they are behind on a deadline, kindly say so and offer ONE adjustment (shorter or fewer sessions, a different time, a re-plan or a later date) and ask if they want it. Never change or promise changes to habits yourself.\n\nToday is "+key(daysBack(0))+".\n\nAbout this user:\n"+aiUserContext()+"\n\nConversation so far:\n"+hist+"\nHabita:"}
 function aiSend(text){
  text=String(text||(aiChat&&aiChat.draft)||"").trim();if(!aiChat||!text||aiChat.busy||!AI_PLANNING_ONLINE)return;
  if(!window.habitaAI||typeof window.habitaAI.ask!=="function"){aiChat.err="AI isn’t loaded yet.";aiRender();return}
  aiChat.msgs.push({r:"u",t:text});aiChat.draft="";aiChat.busy=true;aiChat.err="";aiPersist();aiRender();
  var chat=aiChat;
  window.habitaAI.ask(aiPrompt()).then(function(ans){
-  var raw=String(ans||""),m=raw.match(/<<GOAL>>([\s\S]*?)<<END>>/),goal=null;
+  var raw=String(ans||"").replace(/<<NOTE>>([\s\S]*?)<<END>>/g,function(_,n){addAiNote(n);return""}).replace(/<<NOTE>>[^\n]*/g,""),m=raw.match(/<<GOAL>>([\s\S]*?)<<END>>/),goal=null;
   if(m){try{var j=JSON.parse(m[1].replace(/^\s*```(?:json)?/i,"").replace(/```\s*$/,""));if(j&&j.name)goal=j}catch(e){}}
   var t=raw.replace(/<<GOAL>>[\s\S]*?(<<END>>|$)/,"").trim()||(goal?"Here’s your goal. Ready to create it?":"Sorry, I didn’t catch that. Could you say it again?");
   var msg={r:"a",t:t};if(goal)msg.goal=goal;chat.msgs.push(msg);aiPersist()
@@ -1325,6 +1505,7 @@ function aiMakeGoal(i){
  wiz.pathText=st.map(function(x){return String(x.title||x.name)+(x.outcome?": "+x.outcome:"")+(x.checkpoint?" — "+x.checkpoint:"")}).join("\n");
  wiz.mins=dailyMinsFromWeek(wiz.weekHours);wiz.lib=wizInfo({lib:null,name:wiz.name}).lib||null;
  var bh=cleanBitaHabits(g.habits);wiz.sug=bh.length?bh:suggest(wiz);wiz.picks=wiz.sug.map(function(){return true});
+ wiz.start=/^\d{4}-\d\d-\d\d$/.test(g.start||"")&&g.start>key(daysBack(0))?g.start:"";
  aiChat=null;createWizGoal()}
 /* ---------- multi-goal planner ---------- */
 function buildPlan(p){
@@ -1496,8 +1677,8 @@ function renderSheet(){var w=$("sheetwrap");if(w)w.innerHTML=sheetHTML();var f=$
 function render(){window.state=state;saveMonthSnaps();
  refresh();
  var t={habits:"Home",goals:"Goals",profile:"Profile"}[view],h='';
- if(view==="goals"&&!selectedGoalId&&!wiz&&!planner&&!aiChat)h=topbar((state.goals.length?'<button class="link" data-act="goalsedit" type="button" style="font-weight:700">'+(goalsEdit?"Done":"Edit")+'</button>':'')+'<button class="iconbtn" data-act="plusgoals" type="button" aria-label="Goal options"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>');
- else if(view==="profile")h=topbar("");
+ if(view==="goals"&&!selectedGoalId&&!wiz&&!planner&&!aiChat)h='<div class="pghead"><div class="pg-actions">'+(state.goals.length?'<button class="link" data-act="goalsedit" type="button" style="font-weight:700">'+(goalsEdit?"Done":"Edit")+'</button>':'')+'<button class="iconbtn" data-act="plusone" type="button" aria-label="Add a goal with Bita"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>';
+ else if(view==="profile")h="";
  else if(view==="almanac")h='';
  else if(view==="habits")h="";
  h+=view==="habits"?habitsHTML():view==="goals"?goalsHTML():view==="almanac"?almanacHTML():view==="schedule"?scheduleHTML():view==="profile"?profileTabHTML():moreHTML();
@@ -1610,6 +1791,13 @@ document.addEventListener("click",function(e){
  if(a=="ideasclear"){delete HB.ideas[d.g];render();return}
  if(a=="habitadd"){var ag=goalById(d.g),ai_=HB.ideas[d.g],it=ai_&&ai_[+d.i];if(ag&&it){ag.habits.push(mkHabit(it,{created:key(daysBack(0)),days:it.days||null,stageIdx:ag.stageIndex||0,bita:true}));ai_.splice(+d.i,1);if(!ai_.length)delete HB.ideas[d.g];save();render()}return}
  if(a=="habitdone"){var dg2=goalById(d.g),dh=dg2&&dg2.habits.find(function(x){return x.id===d.h});if(dh&&confirm("Mark “"+dh.name+"” as completed? It moves to Completed habits and leaves your daily list from tomorrow. Your streak and history stay saved.")){dh.retired=key(daysBack(0));save();render()}return}
+ if(a=="streakmode"){var sg=goalById(d.g);if(sg){sg.streakMode=d.v==="weekly"||d.v==="monthly"?d.v:"daily";save();render()}return}
+ if(a=="streaktarget"){var tg=goalById(d.g);if(tg){if(tg.streakMode==="monthly")tg.streakMo=Math.max(1,Math.min(31,(tg.streakMo||12)+(+d.d)));else tg.streakWk=Math.max(1,Math.min(7,(tg.streakWk||3)+(+d.d)));save();render()}return}
+ if(a=="startedit"){var se=goalById(d.g);if(se){se.startOpen=!se.startOpen;save();render()}return}
+ if(a=="setstart"){var ss=goalById(d.g);if(ss){setGoalStart(ss,d.v==="tomorrow"?key(daysBack(-1)):d.v==="pick"?(($("stDate-"+ss.id)||{}).value||""):key(daysBack(0)))}return}
+ if(a=="bitanotes"){state.profileView='bita';render();return}
+ if(a=="bitanotedel"){(state.aiMemory||[]).splice(+d.i,1);save();render();return}
+ if(a=="bitanotesclear"){if(confirm("Clear everything Bita remembers?")){state.aiMemory=[];save();render()}return}
  if(a=="gdfold"){var fg=goalById(d.g);if(fg){if(d.s==="done")fg.doneOpen=!fg.doneOpen;else fg.activeClosed=!fg.activeClosed;save();render()}return}
  if(a=="aipace"){var pm=aiChat&&aiChat.msgs[+d.i];if(pm&&pm.goal){pm.goal.pace=pm.goal.pace==="relaxed"?"structured":"relaxed";aiPersist();aiRender()}return}
  if(a=="pacetoggle"){var pg=goalById(d.g);if(pg){pg.pace=pg.pace==="relaxed"?"structured":"relaxed";if(pg.pace==="structured"&&!pg.stageStarted)pg.stageStarted=key(daysBack(0));if(pg.pace==="structured"&&pg.deadline)pg.stage=fitStage(pg,pg.stageIndex||0);save();render()}return}
